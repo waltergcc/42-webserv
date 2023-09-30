@@ -6,13 +6,14 @@
 #    By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/30 11:36:55 by wcorrea-          #+#    #+#              #
-#    Updated: 2023/09/30 11:37:48 by wcorrea-         ###   ########.fr        #
+#    Updated: 2023/09/30 12:07:11 by wcorrea-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = webserv
 
-SRC = src/main.cpp
+SRC = src/main.cpp \
+		src/utils.cpp
 
 OBJS = ${SRC:.cpp=.o}
 
