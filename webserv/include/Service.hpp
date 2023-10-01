@@ -10,25 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <exception>
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
-#include <iomanip>
 #include "defines.hpp"
+#include "FileChecker.hpp"
 
 class Service
 {
 	private:
-		std::string _name;
-		std::string _host;
-		std::string _port;
-		
 		Service();
 		void checkArguments(int ac, char **av);
 		void checkConfigFile(std::string input);
-		void checkExtension(std::string input);
 		
 	public:
 		Service(int ac, char **av);

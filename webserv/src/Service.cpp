@@ -15,57 +15,13 @@
 Service::Service(int ac, char **av)
 {
 	this->checkArguments(ac, av);
-	std::cout << "Server name: [" << this->_name << "]" << std::endl;
-	std::cout << "Server host: [" << this->_host << "]" << std::endl;
-	std::cout << "Server port: [" << this->_port << "]" << std::endl;
 }
 
 Service::~Service(){}
 
-void Service::checkExtension(std::string input)
-{
-	std::string fileName; 
-	size_t 		slash = input.find_last_of("/");
-
-	if (slash == std::string::npos)
-		fileName = input;
-	else
-		fileName = input.substr(slash + 1);
-
-	size_t dot = fileName.find_last_of(".");
-	std::cout << fileName << std::endl;
-	if (dot == std::string::npos ||	fileName.substr(dot) != ".conf" || fileName.length() <= 5)
-		throw std::runtime_error(ERR_FILE);
-}
-
 void Service::checkConfigFile(std::string input)
 {
-	this->checkExtension(input);
-	std::ifstream	file(input.c_str());
-	std::string		line;
-
-	if (!file.is_open())
-		throw std::runtime_error(ERR_OPEN + input);
-	while (getline(file, line))
-	{
-		std::string field;	
-		std::string value;
-		std::stringstream ss(line);
-
-		std::getline(ss, field, ' ');
-		ss >> value;
-		
-		if (field == "server_name")
-			this->_name = value;
-		else if (field == "listen")
-			this->_port = value;
-		else if (field == "host")
-			this->_host = value;
-	}
-	file.close();
-	
-	if (this->_name.empty() || this->_port.empty() || this->_host.empty())
-		throw std::runtime_error(ERR_MANDATORY);
+	FileChecker	file(input);
 }
 
 void Service::checkArguments(int ac, char **av)
