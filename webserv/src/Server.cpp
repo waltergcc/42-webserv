@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 15:45:28 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/01 15:49:40 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,14 @@ Server::~Server(){}
 void Server::checkConfigFile(std::string input)
 {
 	std::ifstream	file(input.c_str());
+	std::string		line;
 
 	if (!file.is_open())
 		throw std::runtime_error(ERR_OPEN + input);
+	while (getline(file, line))
+	{
+		
+	}
 	file.close();
 }
 
