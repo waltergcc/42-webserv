@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:34:41 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/09/30 12:06:06 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:43:57 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@
 #include <exception>
 #include <cstdlib>
 
-#include "messages.hpp"
-#include "utils.hpp"
+#include "defines.hpp"
+#include "Server.hpp"

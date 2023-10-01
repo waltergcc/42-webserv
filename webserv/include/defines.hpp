@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.cpp                                          :+:      :+:    :+:   */
+/*   defines.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 12:03:00 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/09/30 12:06:14 by wcorrea-         ###   ########.fr       */
+/*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
+/*   Updated: 2023/10/01 14:44:02 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.hpp"
+#pragma once
 
-std::string getArgument(int ac, char **av)
-{
-	if (ac > 2)
-		throw std::runtime_error(ERR_ARG);
-	else if (ac == 2)
-		return (av[1]);
-	else
-		return ("default file");
-}
+#define DEFAULT_CONFIG_FILE "default.conf"
+
+#define RED		"\033[0;31m"
+#define RESET	"\033[0m"
+
+#define ERR_ARG "Invalid arguments"

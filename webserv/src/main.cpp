@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:32:18 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/09/30 12:06:26 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/01 14:54:51 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int main(int ac, char **av)
 {
 	try
 	{
-		std::string config = getArgument(ac, av);
-		std::cout << config << " is the config file" << std::endl;
+		Server webserv(ac, av);
 	}
 	catch(const std::exception &e)
 	{

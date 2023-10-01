@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   messages.hpp                                       :+:      :+:    :+:   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/09/30 12:06:03 by wcorrea-         ###   ########.fr       */
+/*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
+/*   Updated: 2023/10/01 15:00:21 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include <iostream>
+#include <exception>
+#include "defines.hpp"
 
-#define RED		"\033[0;31m"
-#define RESET	"\033[0m"
-
-#define ERR_ARG "Invalid arguments"
+class Server
+{
+	private:
+		std::string _configFile;
+		
+		Server();
+		void checkConfigFile(int ac, char **av);
+		
+	public:
+		Server(int ac, char **av);
+		~Server();
+};
