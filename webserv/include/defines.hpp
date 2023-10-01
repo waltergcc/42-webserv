@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 15:53:14 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:12:32 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,3 +19,4 @@
 
 #define ERR_ARG		"Invalid arguments"
 #define ERR_OPEN	"Couldn't open file "
+#define ERR_MANDATORY	"the following fields are mandatory in config file: server_name, listen, host"

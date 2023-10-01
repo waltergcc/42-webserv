@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 15:49:40 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:12:41 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 Server::Server(int ac, char **av)
 {
 	this->checkArguments(ac, av);
+	std::cout << "Server name: [" << this->_name << "]" << std::endl;
+	std::cout << "Server host: [" << this->_host << "]" << std::endl;
+	std::cout << "Server port: [" << this->_port << "]" << std::endl;
 }
 
 Server::~Server(){}
@@ -28,9 +31,24 @@ void Server::checkConfigFile(std::string input)
 		throw std::runtime_error(ERR_OPEN + input);
 	while (getline(file, line))
 	{
+		std::string field;	
+		std::string value;
+		std::stringstream ss(line);
+
+		std::getline(ss, field, ' ');
+		ss >> value;
 		
+		if (field == "server_name")
+			this->_name = value;
+		else if (field == "listen")
+			this->_port = value;
+		else if (field == "host")
+			this->_host = value;
 	}
 	file.close();
+	
+	if (this->_name.empty() || this->_port.empty() || this->_host.empty())
+		throw std::runtime_error(ERR_MANDATORY);
 }
 
 void Server::checkArguments(int ac, char **av)
