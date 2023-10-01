@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   Service.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -18,18 +18,18 @@
 #include <iomanip>
 #include "defines.hpp"
 
-class Server
+class Service
 {
 	private:
 		std::string _name;
 		std::string _host;
 		std::string _port;
 		
-		Server();
+		Service();
 		void checkArguments(int ac, char **av);
 		void checkConfigFile(std::string input);
 		
 	public:
-		Server(int ac, char **av);
-		~Server();
+		Service(int ac, char **av);
+		~Service();
 };

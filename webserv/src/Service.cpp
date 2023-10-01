@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
+/*   Service.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+#include "Service.hpp"
 
-Server::Server(int ac, char **av)
+Service::Service(int ac, char **av)
 {
 	this->checkArguments(ac, av);
 	std::cout << "Server name: [" << this->_name << "]" << std::endl;
@@ -20,9 +20,9 @@ Server::Server(int ac, char **av)
 	std::cout << "Server port: [" << this->_port << "]" << std::endl;
 }
 
-Server::~Server(){}
+Service::~Service(){}
 
-void Server::checkConfigFile(std::string input)
+void Service::checkConfigFile(std::string input)
 {
 	std::ifstream	file(input.c_str());
 	std::string		line;
@@ -51,7 +51,7 @@ void Server::checkConfigFile(std::string input)
 		throw std::runtime_error(ERR_MANDATORY);
 }
 
-void Server::checkArguments(int ac, char **av)
+void Service::checkArguments(int ac, char **av)
 {
 	if (ac > 2)
 		throw std::runtime_error(ERR_ARG);
