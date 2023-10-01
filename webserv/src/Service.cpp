@@ -22,8 +22,25 @@ Service::Service(int ac, char **av)
 
 Service::~Service(){}
 
+void Service::checkExtension(std::string input)
+{
+	std::string fileName; 
+	size_t 		slash = input.find_last_of("/");
+
+	if (slash == std::string::npos)
+		fileName = input;
+	else
+		fileName = input.substr(slash + 1);
+
+	size_t dot = fileName.find_last_of(".");
+	std::cout << fileName << std::endl;
+	if (dot == std::string::npos ||	fileName.substr(dot) != ".conf" || fileName.length() <= 5)
+		throw std::runtime_error(ERR_FILE);
+}
+
 void Service::checkConfigFile(std::string input)
 {
+	this->checkExtension(input);
 	std::ifstream	file(input.c_str());
 	std::string		line;
 

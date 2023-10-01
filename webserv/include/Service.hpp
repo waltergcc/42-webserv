@@ -28,6 +28,7 @@ class Service
 		Service();
 		void checkArguments(int ac, char **av);
 		void checkConfigFile(std::string input);
+		void checkExtension(std::string input);
 		
 	public:
 		Service(int ac, char **av);
