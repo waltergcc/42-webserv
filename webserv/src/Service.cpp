@@ -14,7 +14,9 @@
 
 Service::Service(int ac, char **av)
 {
+	std::cout << CLEAR << "Starting webserv..." << std::endl << std::endl;
 	this->checkArguments(ac, av);
+	std::cout << GREEN << "Webserv .conf file read successfully!" << RESET << std::endl;
 }
 
 Service::~Service(){}

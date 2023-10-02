@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:32:18 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 22:15:16 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/02 00:50:24 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main(int ac, char **av)
 	}
 	catch(const std::exception &e)
 	{
-		std::cerr << RED << "Error: " << e.what() << RESET << std::endl;
+		std::cerr << RED << "Error:\t" << e.what() << RESET << std::endl;
 		return (EXIT_FAILURE);
 	}
 }

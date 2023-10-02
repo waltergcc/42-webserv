@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 23:41:23 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/02 00:56:33 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ void FileChecker::checkExtension(std::string input)
 
 	size_t dot = fileName.find_last_of(".");
 	if (dot == std::string::npos ||	fileName.substr(dot) != ".conf" || fileName.length() <= 5)
-		throw std::runtime_error(ERR_FILE);
+		throw std::runtime_error("'" + fileName + "'" + ERR_FILE);
 }
