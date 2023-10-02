@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/02 01:15:58 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/02 01:42:33 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include <sstream>
 #include <cstdlib>
 #include <iomanip>
-
-using namespace std;
 
 #define DEFAULT_CONF "system/default.conf"
 

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:32:18 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/02 01:17:36 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/02 01:43:30 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int main(int ac, char **av)
 	{
 		Service webserv(ac, av);
 	}
-	catch(const exception &e)
+	catch(const std::exception &e)
 	{
-		cerr << RED << "Error:\t" << e.what() << RESET << endl;
+		std::cerr << RED << "Error:\t" << e.what() << RESET << std::endl;
 		return (EXIT_FAILURE);
 	}
 }
