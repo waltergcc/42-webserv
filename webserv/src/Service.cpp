@@ -15,23 +15,23 @@
 Service::Service(int ac, char **av)
 {
 	std::cout << CLEAR << "Starting webserv..." << std::endl << std::endl;
-	this->checkArguments(ac, av);
+	this->_checkArguments(ac, av);
 	std::cout << GREEN << "Webserv .conf file read successfully!" << RESET << std::endl;
 }
 
 Service::~Service(){}
 
-void Service::checkConfigFile(std::string input)
+void Service::_checkConfigFile(std::string input)
 {
 	FileChecker	file(input);
 }
 
-void Service::checkArguments(int ac, char **av)
+void Service::_checkArguments(int ac, char **av)
 {
 	if (ac > 2)
 		throw std::runtime_error(ERR_ARG);
 	else if (ac == 2)
-		this->checkConfigFile(av[1]);
+		this->_checkConfigFile(av[1]);
 	else
-		this->checkConfigFile(DEFAULT_CONF);
+		this->_checkConfigFile(DEFAULT_CONF);
 }

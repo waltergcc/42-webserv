@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/02 00:56:33 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/02 01:04:50 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 FileChecker::FileChecker(std::string input)
 {
-	this->checkExtension(input);
-	this->file.open(input.c_str());
+	this->_checkExtension(input);
+	this->_file.open(input.c_str());
 
-	if (!this->file.is_open())
+	if (!this->_file.is_open())
 		throw std::runtime_error(ERR_OPEN + input);
 }
 
 FileChecker::~FileChecker()
 {
-	this->file.close();
+	this->_file.close();
 }
 
-void FileChecker::checkExtension(std::string input)
+void FileChecker::_checkExtension(std::string input)
 {
 	std::string fileName; 
 	size_t 		slash = input.find_last_of("/");

@@ -17,8 +17,8 @@ class Service
 {
 	private:
 		Service();
-		void checkArguments(int ac, char **av);
-		void checkConfigFile(std::string input);
+		void _checkArguments(int ac, char **av);
+		void _checkConfigFile(std::string input);
 		
 	public:
 		Service(int ac, char **av);
