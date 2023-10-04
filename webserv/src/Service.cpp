@@ -24,6 +24,12 @@ Service::~Service(){}
 void Service::_checkConfigFile(std::string input)
 {
 	FileChecker	file(input);
+	Token token = file.getNextToken();
+	while (token.type != END)
+	{
+		std::cout << "." << std::endl;
+	}
+	std::cout << "lines in file: " << file.getLine() << std::endl;
 }
 
 void Service::_checkArguments(int ac, char **av)
