@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/04 13:30:44 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:52:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ class FileChecker
 
 		FileChecker();
 		void _checkExtension(std::string input);
-		bool _isNewline();
-		bool _isSpace();
+		bool _checkNewLine();
+		bool _checkSpaces();
 		
 	public:
 		FileChecker(std::string input);

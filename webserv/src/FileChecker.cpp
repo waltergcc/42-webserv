@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/04 13:46:58 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:52:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ Token	FileChecker::getNextToken()
 	
 	while (!this->_file.eof())
 	{
-		if (this->_isNewline())
+		if (this->_checkNewLine())
 			continue;
-		else if (this->_isSpace())
+		else if (this->_checkSpaces())
 			continue;
 		else
 		{
@@ -62,7 +62,7 @@ Token	FileChecker::getNextToken()
 
 //	---> Private Auxiliar Methods ---------------------------------------------------
 
-bool FileChecker::_isNewline()
+bool FileChecker::_checkNewLine()
 {
 	if (this->_c == NEWLINE)
 	{
@@ -73,7 +73,7 @@ bool FileChecker::_isNewline()
 	return false;
 }
 
-bool FileChecker::_isSpace()
+bool FileChecker::_checkSpaces()
 {
 	if (std::isspace(this->_c))
 	{
