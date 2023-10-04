@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/02 01:43:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/04 11:06:22 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ FileChecker::FileChecker(std::string input)
 
 	if (!this->_file.is_open())
 		throw std::runtime_error(ERR_OPEN + input);
+	
+	this->_line = 1;
+	this->_bracket = 0;
+	this->_hasServer = false;
+	this->_c = this->_file.get();
 }
 
 FileChecker::~FileChecker()
