@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/04 13:52:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:50:43 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ Token	FileChecker::getNextToken()
 			continue;
 		else if (this->_checkSpaces())
 			continue;
+		else if (this->_checkComments())
+			continue;
 		else
 		{
 			this->_c = this->_file.get();
@@ -83,6 +85,17 @@ bool FileChecker::_checkSpaces()
 				break;
 			this->_c = this->_file.get();
 		}
+		return true;
+	}
+	return false;
+}
+
+bool FileChecker::_checkComments()
+{
+	if (this->_c == HASH)
+	{
+		while (!this->_file.eof() && this->_c != NEWLINE)
+			this->_c = this->_file.get();
 		return true;
 	}
 	return false;
