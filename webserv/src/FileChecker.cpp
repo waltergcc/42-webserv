@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/04 13:20:51 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/04 13:46:58 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,26 @@ int		FileChecker::getLine() const
 
 //	---> Public Methods --------------------------------------------------------
 
-	Token	FileChecker::getNextToken()
+Token	FileChecker::getNextToken()
+{
+	Token	token;
+	
+	while (!this->_file.eof())
 	{
-		Token	token;
-		
-		while (!this->_file.eof())
+		if (this->_isNewline())
+			continue;
+		else if (this->_isSpace())
+			continue;
+		else
 		{
-			if (this->_isNewline())
-				continue;
-			else
-			{
-				this->_c = this->_file.get();
-				continue;
-			}
+			this->_c = this->_file.get();
+			continue;
 		}
-		token.type = END;
-		token.value = "";
-		return (token);
 	}
+	token.type = END;
+	token.value = "";
+	return (token);
+}
 
 //	---> Private Auxiliar Methods ---------------------------------------------------
 
@@ -66,6 +68,21 @@ bool FileChecker::_isNewline()
 	{
 		this->_line++;
 		this->_c = this->_file.get();
+		return true;
+	}
+	return false;
+}
+
+bool FileChecker::_isSpace()
+{
+	if (std::isspace(this->_c))
+	{
+		while (!this->_file.eof() && std::isspace(this->_c))
+		{
+			if (this->_c == NEWLINE)
+				break;
+			this->_c = this->_file.get();
+		}
 		return true;
 	}
 	return false;
