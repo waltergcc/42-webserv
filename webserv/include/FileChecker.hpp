@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/04 13:56:01 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/05 22:19:58 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ class FileChecker
 		bool _checkNewLine();
 		bool _checkSpaces();
 		bool _checkComments();
+		bool _checkBrackets(Token &token);
 		
 	public:
 		FileChecker(std::string input);

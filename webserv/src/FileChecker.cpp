@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/04 15:50:43 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/05 22:37:58 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ Token	FileChecker::getNextToken()
 	{
 		if (this->_checkNewLine())
 			continue;
-		else if (this->_checkSpaces())
+		if (this->_checkSpaces())
 			continue;
-		else if (this->_checkComments())
+		if (this->_checkComments())
 			continue;
+		if (this->_checkBrackets(token))
+			return (token);
 		else
 		{
 			this->_c = this->_file.get();
@@ -96,6 +98,27 @@ bool FileChecker::_checkComments()
 	{
 		while (!this->_file.eof() && this->_c != NEWLINE)
 			this->_c = this->_file.get();
+		return true;
+	}
+	return false;
+}
+
+bool FileChecker::_checkBrackets(Token &token)
+{
+	if (this->_c == OPEN_BRACKET_CHAR)
+	{
+		this->_bracket++;
+		token.type = OPEN_BRACKET;
+		token.value = this->_c;
+		this->_c = this->_file.get();
+		return true;
+	}
+	else if (this->_c == CLOSE_BRACKET_CHAR)
+	{
+		this->_bracket--;
+		token.type = CLOSE_BRACKET;
+		token.value = this->_c;
+		this->_c = this->_file.get();
 		return true;
 	}
 	return false;
