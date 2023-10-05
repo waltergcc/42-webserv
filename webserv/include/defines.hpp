@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/05 22:36:10 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/05 23:50:29 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 #define HASH				'#'
 #define OPEN_BRACKET_CHAR	'{'
 #define CLOSE_BRACKET_CHAR	'}'
+#define UNDERSCORE			'_'
 
 // Error messages
 #define ERR_ARG			"Invalid arguments\n\tUsage: ./webserv [config_file]"

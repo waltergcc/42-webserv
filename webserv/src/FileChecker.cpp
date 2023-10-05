@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/05 22:37:58 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 00:03:38 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,10 @@ Token	FileChecker::getNextToken()
 			continue;
 		if (this->_checkBrackets(token))
 			return (token);
-		else
-		{
-			this->_c = this->_file.get();
-			continue;
-		}
+		if (this->_checkKeywords(token))
+			return (token);
+		token.value += this->_c;
+		this->_c = this->_file.get();
 	}
 	token.type = END;
 	token.value = "";
@@ -123,6 +122,46 @@ bool FileChecker::_checkBrackets(Token &token)
 	}
 	return false;
 }
+
+static bool isValidKeyword(std::string const &s)
+{
+	return (s == "allow_methods" || s == "auto_index" || s == "cgi_ext" || s == "cgi_path"
+		|| s == "client_max_body_size" || s == "error_page" || s == "host" || s == "index"
+		|| s == "listen" || s == "location" || s == "return" || s == "root" || s == "server"
+		|| s == "server_name" || s == "try_file" || s == "upload_to");
+}
+
+static std::string intToString(int n)
+{
+	std::stringstream ss;
+	ss << n;
+	return ss.str();
+}
+
+bool FileChecker::_checkKeywords(Token &token)
+{
+	if (std::isalpha(this->_c))
+	{
+		token.value += this->_c;
+		this->_c = this->_file.get();
+		
+		while (!this->_file.eof() && (std::isalnum(this->_c) || this->_c == UNDERSCORE))
+		{
+			token.value += this->_c;
+			this->_c = this->_file.get();
+		}
+		
+		if (!isValidKeyword(token.value))
+			throw std::runtime_error("Invalid keyword '" + token.value + "' at line " + intToString(this->_line));
+		
+		token.type = KEYWORD;
+		if (token.value == "server")
+			this->_hasServer = true;
+		return true;
+	}
+	return false;
+}
+
 
 void FileChecker::_checkExtension(std::string input)
 {
