@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 00:03:38 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 00:16:50 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ bool FileChecker::_checkKeywords(Token &token)
 		}
 		
 		if (!isValidKeyword(token.value))
-			throw std::runtime_error("Invalid keyword '" + token.value + "' at line " + intToString(this->_line));
+			throw std::runtime_error(ERR_INVALID_KEY(token.value, intToString(this->_line)));
 		
 		token.type = KEYWORD;
 		if (token.value == "server")

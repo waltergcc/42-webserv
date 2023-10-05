@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/05 23:50:29 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 00:18:30 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@
 #define UNDERSCORE			'_'
 
 // Error messages
-#define ERR_ARG			"Invalid arguments\n\tUsage: ./webserv [config_file]"
-#define ERR_OPEN		"Couldn't open file "
-#define ERR_FILE		" is a invalid file\n\tFile must have a name and must be .conf"
-#define ERR_MANDATORY	"server_name, listen, host are mandatory fields"
+#define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
+#define ERR_OPEN						"Couldn't open file "
+#define ERR_FILE						" is a invalid file\n\tFile must have a name and must be .conf"
+#define ERR_MANDATORY					"server_name, listen, host are mandatory fields"
+#define ERR_INVALID_KEY(token, line)	"Invalid keyword '" + token + "' at line " + line
