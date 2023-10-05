@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/05 23:37:47 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 00:29:42 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ class FileChecker
 
 		Token	getNextToken();
 		int		getLine() const;
+		int		getHasServer() const;
 };

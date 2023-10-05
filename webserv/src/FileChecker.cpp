@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 00:16:50 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 00:30:25 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ FileChecker::~FileChecker()
 {
 	this->_file.close();
 }
-int		FileChecker::getLine() const
-{
-	return (this->_line);
-}
+
+//	---> Getters ----------------------------------------------------------------
+int		FileChecker::getLine() const{return (this->_line);}
+int		FileChecker::getHasServer() const{return (this->_hasServer);}
 
 //	---> Public Methods --------------------------------------------------------
 
@@ -156,7 +156,7 @@ bool FileChecker::_checkKeywords(Token &token)
 		
 		token.type = KEYWORD;
 		if (token.value == "server")
-			this->_hasServer = true;
+			return (this->_hasServer = true), true;
 		return true;
 	}
 	return false;
