@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 12:27:15 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:55:02 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,14 @@ Token	FileChecker::getNextToken()
 	token.type = END;
 	token.value = "";
 	return (token);
+}
+
+void FileChecker::printMapAndLines()
+{
+	std::map<std::string, std::string>::iterator it = this->configs.begin();
+	for (; it != this->configs.end(); it++)
+		std::cout << it->first << " | " << it->second << std::endl;
+	std::cout << "Lines: " << this->_line << std::endl;
 }
 
 //	---> Private Auxiliar Methods ---------------------------------------------------
@@ -217,14 +225,6 @@ void FileChecker::_getCommonConfig(std::string const &keyword, std::string &cont
 		content += this->_c;
 		this->_c = this->_file.get();
 	}
-}
-
-void FileChecker::printMapAndLines()
-{
-	std::map<std::string, std::string>::iterator it = this->configs.begin();
-	for (; it != this->configs.end(); it++)
-		std::cout << it->first << " | " << it->second << std::endl;
-	std::cout << "Lines: " << this->_line << std::endl;
 }
 
 void FileChecker::_checkExtension(std::string input)
