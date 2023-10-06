@@ -18,7 +18,8 @@ class Service
 	private:
 		Service();
 		void _checkArguments(int ac, char **av);
-		void _checkConfigFile(std::string input);
+		void _parseConfigFile(std::string input);
+		void _parseBlock(FileChecker &file, Token &token, bool location, int bracket);
 		
 	public:
 		Service(int ac, char **av);

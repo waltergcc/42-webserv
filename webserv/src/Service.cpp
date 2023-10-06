@@ -12,6 +12,8 @@
 
 #include "Service.hpp"
 
+// ---> Constructor and destructor --------------------------------------------
+
 Service::Service(int ac, char **av)
 {
 	std::cout << CLEAR << "Starting webserv..." << std::endl << std::endl;
@@ -21,16 +23,51 @@ Service::Service(int ac, char **av)
 
 Service::~Service(){}
 
-void Service::_checkConfigFile(std::string input)
+// ---> Private Methods : Parse Input ------------------------------------------
+
+void Service::_parseConfigFile(std::string input)
 {
 	FileChecker	file(input);
-	Token token = file.getNextToken();
+	
+	Token		token = file.getNextToken();
 	while (token.type != END)
 	{
+		this->_parseBlock(file, token, false, 0);
+		token = file.getNextToken();
+		file.printMapAndLines();
+	}
+}
+
+void Service::_parseBlock(FileChecker &file, Token &token, bool location, int bracket)
+{
+	while (true)
+	{
+		if (token.value == "server")
+			token = file.getNextToken();
+		
+		if (token.type == OPEN_BRACKET)
+			bracket++;
+		else if (token.type == CLOSE_BRACKET)
+			bracket--;
+
+		if (token.value == "location")
+		{
+			location = true;
+			std::cout << location << std::endl;
+			std::cout << "Location block found!" << std::endl;
+		}
+		else if (bracket == 0 && !location)
+		{
+			std::cout << "Server block parsed!" << std::endl;
+			return ;
+		}
+		else if (bracket == 0 && location)
+		{
+			std::cout << "Location block parsed!" << std::endl;
+			return;
+		}
 		token = file.getNextToken();
 	}
-	file.printMapAndLines();
-
 }
 
 void Service::_checkArguments(int ac, char **av)
@@ -38,7 +75,7 @@ void Service::_checkArguments(int ac, char **av)
 	if (ac > 2)
 		throw std::runtime_error(ERR_ARG);
 	else if (ac == 2)
-		this->_checkConfigFile(av[1]);
+		this->_parseConfigFile(av[1]);
 	else
-		this->_checkConfigFile(DEFAULT_CONF);
+		this->_parseConfigFile(DEFAULT_CONF);
 }

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 12:55:02 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:59:57 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void FileChecker::printMapAndLines()
 {
 	std::map<std::string, std::string>::iterator it = this->configs.begin();
 	for (; it != this->configs.end(); it++)
-		std::cout << it->first << " | " << it->second << std::endl;
-	std::cout << "Lines: " << this->_line << std::endl;
+		std::cout << it->first << ": " << it->second << std::endl;
+	std::cout << "close line: " << this->_line << std::endl << std::endl;
 }
 
 //	---> Private Auxiliar Methods ---------------------------------------------------
