@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 12:15:22 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:27:15 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,32 +161,32 @@ bool FileChecker::_isKeyword(Token &token)
 		if (token.value == "server")
 			return (this->_hasServer = true), true;
 
-		this->_getConfigValue(token);
+		this->_getConfigContent(token.value);
 		return true;
 	}
 	return false;
 }
 
-void FileChecker::_getConfigValue(Token &token)
+void FileChecker::_getConfigContent(std::string const &keyword)
 {
 	if (this->_isSpaceMoveFoward())
 	{
 		if (this->_c == SEMICOLON)
-			throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
+			throw std::runtime_error(ERR_MISSING_VALUE(keyword, intToString(this->_line)));
 		
-		std::string configValue = "";
+		std::string content = "";
 		
-		if (token.value == "location")
-			this->_getLocationConfig(token, configValue);
+		if (keyword == "location")
+			this->_getLocationConfig(keyword, content);
 		else
-			this->_getCommonConfig(token, configValue);
+			this->_getCommonConfig(keyword, content);
 
-		this->configs[token.value] = configValue;
+		this->configs[keyword] = content;
 	}
 	this->_c = this->_file.get();
 }
 
-void FileChecker::_getLocationConfig(Token &token, std::string &content)
+void FileChecker::_getLocationConfig(std::string const &keyword, std::string &content)
 {
 	while (!this->_file.eof() && this->_c != OPEN_BRACKET_CHAR)
 	{
@@ -200,17 +200,17 @@ void FileChecker::_getLocationConfig(Token &token, std::string &content)
 			this->_bracket++;
 
 		if (content.empty() || (content.find_first_not_of(SPACES) == std::string::npos))
-			throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
+			throw std::runtime_error(ERR_MISSING_VALUE(keyword, intToString(this->_line)));
 	}
 }
 
-void FileChecker::_getCommonConfig(Token &token, std::string &content)
+void FileChecker::_getCommonConfig(std::string const &keyword, std::string &content)
 {
 	this->_isSpaceMoveFoward();
 	while (!this->_file.eof() && this->_c != SEMICOLON)
 	{
-		if (std::isspace(this->_c) && token.value != "allow_methods")
-			throw std::runtime_error(ERR_MANY_VALUES(token.value, intToString(this->_line)));
+		if (std::isspace(this->_c) && keyword != "allow_methods")
+			throw std::runtime_error(ERR_MANY_VALUES(keyword, intToString(this->_line)));
 		if (this->_c == NEWLINE)
 			throw std::runtime_error(ERR_SEMICOLON(intToString(this->_line)));
 			

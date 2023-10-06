@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 12:15:03 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:27:02 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ class FileChecker
 		bool _isCommentMoveFoward();
 		bool _isBracket(Token &token);
 		bool _isKeyword(Token &token);
-		void _getConfigValue(Token &token);
-		void _getLocationConfig(Token &token, std::string &content);
-		void _getCommonConfig(Token &token, std::string &content);
+		void _getConfigContent(std::string const &keyword);
+		void _getLocationConfig(std::string const &keyword, std::string &content);
+		void _getCommonConfig(std::string const &keyword, std::string &content);
 		
 	public:
 		std::map<std::string, std::string>	configs;
