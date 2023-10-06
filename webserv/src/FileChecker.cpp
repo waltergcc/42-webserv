@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 00:30:25 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 01:43:45 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ Token	FileChecker::getNextToken()
 		token.value += this->_c;
 		this->_c = this->_file.get();
 	}
+	
+	if (this->_bracket != 0)
+		throw std::runtime_error(ERR_UNCLOSED_BRACKETS);
+	
+	if (this->_hasServer == false)
+		throw std::runtime_error(ERR_NO_SERVER_CONFIG);
+	
 	token.type = END;
 	token.value = "";
 	return (token);
@@ -157,11 +164,55 @@ bool FileChecker::_checkKeywords(Token &token)
 		token.type = KEYWORD;
 		if (token.value == "server")
 			return (this->_hasServer = true), true;
+
+		this->_checkValue(token);
 		return true;
 	}
 	return false;
 }
 
+void FileChecker::_checkValue(Token &token)
+{
+	std::string content;
+	
+	if (this->_checkSpaces())
+	{
+		if (this->_c == SEMICOLON)
+			throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
+		
+		content = "";
+		if (token.value == "location")
+		{
+			while (!this->_file.eof() && this->_c != OPEN_BRACKET_CHAR)
+			{
+				if (this->_c == NEWLINE)
+					throw std::runtime_error(ERR_MISSING_OPEN_BRACKET(intToString(this->_line)));
+				content += this->_c;
+				this->_c = this->_file.get();
+				if (this->_c == OPEN_BRACKET_CHAR)
+					this->_bracket++;
+				if (content.empty() || (content.find_first_not_of(SPACES) == std::string::npos))
+					throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
+			}
+		}
+		else
+		{
+			this->_checkSpaces();
+			while (!this->_file.eof() && this->_c != SEMICOLON)
+			{
+				if (std::isspace(this->_c) && token.value != "allow_methods")
+					throw std::runtime_error(ERR_MANY_VALUES(token.value, intToString(this->_line)));
+				if (this->_c == NEWLINE)
+					throw std::runtime_error(ERR_SEMICOLON(intToString(this->_line)));
+					
+				content += this->_c;
+				this->_c = this->_file.get();
+			}
+		}
+		this->configs[token.value] = content;
+	}
+	this->_c = this->_file.get();
+}
 
 void FileChecker::_checkExtension(std::string input)
 {
