@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 11:49:18 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:15:22 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ Token	FileChecker::getNextToken()
 	
 	while (!this->_file.eof())
 	{
-		if (this->_checkNewLine())
+		if (this->_isNewLineMoveFoward())
 			continue;
-		if (this->_checkSpaces())
+		if (this->_isSpaceMoveFoward())
 			continue;
-		if (this->_checkComments())
+		if (this->_isCommentMoveFoward())
 			continue;
-		if (this->_checkBrackets(token))
+		if (this->_isBracket(token))
 			return (token);
-		if (this->_checkKeywords(token))
+		if (this->_isKeyword(token))
 			return (token);
 		token.value += this->_c;
 		this->_c = this->_file.get();
@@ -68,7 +68,7 @@ Token	FileChecker::getNextToken()
 
 //	---> Private Auxiliar Methods ---------------------------------------------------
 
-bool FileChecker::_checkNewLine()
+bool FileChecker::_isNewLineMoveFoward()
 {
 	if (this->_c == NEWLINE)
 	{
@@ -79,7 +79,7 @@ bool FileChecker::_checkNewLine()
 	return false;
 }
 
-bool FileChecker::_checkSpaces()
+bool FileChecker::_isSpaceMoveFoward()
 {
 	if (std::isspace(this->_c))
 	{
@@ -94,7 +94,7 @@ bool FileChecker::_checkSpaces()
 	return false;
 }
 
-bool FileChecker::_checkComments()
+bool FileChecker::_isCommentMoveFoward()
 {
 	if (this->_c == HASH)
 	{
@@ -105,7 +105,7 @@ bool FileChecker::_checkComments()
 	return false;
 }
 
-bool FileChecker::_checkBrackets(Token &token)
+bool FileChecker::_isBracket(Token &token)
 {
 	if (this->_c == OPEN_BRACKET_CHAR)
 	{
@@ -141,7 +141,7 @@ static std::string intToString(int n)
 	return ss.str();
 }
 
-bool FileChecker::_checkKeywords(Token &token)
+bool FileChecker::_isKeyword(Token &token)
 {
 	if (std::isalpha(this->_c))
 	{
@@ -161,32 +161,32 @@ bool FileChecker::_checkKeywords(Token &token)
 		if (token.value == "server")
 			return (this->_hasServer = true), true;
 
-		this->_checkValue(token);
+		this->_getConfigValue(token);
 		return true;
 	}
 	return false;
 }
 
-void FileChecker::_checkValue(Token &token)
+void FileChecker::_getConfigValue(Token &token)
 {
-	if (this->_checkSpaces())
+	if (this->_isSpaceMoveFoward())
 	{
 		if (this->_c == SEMICOLON)
 			throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
 		
-		std::string content = "";
+		std::string configValue = "";
 		
 		if (token.value == "location")
-			this->_checkLocation(token, content);
+			this->_getLocationConfig(token, configValue);
 		else
-			this->_checkCommon(token, content);
+			this->_getCommonConfig(token, configValue);
 
-		this->configs[token.value] = content;
+		this->configs[token.value] = configValue;
 	}
 	this->_c = this->_file.get();
 }
 
-void FileChecker::_checkLocation(Token &token, std::string &content)
+void FileChecker::_getLocationConfig(Token &token, std::string &content)
 {
 	while (!this->_file.eof() && this->_c != OPEN_BRACKET_CHAR)
 	{
@@ -204,9 +204,9 @@ void FileChecker::_checkLocation(Token &token, std::string &content)
 	}
 }
 
-void FileChecker::_checkCommon(Token &token, std::string &content)
+void FileChecker::_getCommonConfig(Token &token, std::string &content)
 {
-	this->_checkSpaces();
+	this->_isSpaceMoveFoward();
 	while (!this->_file.eof() && this->_c != SEMICOLON)
 	{
 		if (std::isspace(this->_c) && token.value != "allow_methods")

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 11:45:18 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 12:15:03 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ class FileChecker
 
 		FileChecker();
 		void _checkExtension(std::string input);
-		bool _checkNewLine();
-		bool _checkSpaces();
-		bool _checkComments();
-		bool _checkBrackets(Token &token);
-		bool _checkKeywords(Token &token);
-		void _checkValue(Token &token);
-		void _checkLocation(Token &token, std::string &content);
-		void _checkCommon(Token &token, std::string &content);
+		bool _isNewLineMoveFoward();
+		bool _isSpaceMoveFoward();
+		bool _isCommentMoveFoward();
+		bool _isBracket(Token &token);
+		bool _isKeyword(Token &token);
+		void _getConfigValue(Token &token);
+		void _getLocationConfig(Token &token, std::string &content);
+		void _getCommonConfig(Token &token, std::string &content);
 		
 	public:
 		std::map<std::string, std::string>	configs;
