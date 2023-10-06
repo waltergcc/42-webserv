@@ -32,7 +32,8 @@ void Service::_parseConfigFile(std::string input)
 	Token		token = file.getNextToken();
 	while (token.type != END)
 	{
-		this->_parseBlock(file, token, false, 0);
+		if (token.value == "server" || token.value == "location")
+			this->_parseBlock(file, token, false, 0);
 		token = file.getNextToken();
 		file.printMapAndLines();
 	}
@@ -40,11 +41,18 @@ void Service::_parseConfigFile(std::string input)
 
 void Service::_parseBlock(FileChecker &file, Token &token, bool location, int bracket)
 {
+	std::string previous;
+
 	while (true)
 	{
+		previous = token.value;
+
 		if (token.value == "server")
 			token = file.getNextToken();
 		
+		if (previous == "server" && token.type != OPEN_BRACKET)
+			throw std::runtime_error(ERR_SERVER_BLOCK);
+
 		if (token.type == OPEN_BRACKET)
 			bracket++;
 		else if (token.type == CLOSE_BRACKET)

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 01:42:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 23:14:13 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,4 @@
 #define ERR_SEMICOLON(line)				"Missing ';' at line " + line
 #define ERR_UNCLOSED_BRACKETS			"Unclosed brackets"
 #define ERR_NO_SERVER_CONFIG			"No server configuration found"
+#define ERR_SERVER_BLOCK				"Missing '{' after 'server' keyword"
