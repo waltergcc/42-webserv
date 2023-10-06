@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 11:10:08 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:45:18 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ class FileChecker
 		bool _checkBrackets(Token &token);
 		bool _checkKeywords(Token &token);
 		void _checkValue(Token &token);
+		void _checkLocation(Token &token, std::string &content);
+		void _checkCommon(Token &token, std::string &content);
 		
 	public:
 		std::map<std::string, std::string>	configs;

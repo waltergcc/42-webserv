@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 11:10:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:49:18 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,45 +169,54 @@ bool FileChecker::_checkKeywords(Token &token)
 
 void FileChecker::_checkValue(Token &token)
 {
-	std::string content;
-	
 	if (this->_checkSpaces())
 	{
 		if (this->_c == SEMICOLON)
 			throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
 		
-		content = "";
+		std::string content = "";
+		
 		if (token.value == "location")
-		{
-			while (!this->_file.eof() && this->_c != OPEN_BRACKET_CHAR)
-			{
-				if (this->_c == NEWLINE)
-					throw std::runtime_error(ERR_MISSING_OPEN_BRACKET(intToString(this->_line)));
-				content += this->_c;
-				this->_c = this->_file.get();
-				if (this->_c == OPEN_BRACKET_CHAR)
-					this->_bracket++;
-				if (content.empty() || (content.find_first_not_of(SPACES) == std::string::npos))
-					throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
-			}
-		}
+			this->_checkLocation(token, content);
 		else
-		{
-			this->_checkSpaces();
-			while (!this->_file.eof() && this->_c != SEMICOLON)
-			{
-				if (std::isspace(this->_c) && token.value != "allow_methods")
-					throw std::runtime_error(ERR_MANY_VALUES(token.value, intToString(this->_line)));
-				if (this->_c == NEWLINE)
-					throw std::runtime_error(ERR_SEMICOLON(intToString(this->_line)));
-					
-				content += this->_c;
-				this->_c = this->_file.get();
-			}
-		}
+			this->_checkCommon(token, content);
+
 		this->configs[token.value] = content;
 	}
 	this->_c = this->_file.get();
+}
+
+void FileChecker::_checkLocation(Token &token, std::string &content)
+{
+	while (!this->_file.eof() && this->_c != OPEN_BRACKET_CHAR)
+	{
+		if (this->_c == NEWLINE)
+			throw std::runtime_error(ERR_MISSING_OPEN_BRACKET(intToString(this->_line)));
+		
+		content += this->_c;
+		this->_c = this->_file.get();
+		
+		if (this->_c == OPEN_BRACKET_CHAR)
+			this->_bracket++;
+
+		if (content.empty() || (content.find_first_not_of(SPACES) == std::string::npos))
+			throw std::runtime_error(ERR_MISSING_VALUE(token.value, intToString(this->_line)));
+	}
+}
+
+void FileChecker::_checkCommon(Token &token, std::string &content)
+{
+	this->_checkSpaces();
+	while (!this->_file.eof() && this->_c != SEMICOLON)
+	{
+		if (std::isspace(this->_c) && token.value != "allow_methods")
+			throw std::runtime_error(ERR_MANY_VALUES(token.value, intToString(this->_line)));
+		if (this->_c == NEWLINE)
+			throw std::runtime_error(ERR_SEMICOLON(intToString(this->_line)));
+			
+		content += this->_c;
+		this->_c = this->_file.get();
+	}
 }
 
 void FileChecker::printMapAndLines()
