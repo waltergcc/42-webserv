@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 16:59:57 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 23:59:00 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,10 +217,10 @@ void FileChecker::_getCommonConfig(std::string const &keyword, std::string &cont
 	this->_isSpaceMoveFoward();
 	while (!this->_file.eof() && this->_c != SEMICOLON)
 	{
-		if (std::isspace(this->_c) && keyword != "allow_methods")
-			throw std::runtime_error(ERR_MANY_VALUES(keyword, intToString(this->_line)));
 		if (this->_c == NEWLINE)
 			throw std::runtime_error(ERR_SEMICOLON(intToString(this->_line)));
+		if (std::isspace(this->_c) && keyword != "allow_methods")
+			throw std::runtime_error(ERR_MANY_VALUES(keyword, intToString(this->_line)));
 			
 		content += this->_c;
 		this->_c = this->_file.get();
