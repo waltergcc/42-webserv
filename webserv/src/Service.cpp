@@ -27,10 +27,10 @@ void Service::_checkConfigFile(std::string input)
 	Token token = file.getNextToken();
 	while (token.type != END)
 	{
-		std::cout << token.value << " | " << file.getHasServer() << std::endl;
 		token = file.getNextToken();
 	}
-	std::cout << "lines in file: " << file.getLine() << std::endl;
+	file.printMapAndLines();
+
 }
 
 void Service::_checkArguments(int ac, char **av)

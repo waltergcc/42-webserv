@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 01:43:45 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/06 11:10:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ FileChecker::~FileChecker()
 {
 	this->_file.close();
 }
-
-//	---> Getters ----------------------------------------------------------------
-int		FileChecker::getLine() const{return (this->_line);}
-int		FileChecker::getHasServer() const{return (this->_hasServer);}
 
 //	---> Public Methods --------------------------------------------------------
 
@@ -212,6 +208,14 @@ void FileChecker::_checkValue(Token &token)
 		this->configs[token.value] = content;
 	}
 	this->_c = this->_file.get();
+}
+
+void FileChecker::printMapAndLines()
+{
+	std::map<std::string, std::string>::iterator it = this->configs.begin();
+	for (; it != this->configs.end(); it++)
+		std::cout << it->first << " | " << it->second << std::endl;
+	std::cout << "Lines: " << this->_line << std::endl;
 }
 
 void FileChecker::_checkExtension(std::string input)
