@@ -14,8 +14,5 @@
 
 // ---> Constructor and destructor --------------------------------------------
 
-ServerInfo::ServerInfo()
-{
-}
-
+ServerInfo::ServerInfo(stringMap &configs){}
 ServerInfo::~ServerInfo(){}
