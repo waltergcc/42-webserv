@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 19:43:51 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 20:21:41 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ FileChecker::~FileChecker()
 }
 //	---> Public Methods --------------------------------------------------------
 
-void FileChecker::getServerConfigs()
+serverVector FileChecker::getServerConfigs()
 {
 	while (this->_token.type != END)
 	{
@@ -45,6 +45,7 @@ void FileChecker::getServerConfigs()
 
 		this->_token = this->getNextToken();
 	}
+	return (this->_servers);
 }
 
 //	---> Private getServerConfigs auxiliar methods -----------------------------

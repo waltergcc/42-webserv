@@ -6,13 +6,14 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 20:06:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 20:21:14 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "defines.hpp"
+#include "ServerInfo.hpp"
 
 enum eToken
 {
@@ -27,6 +28,8 @@ struct Token
 	std::string	value;
 };
 
+typedef std::vector<ServerInfo> serverVector;
+
 class FileChecker
 {
 	private:
@@ -38,6 +41,7 @@ class FileChecker
 		char			_c;
 		Token			_token;
 		stringMap		_configs;
+		serverVector	_servers;
 
 		// check arguments and extensions methods
 		void _checkArguments(int ac, char **av);
@@ -65,5 +69,5 @@ class FileChecker
 		FileChecker(int ac, char **av);
 		~FileChecker();
 
-		void getServerConfigs();
+		serverVector getServerConfigs();
 };

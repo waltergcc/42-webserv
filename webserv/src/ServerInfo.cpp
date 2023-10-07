@@ -14,5 +14,8 @@
 
 // ---> Constructor and destructor --------------------------------------------
 
-ServerInfo::ServerInfo(stringMap &configs){}
+ServerInfo::ServerInfo(stringMap &configs)
+{
+	(void)configs;
+}
 ServerInfo::~ServerInfo(){}

@@ -13,10 +13,12 @@
 #pragma once
 
 #include "defines.hpp"
+#include "FileChecker.hpp"
 
 class Service
 {
 	private:
+		serverVector	_servers;
 		Service();
 
 	public:

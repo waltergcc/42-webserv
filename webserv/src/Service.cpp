@@ -30,7 +30,7 @@ Service::Service(int ac, char **av)
 	startMessage();
 
 	FileChecker	input(ac, av);
-	input.getServerConfigs();
+	this->_servers = input.getServerConfigs();
 
 	endMessage();
 }
