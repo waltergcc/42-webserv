@@ -33,6 +33,7 @@ class ServerInfo
 		std::string _root;
 		std::string _index;
 		size_t		_clientMaxBodySize;
+		std::string _errorPage;
 		locationMap	_locations;
 
 		ServerInfo();

@@ -16,6 +16,12 @@
 
 ServerInfo::ServerInfo(stringMap &configs)
 {
-	(void)configs;
+	this->_serverName = configs["server_name"];
+	this->_port = configs["port"];
+	this->_host = configs["host"];
+	this->_root = configs["root"];
+	this->_index = configs["index"];
+	this->_clientMaxBodySize = atoi(configs["client_max_body_size"].c_str());
+	this->_errorPage = configs["error_page"];
 }
 ServerInfo::~ServerInfo(){}
