@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 12:27:02 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 11:43:43 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,23 @@ class FileChecker
 {
 	private:
 		std::ifstream	_file;
+		std::string		_filePath;
 		size_t			_line;
 		int				_bracket;
 		bool			_hasServer;
 		char			_c;
+		std::map<std::string, std::string>	_configs;
 
-		FileChecker();
+		// check arguments and extensions methods
 		void _checkExtension(std::string input);
+		void _checkArguments(int ac, char **av);
+
+		// getServerConfigs auxiliar methods
+		void _parseServerBlock(Token &token);
+		void _parseLocationBlock(Token &token, bool &location);
+		
+		// getNextToken & its auxiliar methods
+		Token getNextToken();
 		bool _isNewLineMoveFoward();
 		bool _isSpaceMoveFoward();
 		bool _isCommentMoveFoward();
@@ -47,11 +57,12 @@ class FileChecker
 		void _getLocationConfig(std::string const &keyword, std::string &content);
 		void _getCommonConfig(std::string const &keyword, std::string &content);
 		
+		FileChecker();
+		void printMapAndLines();
+		
 	public:
-		std::map<std::string, std::string>	configs;
-		FileChecker(std::string input);
+		FileChecker(int ac, char **av);
 		~FileChecker();
 
-		Token	getNextToken();
-		void	printMapAndLines();
+		void getServerConfigs();
 };

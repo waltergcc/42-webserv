@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 23:59:00 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 11:48:26 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 //	---> Constructor and destructor --------------------------------------------
 
-FileChecker::FileChecker(std::string input)
+FileChecker::FileChecker(int ac, char **av)
 {
-	this->_checkExtension(input);
-	this->_file.open(input.c_str());
+	this->_checkArguments(ac, av);
+	this->_checkExtension(this->_filePath);
+	this->_file.open(this->_filePath.c_str());
 
 	if (!this->_file.is_open())
-		throw std::runtime_error(ERR_OPEN + input);
+		throw std::runtime_error(ERR_OPEN + this->_filePath);
 	
 	this->_line = 1;
 	this->_bracket = 0;
@@ -32,8 +33,79 @@ FileChecker::~FileChecker()
 {
 	this->_file.close();
 }
-
 //	---> Public Methods --------------------------------------------------------
+
+void FileChecker::getServerConfigs()
+{
+	Token token = this->getNextToken();
+	
+	while (token.type != END)
+	{
+		if (token.value == "server")
+			this->_parseServerBlock(token);
+
+		token = this->getNextToken();
+	}
+}
+
+//	---> Private getServerConfigs auxiliar methods -----------------------------
+
+void FileChecker::_parseServerBlock(Token &token)
+{
+	std::string previous;
+	bool		location = false;
+	int			bracket = 0;
+	
+	while (true)
+	{
+		previous = token.value;
+
+		if (token.value == "server")
+			token = this->getNextToken();
+		
+		if (previous == "server" && token.type != OPEN_BRACKET)
+			throw std::runtime_error(ERR_SERVER_BLOCK);
+
+		if (token.type == OPEN_BRACKET)
+			bracket++;
+		else if (token.type == CLOSE_BRACKET)
+			bracket--;
+
+		if (token.value == "location")
+			this->_parseLocationBlock(token, location);
+		else if (bracket == 0 && !location)
+		{
+			this->printMapAndLines();
+			return ;
+		}
+		else if (bracket == 0)
+			return;
+
+		token = this->getNextToken();
+	}
+}
+
+void FileChecker::_parseLocationBlock(Token &token, bool &location)
+{
+	std::string tmp = this->_configs["location"];
+
+	if (!location)
+	{
+		location = true;
+		this->printMapAndLines();
+		this->_configs.clear();
+		this->_configs["location"] = tmp;
+	}
+
+	token = this->getNextToken();
+	while (token.type != CLOSE_BRACKET)
+		token = this->getNextToken();
+	
+	this->printMapAndLines();
+	this->_configs.clear();
+}
+
+//	---> Private getNextToken & its auxiliar methods -----------------------------
 
 Token	FileChecker::getNextToken()
 {
@@ -65,16 +137,6 @@ Token	FileChecker::getNextToken()
 	token.value = "";
 	return (token);
 }
-
-void FileChecker::printMapAndLines()
-{
-	std::map<std::string, std::string>::iterator it = this->configs.begin();
-	for (; it != this->configs.end(); it++)
-		std::cout << it->first << ": " << it->second << std::endl;
-	std::cout << "close line: " << this->_line << std::endl << std::endl;
-}
-
-//	---> Private Auxiliar Methods ---------------------------------------------------
 
 bool FileChecker::_isNewLineMoveFoward()
 {
@@ -189,7 +251,7 @@ void FileChecker::_getConfigContent(std::string const &keyword)
 		else
 			this->_getCommonConfig(keyword, content);
 
-		this->configs[keyword] = content;
+		this->_configs[keyword] = content;
 	}
 	this->_c = this->_file.get();
 }
@@ -226,18 +288,37 @@ void FileChecker::_getCommonConfig(std::string const &keyword, std::string &cont
 		this->_c = this->_file.get();
 	}
 }
+//	---> Private Check arguments and extensions methods ---------------------------------
+
+void FileChecker::_checkArguments(int ac, char **av)
+{
+	if (ac > 2)
+		throw std::runtime_error(ERR_ARG);
+	else if (ac == 2)
+		this->_filePath = av[1];
+	else
+		this->_filePath = DEFAULT_CONF;
+}
 
 void FileChecker::_checkExtension(std::string input)
 {
-	std::string fileName; 
+	std::string filename; 
 	size_t 		slash = input.find_last_of("/");
 
 	if (slash == std::string::npos)
-		fileName = input;
+		filename = input;
 	else
-		fileName = input.substr(slash + 1);
+		filename = input.substr(slash + 1);
 
-	size_t dot = fileName.find_last_of(".");
-	if (dot == std::string::npos ||	fileName.substr(dot) != ".conf" || fileName.length() <= 5)
-		throw std::runtime_error("'" + fileName + "'" + ERR_FILE);
+	size_t dot = filename.find_last_of(".");
+	if (dot == std::string::npos ||	filename.substr(dot) != ".conf" || filename.length() <= 5)
+		throw std::runtime_error("'" + filename + "'" + ERR_FILE);
+}
+
+void FileChecker::printMapAndLines()
+{
+	std::map<std::string, std::string>::iterator it = this->_configs.begin();
+	for (; it != this->_configs.end(); it++)
+		std::cout << it->first << ": " << it->second << std::endl;
+	std::cout << "close line: " << this->_line << std::endl << std::endl;
 }
