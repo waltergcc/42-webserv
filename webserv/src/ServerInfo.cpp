@@ -16,12 +16,45 @@
 
 ServerInfo::ServerInfo(stringMap &configs)
 {
-	this->_serverName = configs["server_name"];
-	this->_port = configs["port"];
-	this->_host = configs["host"];
-	this->_root = configs["root"];
-	this->_index = configs["index"];
-	this->_clientMaxBodySize = atoi(configs["client_max_body_size"].c_str());
-	this->_errorPage = configs["error_page"];
+	this->_serverName = configs[SERVER_N];
+	this->_port = configs[LISTEN];
+	this->_host = configs[HOST];
+	this->_root = configs[ROOT];
+	this->_index = configs[INDEX];
+	this->_clientMaxBodySize = atoi(configs[MAX_SIZE].c_str());
+	this->_errorPage = configs[ERROR_P];
 }
 ServerInfo::~ServerInfo(){}
+
+void ServerInfo::addLocation(locationPair location){this->_locations.insert(location);}
+
+void ServerInfo::printConfigs()
+{
+	std::cout << "ServerName: " << this->_serverName << std::endl;
+	std::cout << "Port: " << this->_port << std::endl;
+	std::cout << "Host: " << this->_host << std::endl;
+	std::cout << "Root: " << this->_root << std::endl;
+	std::cout << "Index: " << this->_index << std::endl;
+	std::cout << "ClientMaxBodySize: " << this->_clientMaxBodySize << std::endl;
+	std::cout << "ErrorPage: " << this->_errorPage << std::endl;
+	
+	for (locationMap::iterator it = this->_locations.begin(); it != this->_locations.end(); it++)
+	{
+		std::cout << "location: " << it->first << std::endl;
+		std::cout << "	Root: " << it->second.root << std::endl;
+		std::cout << "	Methods: ";
+
+		for (stringVector::iterator it2 = it->second.methods.begin(); it2 != it->second.methods.end(); it2++)
+			std::cout << *it2 << " ";
+		std::cout << std::endl;
+		std::cout << "	Redirect: " << it->second.redirect << std::endl;
+		std::cout << "	Autoindex: " << it->second.autoindex << std::endl;
+		std::cout << "	TryFile: " << it->second.tryFile << std::endl;
+		std::cout << "	HasCGI: " << it->second.hasCGI << std::endl;
+		std::cout << "	CGIPath: " << it->second.cgiPath << std::endl;
+		std::cout << "	CGIExtension: " << it->second.cgiExtension << std::endl;
+		std::cout << "	UploadTo: " << it->second.uploadTo << std::endl;
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+}

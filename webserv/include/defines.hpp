@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 20:06:30 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 00:11:02 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <iomanip>
 #include <map>
 #include <vector>
+#include <utility>
 
 // Default settings
 #define DEFAULT_CONF "system/default.conf"
@@ -38,10 +39,31 @@
 #define CLOSE_BRACKET_CHAR	'}'
 #define UNDERSCORE			'_'
 #define SEMICOLON			';'
+#define SPACE				' '
+#define SLASH				'/'
 #define SPACES				" \t\r\v\f"
 
 // Common typedefs
 typedef std::map<std::string, std::string>	stringMap;
+typedef std::vector<std::string>			stringVector;
+
+// keywords
+#define ALLOW_M		"allow_methods"
+#define AUTOID		"autoindex"
+#define CGI_E		"cgi_ext"
+#define CGI_P		"cgi_path"
+#define MAX_SIZE	"client_max_body_size"
+#define ERROR_P		"error_page"
+#define	HOST		"host"
+#define INDEX		"index"
+#define LISTEN		"listen"
+#define LOCATION	"location"
+#define RETURN		"return"
+#define ROOT		"root"
+#define SERVER		"server"
+#define SERVER_N	"server_name"
+#define TRY 		"try_file"
+#define UPLOAD		"upload_to"
 
 // Error messages
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"

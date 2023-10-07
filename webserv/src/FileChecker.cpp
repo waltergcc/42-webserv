@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 20:21:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 00:24:53 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ serverVector FileChecker::getServerConfigs()
 {
 	while (this->_token.type != END)
 	{
-		if (this->_token.value == "server")
+		if (this->_token.value == SERVER)
 			this->_parseServerBlock();
 
 		this->_token = this->getNextToken();
@@ -60,10 +60,10 @@ void FileChecker::_parseServerBlock()
 	{
 		previous = this->_token.value;
 
-		if (this->_token.value == "server")
+		if (this->_token.value == SERVER)
 			this->_token = this->getNextToken();
 		
-		if (previous == "server" && this->_token.type != OPEN_BRACKET)
+		if (previous == SERVER && this->_token.type != OPEN_BRACKET)
 			throw std::runtime_error(ERR_SERVER_BLOCK);
 
 		if (this->_token.type == OPEN_BRACKET)
@@ -71,11 +71,11 @@ void FileChecker::_parseServerBlock()
 		else if (this->_token.type == CLOSE_BRACKET)
 			bracket--;
 
-		if (this->_token.value == "location")
+		if (this->_token.value == LOCATION)
 			this->_parseLocationBlock(hasLocation);
 		else if (bracket == 0 && !hasLocation)
 		{
-			this->printMapAndLines();
+			this->_servers.push_back(ServerInfo(this->_configs));
 			return ;
 		}
 		else if (bracket == 0)
@@ -87,22 +87,101 @@ void FileChecker::_parseServerBlock()
 
 void FileChecker::_parseLocationBlock(bool &hasLocation)
 {
-	std::string tmp = this->_configs["location"];
+	std::string tmp = this->_configs[LOCATION];
 
 	if (!hasLocation)
 	{
 		hasLocation = true;
-		this->printMapAndLines();
+		this->_servers.push_back(ServerInfo(this->_configs));
 		this->_configs.clear();
-		this->_configs["location"] = tmp;
+		this->_configs[LOCATION] = tmp;
 	}
 
 	this->_token = this->getNextToken();
 	while (this->_token.type != CLOSE_BRACKET)
 		this->_token = this->getNextToken();
 	
-	this->printMapAndLines();
+	this->_servers.back().addLocation(this->_getLocationConfigs(this->_configs, this->_configs[LOCATION]));
 	this->_configs.clear();
+}
+
+static bool hasThisConfig(stringMap const &configs, std::string const &keyword)
+{
+	return (configs.count(keyword) > 0);
+}
+
+static stringVector getTokens(std::string const &s, char c)
+{
+	stringVector tokens;
+	std::stringstream ss(s);
+	std::string token;
+
+	while (std::getline(ss, token, c))
+	{
+		if (!token.empty())
+			tokens.push_back(token);
+	}
+	return tokens;
+}
+
+static void stringTrim(std::string &s, char const *set)
+{
+	s.erase(0, s.find_first_not_of(set));
+	s.erase(s.find_last_not_of(set) + 1);
+}
+
+locationPair FileChecker::_getLocationConfigs(stringMap const &configs, std::string &location)
+{
+	location_t	locationConfigs;
+	std::string	tmp;
+
+	if (hasThisConfig(configs, ROOT))
+	{
+		tmp = configs.find(ROOT)->second;
+		if (tmp[tmp.length() - 1] != '/')
+			locationConfigs.root = tmp + "/";
+		else
+			locationConfigs.root = tmp;
+	}
+
+	if (hasThisConfig(configs, ALLOW_M))
+		locationConfigs.methods = getTokens(configs.find(ALLOW_M)->second, SPACE);
+		
+	if (hasThisConfig(configs, RETURN))
+		locationConfigs.redirect = configs.find(RETURN)->second;
+		
+	if (hasThisConfig(configs, AUTOID))
+		locationConfigs.autoindex = configs.find(AUTOID)->second == "on" ? true : false;
+	else
+		locationConfigs.autoindex = false;
+		
+	if (hasThisConfig(configs, TRY))
+		locationConfigs.tryFile = configs.find(TRY)->second;
+		
+	if (hasThisConfig(configs, CGI_P) && hasThisConfig(configs, CGI_E))
+	{
+		locationConfigs.hasCGI = true;
+		tmp = configs.find(CGI_P)->second;
+		
+		if (tmp[tmp.length() - 1] != '/')
+			locationConfigs.cgiPath = tmp + "/";
+		else
+			locationConfigs.cgiPath = tmp;
+	}
+	else
+		locationConfigs.hasCGI = false;
+		
+	if (hasThisConfig(configs, UPLOAD))
+	{
+		tmp = configs.find(UPLOAD)->second;
+		if (tmp.at(0) == SLASH)
+			locationConfigs.uploadTo = tmp.erase(0, 1);
+		else
+			locationConfigs.uploadTo = tmp;
+	}
+	
+	stringTrim(location, SPACES);
+	return std::make_pair<std::string, location_t>(location, locationConfigs);			
 }
 
 //	---> Private getNextToken & its auxiliar methods -----------------------------
@@ -198,10 +277,9 @@ bool FileChecker::_isBracket(Token &token)
 
 static bool isValidKeyword(std::string const &s)
 {
-	return (s == "allow_methods" || s == "auto_index" || s == "cgi_ext" || s == "cgi_path"
-		|| s == "client_max_body_size" || s == "error_page" || s == "host" || s == "index"
-		|| s == "listen" || s == "location" || s == "return" || s == "root" || s == "server"
-		|| s == "server_name" || s == "try_file" || s == "upload_to");
+	return (s == ALLOW_M|| s == AUTOID || s == CGI_E|| s == CGI_P || s == MAX_SIZE 
+		|| s == ERROR_P || s == HOST || s == INDEX || s == LISTEN || s == LOCATION
+		|| s == RETURN || s == ROOT || s == SERVER || s == SERVER_N || s == TRY || s == UPLOAD);
 }
 
 static std::string intToString(int n)
@@ -228,7 +306,7 @@ bool FileChecker::_isKeyword(Token &token)
 			throw std::runtime_error(ERR_INVALID_KEY(token.value, intToString(this->_line)));
 		
 		token.type = KEYWORD;
-		if (token.value == "server")
+		if (token.value == SERVER)
 			return (this->_hasServer = true), true;
 
 		this->_getConfigContent(token.value);
@@ -246,7 +324,7 @@ void FileChecker::_getConfigContent(std::string const &keyword)
 		
 		std::string content = "";
 		
-		if (keyword == "location")
+		if (keyword == LOCATION)
 			this->_getLocationConfig(keyword, content);
 		else
 			this->_getCommonConfig(keyword, content);
@@ -281,7 +359,7 @@ void FileChecker::_getCommonConfig(std::string const &keyword, std::string &cont
 	{
 		if (this->_c == NEWLINE)
 			throw std::runtime_error(ERR_SEMICOLON(intToString(this->_line)));
-		if (std::isspace(this->_c) && keyword != "allow_methods")
+		if (std::isspace(this->_c) && keyword != ALLOW_M)
 			throw std::runtime_error(ERR_MANY_VALUES(keyword, intToString(this->_line)));
 			
 		content += this->_c;

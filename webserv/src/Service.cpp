@@ -32,6 +32,9 @@ Service::Service(int ac, char **av)
 	FileChecker	input(ac, av);
 	this->_servers = input.getServerConfigs();
 
+	for (serverVector::iterator it = this->_servers.begin(); it != this->_servers.end(); it++)
+		it->printConfigs();
+
 	endMessage();
 }
 

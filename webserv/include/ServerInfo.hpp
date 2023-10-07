@@ -16,13 +16,19 @@
 
 typedef struct location_s
 {
-	std::string	root;
-	std::string	redirect;
-	std::string	try_file;
-	std::string	uploadTo;
-}				location_t;
+	std::string		root;
+	stringVector	methods;
+	std::string		redirect;
+	bool			autoindex;
+	std::string		tryFile;
+	bool			hasCGI;
+	std::string		cgiPath;
+	std::string		cgiExtension;
+	std::string		uploadTo;
+}					location_t;
 
 typedef std::map<std::string, location_t> locationMap;
+typedef	std::pair<std::string, location_t> locationPair;
 
 class ServerInfo
 {
@@ -41,4 +47,7 @@ class ServerInfo
 	public:
 		ServerInfo(stringMap &configs);
 		~ServerInfo();
+
+		void addLocation(locationPair location);
+		void printConfigs();
 };
