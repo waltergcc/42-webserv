@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 12:04:36 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:13:55 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ FileChecker::~FileChecker()
 
 void FileChecker::getServerConfigs()
 {
-	// Token token = this->getNextToken();
-	
 	while (this->_token.type != END)
 	{
 		if (this->_token.value == "server")
