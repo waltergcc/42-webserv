@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/06 23:14:13 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:39:24 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <map>
+#include <vector>
 
 // Default settings
 #define DEFAULT_CONF "system/default.conf"
@@ -38,6 +39,9 @@
 #define UNDERSCORE			'_'
 #define SEMICOLON			';'
 #define SPACES				" \t\r\v\f"
+
+// Common typedefs
+typedef std::map<std::string, std::string>	stringMap;
 
 // Error messages
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"

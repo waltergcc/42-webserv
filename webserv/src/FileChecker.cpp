@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 12:22:49 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:43:51 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,7 @@ void FileChecker::_checkExtension()
 
 void FileChecker::printMapAndLines()
 {
-	std::map<std::string, std::string>::iterator it = this->_configs.begin();
+	stringMap::iterator it = this->_configs.begin();
 	for (; it != this->_configs.end(); it++)
 		std::cout << it->first << ": " << it->second << std::endl;
 	std::cout << "close line: " << this->_line << std::endl << std::endl;

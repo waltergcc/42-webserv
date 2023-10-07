@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Service.hpp                                         :+:      :+:    :+:   */
+/*   ServerInfo.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 16:09:38 by wcorrea-         ###   ########.fr       */
+/*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
+/*   Updated: 2023/10/01 16:12:41 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#include "ServerInfo.hpp"
 
-#include "defines.hpp"
-#include "FileChecker.hpp"
+// ---> Constructor and destructor --------------------------------------------
 
-class Service
+ServerInfo::ServerInfo()
 {
-	private:
-		Service();
+}
 
-	public:
-		Service(int ac, char **av);
-		~Service();
-};
+ServerInfo::~ServerInfo(){}

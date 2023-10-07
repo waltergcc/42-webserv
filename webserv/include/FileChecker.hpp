@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 12:22:23 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 19:40:54 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ class FileChecker
 		bool			_hasServer;
 		char			_c;
 		Token			_token;
-		
-		std::map<std::string, std::string>	_configs;
+		stringMap		_configs;
 
 		// check arguments and extensions methods
 		void _checkArguments(int ac, char **av);

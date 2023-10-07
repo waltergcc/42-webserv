@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Service.hpp                                         :+:      :+:    :+:   */
+/*   ServerInfo.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,14 +13,31 @@
 #pragma once
 
 #include "defines.hpp"
-#include "FileChecker.hpp"
 
-class Service
+typedef struct location_s
+{
+	std::string	root;
+	std::string	redirect;
+	std::string	try_file;
+	std::string	uploadTo;
+}				location_t;
+
+typedef std::map<std::string, location_t> locationMap;
+
+class ServerInfo
 {
 	private:
-		Service();
+		std::string _serverName;
+		std::string _port;
+		std::string _host;
+		std::string _root;
+		std::string _index;
+		size_t		_clientMaxBodySize;
+		locationMap	_locations;
+
+		ServerInfo();
 
 	public:
-		Service(int ac, char **av);
-		~Service();
+		ServerInfo(stringMap &configs);
+		~ServerInfo();
 };
