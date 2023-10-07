@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 12:19:07 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:22:49 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 FileChecker::FileChecker(int ac, char **av)
 {
 	this->_checkArguments(ac, av);
-	this->_checkExtension(this->_filePath);
+	this->_checkExtension();
 	this->_file.open(this->_filePath.c_str());
 
 	if (!this->_file.is_open())
@@ -299,15 +299,15 @@ void FileChecker::_checkArguments(int ac, char **av)
 		this->_filePath = DEFAULT_CONF;
 }
 
-void FileChecker::_checkExtension(std::string input)
+void FileChecker::_checkExtension()
 {
 	std::string filename; 
-	size_t 		slash = input.find_last_of("/");
+	size_t 		slash = this->_filePath.find_last_of("/");
 
 	if (slash == std::string::npos)
-		filename = input;
+		filename = this->_filePath;
 	else
-		filename = input.substr(slash + 1);
+		filename = this->_filePath.substr(slash + 1);
 
 	size_t dot = filename.find_last_of(".");
 	if (dot == std::string::npos ||	filename.substr(dot) != ".conf" || filename.length() <= 5)

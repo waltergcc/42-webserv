@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 12:04:05 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:22:23 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ class FileChecker
 		std::map<std::string, std::string>	_configs;
 
 		// check arguments and extensions methods
-		void _checkExtension(std::string input);
 		void _checkArguments(int ac, char **av);
+		void _checkExtension();
 
 		// getServerConfigs auxiliar methods
 		void _parseServerBlock();
