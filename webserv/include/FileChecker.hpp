@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 11:43:43 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:04:05 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ class FileChecker
 		int				_bracket;
 		bool			_hasServer;
 		char			_c;
+		Token			_token;
+		
 		std::map<std::string, std::string>	_configs;
 
 		// check arguments and extensions methods
@@ -43,8 +45,8 @@ class FileChecker
 		void _checkArguments(int ac, char **av);
 
 		// getServerConfigs auxiliar methods
-		void _parseServerBlock(Token &token);
-		void _parseLocationBlock(Token &token, bool &location);
+		void _parseServerBlock();
+		void _parseLocationBlock(bool &location);
 		
 		// getNextToken & its auxiliar methods
 		Token getNextToken();

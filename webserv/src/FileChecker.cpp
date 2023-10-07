@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 11:48:26 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:04:36 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ FileChecker::FileChecker(int ac, char **av)
 	this->_bracket = 0;
 	this->_hasServer = false;
 	this->_c = this->_file.get();
+	this->_token = this->getNextToken();
 }
 
 FileChecker::~FileChecker()
@@ -37,20 +38,20 @@ FileChecker::~FileChecker()
 
 void FileChecker::getServerConfigs()
 {
-	Token token = this->getNextToken();
+	// Token token = this->getNextToken();
 	
-	while (token.type != END)
+	while (this->_token.type != END)
 	{
-		if (token.value == "server")
-			this->_parseServerBlock(token);
+		if (this->_token.value == "server")
+			this->_parseServerBlock();
 
-		token = this->getNextToken();
+		this->_token = this->getNextToken();
 	}
 }
 
 //	---> Private getServerConfigs auxiliar methods -----------------------------
 
-void FileChecker::_parseServerBlock(Token &token)
+void FileChecker::_parseServerBlock()
 {
 	std::string previous;
 	bool		location = false;
@@ -58,21 +59,21 @@ void FileChecker::_parseServerBlock(Token &token)
 	
 	while (true)
 	{
-		previous = token.value;
+		previous = this->_token.value;
 
-		if (token.value == "server")
-			token = this->getNextToken();
+		if (this->_token.value == "server")
+			this->_token = this->getNextToken();
 		
-		if (previous == "server" && token.type != OPEN_BRACKET)
+		if (previous == "server" && this->_token.type != OPEN_BRACKET)
 			throw std::runtime_error(ERR_SERVER_BLOCK);
 
-		if (token.type == OPEN_BRACKET)
+		if (this->_token.type == OPEN_BRACKET)
 			bracket++;
-		else if (token.type == CLOSE_BRACKET)
+		else if (this->_token.type == CLOSE_BRACKET)
 			bracket--;
 
-		if (token.value == "location")
-			this->_parseLocationBlock(token, location);
+		if (this->_token.value == "location")
+			this->_parseLocationBlock(location);
 		else if (bracket == 0 && !location)
 		{
 			this->printMapAndLines();
@@ -81,11 +82,11 @@ void FileChecker::_parseServerBlock(Token &token)
 		else if (bracket == 0)
 			return;
 
-		token = this->getNextToken();
+		this->_token = this->getNextToken();
 	}
 }
 
-void FileChecker::_parseLocationBlock(Token &token, bool &location)
+void FileChecker::_parseLocationBlock(bool &location)
 {
 	std::string tmp = this->_configs["location"];
 
@@ -97,9 +98,9 @@ void FileChecker::_parseLocationBlock(Token &token, bool &location)
 		this->_configs["location"] = tmp;
 	}
 
-	token = this->getNextToken();
-	while (token.type != CLOSE_BRACKET)
-		token = this->getNextToken();
+	this->_token = this->getNextToken();
+	while (this->_token.type != CLOSE_BRACKET)
+		this->_token = this->getNextToken();
 	
 	this->printMapAndLines();
 	this->_configs.clear();
