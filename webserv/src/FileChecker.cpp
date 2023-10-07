@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 12:13:55 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/07 12:19:07 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void FileChecker::getServerConfigs()
 void FileChecker::_parseServerBlock()
 {
 	std::string previous;
-	bool		location = false;
+	bool		hasLocation = false;
 	int			bracket = 0;
 	
 	while (true)
@@ -71,8 +71,8 @@ void FileChecker::_parseServerBlock()
 			bracket--;
 
 		if (this->_token.value == "location")
-			this->_parseLocationBlock(location);
-		else if (bracket == 0 && !location)
+			this->_parseLocationBlock(hasLocation);
+		else if (bracket == 0 && !hasLocation)
 		{
 			this->printMapAndLines();
 			return ;
@@ -84,13 +84,13 @@ void FileChecker::_parseServerBlock()
 	}
 }
 
-void FileChecker::_parseLocationBlock(bool &location)
+void FileChecker::_parseLocationBlock(bool &hasLocation)
 {
 	std::string tmp = this->_configs["location"];
 
-	if (!location)
+	if (!hasLocation)
 	{
-		location = true;
+		hasLocation = true;
 		this->printMapAndLines();
 		this->_configs.clear();
 		this->_configs["location"] = tmp;
