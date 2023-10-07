@@ -17,9 +17,12 @@ class Service
 {
 	private:
 		Service();
+
+		// Parse Input private methods
 		void _checkArguments(int ac, char **av);
 		void _parseConfigFile(std::string input);
-		void _parseBlock(FileChecker &file, Token &token, bool location, int bracket);
+		void _parseServerBlock(FileChecker &file, Token &token, bool location, int bracket);
+		void _parseLocationBlock(FileChecker &file, Token &token, bool &location);
 		
 	public:
 		Service(int ac, char **av);
