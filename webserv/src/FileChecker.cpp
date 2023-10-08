@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 01:31:51 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:47:55 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,6 @@ void FileChecker::_parseLocationBlock(bool &hasLocation)
 	this->_configs.clear();
 }
 
-static bool hasThisConfig(stringMap const &configs, std::string const &keyword)
-{
-	return (configs.count(keyword) > 0);
-}
-
 static stringVector getTokens(std::string const &s, char c)
 {
 	stringVector tokens;
@@ -151,24 +146,24 @@ locationPair FileChecker::_getLocation(stringMap const &configs, std::string &lo
 {
 	location_t	location;
 
-	if (hasThisConfig(configs, ROOT))
+	if (this->_hasThis(ROOT))
 		location.root = getPathFixed(configs.find(ROOT)->second, false);
 
-	if (hasThisConfig(configs, ALLOW_M))
+	if (this->_hasThis(ALLOW_M))
 		location.methods = getTokens(configs.find(ALLOW_M)->second, SPACE);
 		
-	if (hasThisConfig(configs, RETURN))
+	if (this->_hasThis(RETURN))
 		location.redirect = configs.find(RETURN)->second;
 		
-	if (hasThisConfig(configs, AUTOID))
+	if (this->_hasThis(AUTOID))
 		location.autoindex = configs.find(AUTOID)->second == "on" ? true : false;
 	else
 		location.autoindex = false;
 		
-	if (hasThisConfig(configs, TRY))
+	if (this->_hasThis(TRY))
 		location.tryFile = configs.find(TRY)->second;
 		
-	if (hasThisConfig(configs, CGI_P) && hasThisConfig(configs, CGI_E))
+	if (this->_hasThis(CGI_P) && this->_hasThis(CGI_E))
 	{
 		location.hasCGI = true;
 		location.cgiPath = getPathFixed(configs.find(CGI_P)->second, false);
@@ -176,11 +171,16 @@ locationPair FileChecker::_getLocation(stringMap const &configs, std::string &lo
 	else
 		location.hasCGI = false;
 		
-	if (hasThisConfig(configs, UPLOAD))
+	if (this->_hasThis(UPLOAD))
 		location.uploadTo = getPathFixed(configs.find(UPLOAD)->second, true);
 	
 	stringTrim(locationPath, SPACES);
 	return std::make_pair<std::string, location_t>(locationPath, location);			
+}
+
+bool FileChecker::_hasThis(std::string const &keyword)
+{
+	return (this->_configs.find(keyword) != this->_configs.end());
 }
 
 //	---> Private getNextToken & its auxiliar methods -----------------------------
