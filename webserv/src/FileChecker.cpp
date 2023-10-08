@@ -6,11 +6,47 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 01:53:15 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 02:22:16 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FileChecker.hpp"
+
+//	---> Static methods --------------------------------------------------------
+
+static bool isValidKeyword(std::string const &s)
+{
+	return (s == ALLOW_M|| s == AUTOID || s == CGI_E|| s == CGI_P || s == MAX_SIZE 
+		|| s == ERROR_P || s == HOST || s == INDEX || s == LISTEN || s == LOCATION
+		|| s == RETURN || s == ROOT || s == SERVER || s == SERVER_N || s == TRY || s == UPLOAD);
+}
+
+static std::string intToString(int n)
+{
+	std::stringstream ss;
+	ss << n;
+	return ss.str();
+}
+
+static stringVector getTokens(std::string const &s, char c)
+{
+	stringVector tokens;
+	std::stringstream ss(s);
+	std::string token;
+
+	while (std::getline(ss, token, c))
+	{
+		if (!token.empty())
+			tokens.push_back(token);
+	}
+	return tokens;
+}
+
+static void stringTrim(std::string &s, char const *set)
+{
+	s.erase(0, s.find_first_not_of(set));
+	s.erase(s.find_last_not_of(set) + 1);
+}
 
 //	---> Constructor and destructor --------------------------------------------
 
@@ -34,6 +70,7 @@ FileChecker::~FileChecker()
 {
 	this->_file.close();
 }
+
 //	---> Public Methods --------------------------------------------------------
 
 serverVector FileChecker::getServerConfigs()
@@ -101,33 +138,54 @@ void FileChecker::_parseLocationBlock(bool &hasLocation)
 	while (this->_token.type != CLOSE_BRACKET)
 		this->_token = this->getNextToken();
 	
-	this->_servers.back().addLocation(this->_getLocation(this->_configs, this->_configs[LOCATION]));
+	this->_servers.back().addLocation(this->_getLocation(this->_configs[LOCATION]));
 	this->_configs.clear();
 }
 
-static stringVector getTokens(std::string const &s, char c)
+locationPair FileChecker::_getLocation(std::string &locationPath)
 {
-	stringVector tokens;
-	std::stringstream ss(s);
-	std::string token;
+	location_t	location;
 
-	while (std::getline(ss, token, c))
+	if (this->_hasThis(ROOT))
+		location.root = this->_getPathFixed(ROOT, false);
+
+	if (this->_hasThis(ALLOW_M))
+		location.methods = getTokens(this->_getValue(ALLOW_M), SPACE);
+		
+	if (this->_hasThis(RETURN))
+		location.redirect = this->_getValue(RETURN);
+		
+	if (this->_hasThis(AUTOID))
+		location.autoindex = this->_getValue(AUTOID) == "on" ? true : false;
+	else
+		location.autoindex = false;
+		
+	if (this->_hasThis(TRY))
+		location.tryFile = this->_getValue(TRY);
+		
+	if (this->_hasThis(CGI_P) && this->_hasThis(CGI_E))
 	{
-		if (!token.empty())
-			tokens.push_back(token);
+		location.hasCGI = true;
+		location.cgiPath = this->_getPathFixed(CGI_P, false);
 	}
-	return tokens;
+	else
+		location.hasCGI = false;
+		
+	if (this->_hasThis(UPLOAD))
+		location.uploadTo = this->_getPathFixed(UPLOAD, true);
+	
+	stringTrim(locationPath, SPACES);
+	return std::make_pair<std::string, location_t>(locationPath, location);			
 }
 
-static void stringTrim(std::string &s, char const *set)
+bool FileChecker::_hasThis(std::string const &keyword)
 {
-	s.erase(0, s.find_first_not_of(set));
-	s.erase(s.find_last_not_of(set) + 1);
+	return (this->_configs.find(keyword) != this->_configs.end());
 }
 
-static std::string getPathFixed(std::string const &path, bool isUpload)
+std::string FileChecker::_getPathFixed(std::string const &keyword, bool isUpload)
 {
-	std::string tmp = path;
+	std::string tmp = this->_getValue(keyword);
 
 	if (isUpload)
 	{
@@ -142,45 +200,9 @@ static std::string getPathFixed(std::string const &path, bool isUpload)
 	return tmp;
 }
 
-locationPair FileChecker::_getLocation(stringMap const &configs, std::string &locationPath)
+std::string	FileChecker::_getValue(std::string const &keyword)
 {
-	location_t	location;
-
-	if (this->_hasThis(ROOT))
-		location.root = getPathFixed(configs.find(ROOT)->second, false);
-
-	if (this->_hasThis(ALLOW_M))
-		location.methods = getTokens(configs.find(ALLOW_M)->second, SPACE);
-		
-	if (this->_hasThis(RETURN))
-		location.redirect = configs.find(RETURN)->second;
-		
-	if (this->_hasThis(AUTOID))
-		location.autoindex = configs.find(AUTOID)->second == "on" ? true : false;
-	else
-		location.autoindex = false;
-		
-	if (this->_hasThis(TRY))
-		location.tryFile = configs.find(TRY)->second;
-		
-	if (this->_hasThis(CGI_P) && this->_hasThis(CGI_E))
-	{
-		location.hasCGI = true;
-		location.cgiPath = getPathFixed(configs.find(CGI_P)->second, false);
-	}
-	else
-		location.hasCGI = false;
-		
-	if (this->_hasThis(UPLOAD))
-		location.uploadTo = getPathFixed(configs.find(UPLOAD)->second, true);
-	
-	stringTrim(locationPath, SPACES);
-	return std::make_pair<std::string, location_t>(locationPath, location);			
-}
-
-bool FileChecker::_hasThis(std::string const &keyword)
-{
-	return (this->_configs.find(keyword) != this->_configs.end());
+	return this->_configs.find(keyword)->second;
 }
 
 //	---> Private getNextToken & its auxiliar methods -----------------------------
@@ -274,20 +296,6 @@ bool FileChecker::_isBracket(Token &token)
 	return false;
 }
 
-static bool isValidKeyword(std::string const &s)
-{
-	return (s == ALLOW_M|| s == AUTOID || s == CGI_E|| s == CGI_P || s == MAX_SIZE 
-		|| s == ERROR_P || s == HOST || s == INDEX || s == LISTEN || s == LOCATION
-		|| s == RETURN || s == ROOT || s == SERVER || s == SERVER_N || s == TRY || s == UPLOAD);
-}
-
-static std::string intToString(int n)
-{
-	std::stringstream ss;
-	ss << n;
-	return ss.str();
-}
-
 bool FileChecker::_isKeyword(Token &token)
 {
 	if (std::isalpha(this->_c))
@@ -365,6 +373,7 @@ void FileChecker::_getCommonConfig(std::string const &keyword, std::string &cont
 		this->_c = this->_file.get();
 	}
 }
+
 //	---> Private Check arguments and extensions methods ---------------------------------
 
 void FileChecker::_checkArguments(int ac, char **av)
