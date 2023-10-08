@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 01:47:55 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:53:15 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -390,12 +390,4 @@ void FileChecker::_checkExtension()
 	size_t dot = filename.find_last_of(".");
 	if (dot == std::string::npos ||	filename.substr(dot) != ".conf" || filename.length() <= 5)
 		throw std::runtime_error("'" + filename + "'" + ERR_FILE);
-}
-
-void FileChecker::printMapAndLines()
-{
-	stringMap::iterator it = this->_configs.begin();
-	for (; it != this->_configs.end(); it++)
-		std::cout << it->first << ": " << it->second << std::endl;
-	std::cout << "close line: " << this->_line << std::endl << std::endl;
 }

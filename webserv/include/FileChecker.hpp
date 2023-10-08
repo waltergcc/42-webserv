@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 01:41:45 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:53:24 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ class FileChecker
 		void _getCommonConfig(std::string const &keyword, std::string &content);
 		
 		FileChecker();
-		void printMapAndLines();
 		
 	public:
 		FileChecker(int ac, char **av);
