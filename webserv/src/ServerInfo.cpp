@@ -16,6 +16,8 @@
 
 ServerInfo::ServerInfo(stringMap &configs)
 {
+	this->_checkKeywords(configs);
+
 	this->_serverName = configs[SERVER_N];
 	this->_port = configs[LISTEN];
 	this->_host = configs[HOST];
@@ -25,6 +27,28 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_errorPage = configs[ERROR_P];
 }
 ServerInfo::~ServerInfo(){}
+
+// ---> Private functions -----------------------------------------------------
+
+void ServerInfo::_checkKeywords(stringMap &configs)
+{
+	std::string const mustHave[] = {SERVER_N, LISTEN, HOST, ROOT, INDEX, MAX_SIZE, ERROR_P};
+	std::string const forbidden[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
+
+	for (int i = 0; i < 7; i++)
+	{
+		if (configs.find(mustHave[i]) == configs.end())
+			throw std::runtime_error(ERR_KEYWORD_MISSING(mustHave[i]));
+	}
+
+	for (int i = 0; i < 6; i++)
+	{
+		if (configs.find(forbidden[i]) != configs.end())
+			throw std::runtime_error(ERR_FORBIDDEN_KEYWORD(forbidden[i]));
+	}
+}
+
+// ---> Public functions ------------------------------------------------------
 
 void ServerInfo::addLocation(locationPair location){this->_locations.insert(location);}
 

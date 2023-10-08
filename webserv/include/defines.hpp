@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 00:11:02 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 16:35:16 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,5 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_UNCLOSED_BRACKETS			"Unclosed brackets"
 #define ERR_NO_SERVER_CONFIG			"No server configuration found"
 #define ERR_SERVER_BLOCK				"Missing '{' after 'server' keyword"
+#define ERR_KEYWORD_MISSING(keyword)	"Missing keyword '" + keyword + "' in server block"
+#define ERR_FORBIDDEN_KEYWORD(keyword)	"Keyword '" + keyword + "' is not allowed in server block"
