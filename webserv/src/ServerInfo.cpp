@@ -32,11 +32,11 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_serverName = configs[SERVER_N];
 	this->_host = configs[HOST];
 	this->_root = getPathFixed(configs[ROOT]);
+	this->_index = configs[INDEX];
+	this->_errorPage = this->_CheckAndGetErrorPage(configs[ERROR_P]);
 
 	this->_port = configs[LISTEN];
-	this->_index = configs[INDEX];
 	this->_clientMaxBodySize = atoi(configs[MAX_SIZE].c_str());
-	this->_errorPage = configs[ERROR_P];
 }
 ServerInfo::~ServerInfo(){}
 
@@ -58,6 +58,16 @@ void ServerInfo::_checkKeywords(stringMap &configs)
 		if (configs.find(forbidden[i]) != configs.end())
 			throw std::runtime_error(ERR_FORBIDDEN_KEYWORD(forbidden[i]));
 	}
+}
+
+std::string ServerInfo::_CheckAndGetErrorPage(std::string const &errorPage)
+{
+	std::string path = this->_root + errorPage;
+
+	std::cout << "path: " << path << std::endl;
+	if (access(path.c_str(), R_OK) != 0)
+		throw std::runtime_error(ERR_ERROR_PAGE);
+	return (errorPage);
 }
 
 // ---> Public functions ------------------------------------------------------
