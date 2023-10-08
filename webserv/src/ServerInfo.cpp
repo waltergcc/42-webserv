@@ -32,6 +32,40 @@ static std::string getValidPort(std::string const &port)
 	return (port);
 }
 
+static size_t getConvertedMaxSize(std::string const &size)
+{
+	std::string	c;
+	std::string	sub;
+	double		tmp;
+
+	if (!isdigit(size[size.length() - 1]))
+	{
+		sub = size.substr(0, size.length() - 1);
+		c = size.substr(size.length() - 1);
+	}
+
+	if ((c.empty() && size.find_first_not_of(DECIMAL) != std::string::npos)
+		|| c.find_first_not_of(SUFIX_BYTES) != std::string::npos
+		|| sub.find_first_not_of(DECIMAL) != std::string::npos)
+		throw std::runtime_error(ERR_MAX_SIZE_INPUT(size));
+	
+	if (c.empty())
+		tmp = std::atof(size.c_str());
+	else if (c == "b" || c == "B")
+		tmp = std::atof(sub.c_str());
+	else if (c == "k" || c == "K")
+		tmp = std::atof(sub.c_str()) * 1024;
+	else if (c == "m" || c == "M")
+		tmp = std::atof(sub.c_str()) * 1024 * 1024;
+	else if (c == "g" || c == "G")
+		tmp = std::atof(sub.c_str()) * 1024 * 1024 * 1024;
+
+	if (tmp > MAX_SIZE_LIMIT)
+		throw std::runtime_error(ERR_MAX_SIZE_RANGE(size));
+
+	return static_cast<size_t>(tmp);
+}
+
 // ---> Constructor and destructor --------------------------------------------
 
 ServerInfo::ServerInfo(stringMap &configs)
@@ -44,8 +78,7 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_index = configs[INDEX];
 	this->_errorPage = this->_CheckAndGetErrorPage(configs[ERROR_P]);
 	this->_port = getValidPort(configs[LISTEN]);
-
-	this->_clientMaxBodySize = atoi(configs[MAX_SIZE].c_str());
+	this->_clientMaxBodySize = getConvertedMaxSize(configs[MAX_SIZE]);
 }
 ServerInfo::~ServerInfo(){}
 
