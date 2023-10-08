@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 00:24:53 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 01:31:51 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void FileChecker::_parseLocationBlock(bool &hasLocation)
 	while (this->_token.type != CLOSE_BRACKET)
 		this->_token = this->getNextToken();
 	
-	this->_servers.back().addLocation(this->_getLocationConfigs(this->_configs, this->_configs[LOCATION]));
+	this->_servers.back().addLocation(this->_getLocation(this->_configs, this->_configs[LOCATION]));
 	this->_configs.clear();
 }
 
@@ -130,58 +130,57 @@ static void stringTrim(std::string &s, char const *set)
 	s.erase(s.find_last_not_of(set) + 1);
 }
 
-locationPair FileChecker::_getLocationConfigs(stringMap const &configs, std::string &location)
+static std::string getPathFixed(std::string const &path, bool isUpload)
 {
-	location_t	locationConfigs;
-	std::string	tmp;
+	std::string tmp = path;
+
+	if (isUpload)
+	{
+		if (tmp.at(0) == SLASH)
+			tmp.erase(0, 1);
+	}
+	else
+	{
+		if (tmp[tmp.length() - 1] != '/')
+			tmp += "/";
+	}
+	return tmp;
+}
+
+locationPair FileChecker::_getLocation(stringMap const &configs, std::string &locationPath)
+{
+	location_t	location;
 
 	if (hasThisConfig(configs, ROOT))
-	{
-		tmp = configs.find(ROOT)->second;
-		if (tmp[tmp.length() - 1] != '/')
-			locationConfigs.root = tmp + "/";
-		else
-			locationConfigs.root = tmp;
-	}
+		location.root = getPathFixed(configs.find(ROOT)->second, false);
 
 	if (hasThisConfig(configs, ALLOW_M))
-		locationConfigs.methods = getTokens(configs.find(ALLOW_M)->second, SPACE);
+		location.methods = getTokens(configs.find(ALLOW_M)->second, SPACE);
 		
 	if (hasThisConfig(configs, RETURN))
-		locationConfigs.redirect = configs.find(RETURN)->second;
+		location.redirect = configs.find(RETURN)->second;
 		
 	if (hasThisConfig(configs, AUTOID))
-		locationConfigs.autoindex = configs.find(AUTOID)->second == "on" ? true : false;
+		location.autoindex = configs.find(AUTOID)->second == "on" ? true : false;
 	else
-		locationConfigs.autoindex = false;
+		location.autoindex = false;
 		
 	if (hasThisConfig(configs, TRY))
-		locationConfigs.tryFile = configs.find(TRY)->second;
+		location.tryFile = configs.find(TRY)->second;
 		
 	if (hasThisConfig(configs, CGI_P) && hasThisConfig(configs, CGI_E))
 	{
-		locationConfigs.hasCGI = true;
-		tmp = configs.find(CGI_P)->second;
-		
-		if (tmp[tmp.length() - 1] != '/')
-			locationConfigs.cgiPath = tmp + "/";
-		else
-			locationConfigs.cgiPath = tmp;
+		location.hasCGI = true;
+		location.cgiPath = getPathFixed(configs.find(CGI_P)->second, false);
 	}
 	else
-		locationConfigs.hasCGI = false;
+		location.hasCGI = false;
 		
 	if (hasThisConfig(configs, UPLOAD))
-	{
-		tmp = configs.find(UPLOAD)->second;
-		if (tmp.at(0) == SLASH)
-			locationConfigs.uploadTo = tmp.erase(0, 1);
-		else
-			locationConfigs.uploadTo = tmp;
-	}
+		location.uploadTo = getPathFixed(configs.find(UPLOAD)->second, true);
 	
-	stringTrim(location, SPACES);
-	return std::make_pair<std::string, location_t>(location, locationConfigs);			
+	stringTrim(locationPath, SPACES);
+	return std::make_pair<std::string, location_t>(locationPath, location);			
 }
 
 //	---> Private getNextToken & its auxiliar methods -----------------------------
