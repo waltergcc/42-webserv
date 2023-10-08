@@ -51,5 +51,6 @@
 		"typeinfo": "cpp",
 		"cerrno": "cpp",
 		"climits": "cpp"
-	}
+	},
+	"C_Cpp.errorSquiggles": "disabled"
 }
