@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 02:22:16 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 02:33:53 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,11 @@ void FileChecker::_parseLocationBlock(bool &hasLocation)
 	while (this->_token.type != CLOSE_BRACKET)
 		this->_token = this->getNextToken();
 	
-	this->_servers.back().addLocation(this->_getLocation(this->_configs[LOCATION]));
+	this->_servers.back().addLocation(this->_getLocation());
 	this->_configs.clear();
 }
 
-locationPair FileChecker::_getLocation(std::string &locationPath)
+locationPair FileChecker::_getLocation()
 {
 	location_t	location;
 
@@ -174,8 +174,8 @@ locationPair FileChecker::_getLocation(std::string &locationPath)
 	if (this->_hasThis(UPLOAD))
 		location.uploadTo = this->_getPathFixed(UPLOAD, true);
 	
-	stringTrim(locationPath, SPACES);
-	return std::make_pair<std::string, location_t>(locationPath, location);			
+	stringTrim(this->_configs[LOCATION], SPACES);
+	return std::make_pair<std::string, location_t>(this->_configs[LOCATION], location);			
 }
 
 bool FileChecker::_hasThis(std::string const &keyword)
