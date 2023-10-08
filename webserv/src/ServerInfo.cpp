@@ -12,6 +12,17 @@
 
 #include "ServerInfo.hpp"
 
+// ---> Static functions ------------------------------------------------------
+
+static std::string getPathFixed(std::string const &path)
+{
+	std::string tmp = path;
+
+	if (tmp[tmp.length() - 1] != SLASH)
+		tmp += "/";
+	return (tmp);
+}
+
 // ---> Constructor and destructor --------------------------------------------
 
 ServerInfo::ServerInfo(stringMap &configs)
@@ -19,9 +30,10 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_checkKeywords(configs);
 
 	this->_serverName = configs[SERVER_N];
-	this->_port = configs[LISTEN];
 	this->_host = configs[HOST];
-	this->_root = configs[ROOT];
+	this->_root = getPathFixed(configs[ROOT]);
+
+	this->_port = configs[LISTEN];
 	this->_index = configs[INDEX];
 	this->_clientMaxBodySize = atoi(configs[MAX_SIZE].c_str());
 	this->_errorPage = configs[ERROR_P];
