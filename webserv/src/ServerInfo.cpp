@@ -23,6 +23,15 @@ static std::string getPathFixed(std::string const &path)
 	return (tmp);
 }
 
+static std::string getValidPort(std::string const &port)
+{
+	int tmp = atoi(port.c_str());
+
+	if (port.find_first_not_of(DECIMAL) != std::string::npos || tmp < 0 || tmp > 65535)
+		throw std::runtime_error(ERR_PORT_INPUT(port));
+	return (port);
+}
+
 // ---> Constructor and destructor --------------------------------------------
 
 ServerInfo::ServerInfo(stringMap &configs)
@@ -34,8 +43,8 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_root = getPathFixed(configs[ROOT]);
 	this->_index = configs[INDEX];
 	this->_errorPage = this->_CheckAndGetErrorPage(configs[ERROR_P]);
+	this->_port = getValidPort(configs[LISTEN]);
 
-	this->_port = configs[LISTEN];
 	this->_clientMaxBodySize = atoi(configs[MAX_SIZE].c_str());
 }
 ServerInfo::~ServerInfo(){}
@@ -64,7 +73,6 @@ std::string ServerInfo::_CheckAndGetErrorPage(std::string const &errorPage)
 {
 	std::string path = this->_root + errorPage;
 
-	std::cout << "path: " << path << std::endl;
 	if (access(path.c_str(), R_OK) != 0)
 		throw std::runtime_error(ERR_ERROR_PAGE);
 	return (errorPage);

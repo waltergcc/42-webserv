@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 17:40:16 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:14:43 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 #define SPACE				' '
 #define SLASH				'/'
 #define SPACES				" \t\r\v\f"
+#define DECIMAL				"0123456789"
 
 // Common typedefs
 typedef std::map<std::string, std::string>	stringMap;
@@ -82,3 +83,4 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_KEYWORD_MISSING(keyword)	"Missing keyword '" + keyword + "' in server block"
 #define ERR_FORBIDDEN_KEYWORD(keyword)	"Keyword '" + keyword + "' is not allowed in server block"
 #define ERR_ERROR_PAGE					"Invalide error page"
+#define ERR_PORT_INPUT(port)			"'"+ port + "' is not a valid port number. Port must be a number between 0 and 65535"
