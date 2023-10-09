@@ -45,7 +45,9 @@ class ServerInfo
 		locationMap	_locations;
 
 		void		_checkKeywords(stringMap &configs);
+		std::string	_getValidPort(std::string const &port);
 		std::string	_checkAndGetErrorPage(std::string const &errorPage);
+		size_t		_getConvertedMaxSize(std::string const &size);
 		std::string _generateErrorResponse();
 
 		ServerInfo();

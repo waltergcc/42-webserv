@@ -12,9 +12,44 @@
 
 #include "ServerInfo.hpp"
 
-// ---> Static functions ------------------------------------------------------
+// ---> Constructor and destructor --------------------------------------------
 
-static std::string getValidPort(std::string const &port)
+ServerInfo::ServerInfo(stringMap &configs)
+{
+	this->_checkKeywords(configs);
+
+	this->_serverName = configs[SERVER_N];
+	this->_host = configs[HOST];
+	this->_root = getPathWithSlashAtEnd(configs[ROOT]);
+	this->_index = configs[INDEX];
+	this->_errorPage = this->_checkAndGetErrorPage(configs[ERROR_P]);
+	this->_port = this->_getValidPort(configs[LISTEN]);
+	this->_clientMaxBodySize = this->_getConvertedMaxSize(configs[MAX_SIZE]);
+	this->_errorResponse = this->_generateErrorResponse();
+}
+ServerInfo::~ServerInfo(){}
+
+// ---> Private functions -----------------------------------------------------
+
+void ServerInfo::_checkKeywords(stringMap &configs)
+{
+	std::string const mustHave[] = {SERVER_N, LISTEN, HOST, ROOT, INDEX, MAX_SIZE, ERROR_P};
+	std::string const forbidden[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
+
+	for (int i = 0; i < 7; i++)
+	{
+		if (configs.find(mustHave[i]) == configs.end())
+			throw std::runtime_error(ERR_KEYWORD_MISSING(mustHave[i]));
+	}
+
+	for (int i = 0; i < 6; i++)
+	{
+		if (configs.find(forbidden[i]) != configs.end())
+			throw std::runtime_error(ERR_FORBIDDEN_KEYWORD(forbidden[i]));
+	}
+}
+
+std::string ServerInfo::_getValidPort(std::string const &port)
 {
 	int tmp = atoi(port.c_str());
 
@@ -23,7 +58,7 @@ static std::string getValidPort(std::string const &port)
 	return (port);
 }
 
-static size_t getConvertedMaxSize(std::string const &size)
+size_t ServerInfo::_getConvertedMaxSize(std::string const &size)
 {
 	std::string	c;
 	std::string	sub;
@@ -57,43 +92,6 @@ static size_t getConvertedMaxSize(std::string const &size)
 	return static_cast<size_t>(tmp);
 }
 
-// ---> Constructor and destructor --------------------------------------------
-
-ServerInfo::ServerInfo(stringMap &configs)
-{
-	this->_checkKeywords(configs);
-
-	this->_serverName = configs[SERVER_N];
-	this->_host = configs[HOST];
-	this->_root = getPathWithSlashAtEnd(configs[ROOT]);
-	this->_index = configs[INDEX];
-	this->_errorPage = this->_checkAndGetErrorPage(configs[ERROR_P]);
-	this->_port = getValidPort(configs[LISTEN]);
-	this->_clientMaxBodySize = getConvertedMaxSize(configs[MAX_SIZE]);
-	this->_errorResponse = this->_generateErrorResponse();
-}
-ServerInfo::~ServerInfo(){}
-
-// ---> Private functions -----------------------------------------------------
-
-void ServerInfo::_checkKeywords(stringMap &configs)
-{
-	std::string const mustHave[] = {SERVER_N, LISTEN, HOST, ROOT, INDEX, MAX_SIZE, ERROR_P};
-	std::string const forbidden[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
-
-	for (int i = 0; i < 7; i++)
-	{
-		if (configs.find(mustHave[i]) == configs.end())
-			throw std::runtime_error(ERR_KEYWORD_MISSING(mustHave[i]));
-	}
-
-	for (int i = 0; i < 6; i++)
-	{
-		if (configs.find(forbidden[i]) != configs.end())
-			throw std::runtime_error(ERR_FORBIDDEN_KEYWORD(forbidden[i]));
-	}
-}
-
 std::string ServerInfo::_checkAndGetErrorPage(std::string const &errorPage)
 {
 	std::string path = this->_root + errorPage;
@@ -116,10 +114,12 @@ std::string ServerInfo::_generateErrorResponse()
 	return (response + getFileContent(path));
 }
 
-
 // ---> Public functions ------------------------------------------------------
 
-void ServerInfo::addLocation(locationPair location){this->_locations.insert(location);}
+void ServerInfo::addLocation(locationPair location)
+{
+	this->_locations.insert(location);
+}
 
 void ServerInfo::printConfigs()
 {
