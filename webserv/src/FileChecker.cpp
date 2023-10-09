@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 02:33:53 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:45:33 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ static bool isValidKeyword(std::string const &s)
 	return (s == ALLOW_M|| s == AUTOID || s == CGI_E|| s == CGI_P || s == MAX_SIZE 
 		|| s == ERROR_P || s == HOST || s == INDEX || s == LISTEN || s == LOCATION
 		|| s == RETURN || s == ROOT || s == SERVER || s == SERVER_N || s == TRY || s == UPLOAD);
-}
-
-static std::string intToString(int n)
-{
-	std::stringstream ss;
-	ss << n;
-	return ss.str();
 }
 
 static stringVector getTokens(std::string const &s, char c)

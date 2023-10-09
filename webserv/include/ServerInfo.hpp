@@ -13,6 +13,7 @@
 #pragma once
 
 #include "defines.hpp"
+#include "utils.hpp"
 
 typedef struct location_s
 {

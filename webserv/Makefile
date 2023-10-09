@@ -6,7 +6,7 @@
 #    By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/30 11:36:55 by wcorrea-          #+#    #+#              #
-#    Updated: 2023/10/07 20:22:54 by wcorrea-         ###   ########.fr        #
+#    Updated: 2023/10/09 15:37:48 by wcorrea-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME = webserv
 SRC = src/main.cpp \
 		src/Service.cpp \
 		src/FileChecker.cpp \
-		src/ServerInfo.cpp
+		src/ServerInfo.cpp \
+		src/utils.cpp
 
 OBJS = ${SRC:.cpp=.o}
 

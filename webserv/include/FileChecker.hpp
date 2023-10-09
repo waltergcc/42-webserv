@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 02:34:28 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:40:26 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "defines.hpp"
 #include "ServerInfo.hpp"
+#include "utils.hpp"
 
 enum eToken
 {

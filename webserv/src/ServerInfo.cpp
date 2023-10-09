@@ -112,13 +112,6 @@ static std::string getFileType(std::string const &file)
 	return ("text/plain");
 }
 
-static std::string intToString(int n)
-{
-	std::stringstream ss;
-	ss << n;
-	return ss.str();
-}
-
 // ---> Constructor and destructor --------------------------------------------
 
 ServerInfo::ServerInfo(stringMap &configs)
