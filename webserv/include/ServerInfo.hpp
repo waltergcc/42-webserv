@@ -40,10 +40,12 @@ class ServerInfo
 		std::string _index;
 		size_t		_clientMaxBodySize;
 		std::string _errorPage;
+		std::string _errorResponse;
 		locationMap	_locations;
 
-		void _checkKeywords(stringMap &configs);
-		std::string _CheckAndGetErrorPage(std::string const &errorPage);
+		void		_checkKeywords(stringMap &configs);
+		std::string	_CheckAndGetErrorPage(std::string const &errorPage);
+		std::string _generateErrorResponse();
 
 		ServerInfo();
 

@@ -66,6 +66,59 @@ static size_t getConvertedMaxSize(std::string const &size)
 	return static_cast<size_t>(tmp);
 }
 
+static std::string getFileContent(std::string const &path)
+{
+	std::string content;
+	std::ifstream file(path.c_str(), std::ios::binary | std::ios::in);
+
+	content.assign((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	file.close();
+	return (content);
+}
+
+static std::string getTimeStamp()
+{
+	time_t		now = time(0);
+	struct tm	tstruct;
+	char		buf[80];
+
+	tstruct = *localtime(&now);
+	strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &tstruct);
+	return (buf);
+}
+
+static std::string getFileType(std::string const &file)
+{
+	stringMap types;
+
+	types["txt"] = "text/plain";
+	types["html"] = "text/html";
+	types["css"] = "text/css";
+
+	types["js"] = "application/javascript";
+	types["py"] = "application/python";
+
+	types["jpg"] = "image/jpg";
+	types["jpeg"] = "image/jpeg";
+	types["png"] = "image/png";
+	types["gif"] = "image/gif";
+
+	if (file.find_last_of(".") != std::string::npos)
+	{
+		std::string extension = file.substr(file.find_last_of(".") + 1);
+		if (types.find(extension) != types.end())
+			return (types[extension]);
+	}
+	return ("text/plain");
+}
+
+static std::string intToString(int n)
+{
+	std::stringstream ss;
+	ss << n;
+	return ss.str();
+}
+
 // ---> Constructor and destructor --------------------------------------------
 
 ServerInfo::ServerInfo(stringMap &configs)
@@ -79,6 +132,7 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_errorPage = this->_CheckAndGetErrorPage(configs[ERROR_P]);
 	this->_port = getValidPort(configs[LISTEN]);
 	this->_clientMaxBodySize = getConvertedMaxSize(configs[MAX_SIZE]);
+	this->_errorResponse = this->_generateErrorResponse();
 }
 ServerInfo::~ServerInfo(){}
 
@@ -110,6 +164,20 @@ std::string ServerInfo::_CheckAndGetErrorPage(std::string const &errorPage)
 		throw std::runtime_error(ERR_ERROR_PAGE);
 	return (errorPage);
 }
+
+std::string ServerInfo::_generateErrorResponse()
+{
+	std::string path = this->_root + this->_errorPage;
+	std::string response = 
+		"HTTP/1.1 404 Not Found\n"
+		"Date: " + getTimeStamp() + "\n" +
+		"Server: Webserv/1.0.0 (Linux)\n" +
+		"Content-Type: " + getFileType(path) + "\n" +
+		"Content-Length: " + intToString(getFileContent(path).length()) + "\n\n";
+
+	return (response + getFileContent(path));
+}
+
 
 // ---> Public functions ------------------------------------------------------
 
@@ -143,5 +211,6 @@ void ServerInfo::printConfigs()
 		std::cout << "	UploadTo: " << it->second.uploadTo << std::endl;
 		std::cout << std::endl;
 	}
+	std::cout << "Error Reponse ↓" << std::endl << this->_errorResponse << std::endl;
 	std::cout << std::endl;
 }
