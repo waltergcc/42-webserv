@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 23:12:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 23:30:17 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ typedef std::vector<std::string>			stringVector;
 #define TRY 		"try_file"
 #define UPLOAD		"upload_to"
 
-// FileChecker check input erros
+// FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
 #define ERR_FILE						" is a invalid file\n\tFile must have a name and must be .conf"
 #define ERR_OPEN						"Couldn't open file "
 
-// FileChecker getNextToken & auxiliar erros
+// FileChecker getNextToken & its auxiliar methods errors
 #define ERR_INVALID_KEY(token, line)	"Invalid keyword '" + token + "' at line " + line
 #define ERR_MISSING_VALUE(token, line)		"Missing value for keyword '" + token + "' at line " + line
 #define ERR_MISSING_OPEN_BRACKET(line)	"Missing '{' at line " + line
@@ -88,9 +88,11 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_UNCLOSED_BRACKETS			"Unclosed brackets"
 #define ERR_NO_SERVER_CONFIG			"No server configuration found"
 
-// FileChecker getServerConfigs & auxiliar erros
+// FileChecker getServerConfigs & its auxiliar methods errors
 #define ERR_BLOCK_START(token, line)	"Invalid block start with '" + token + "' at line " + line + ". Expected 'server' keyword"
 #define ERR_SERVER_BLOCK				"Missing '{' after 'server' keyword"
+
+// ServerInfo constructor & its auxiliar methods errors
 #define ERR_KEYWORD_MISSING(keyword)	"Missing keyword '" + keyword + "' in server block"
 #define ERR_FORBIDDEN_KEYWORD(keyword)	"Keyword '" + keyword + "' is not allowed in server block"
 #define ERR_DUPLICATE_NAME(name)		"Duplicate server name '" + name + "'. Server names must be unique"
