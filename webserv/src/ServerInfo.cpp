@@ -27,10 +27,11 @@ ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &server
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(configs[MAX_SIZE]);
 	this->_errorResponse = this->_generateErrorResponse();
 	this->_isDefault = this->_checkDefaultServer(servers);
+	this->_socket = 0;
 }
 ServerInfo::~ServerInfo()
 {
-	if (this->_socket)
+	if (this->_socket != 0)
 		close(this->_socket);
 }
 
