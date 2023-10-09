@@ -18,7 +18,7 @@ ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &server
 {
 	this->_checkKeywords(configs);
 
-	this->_serverName = configs[SERVER_N];
+	this->_serverName = this->_getValidName(servers, configs[SERVER_N]);
 	this->_host = configs[HOST];
 	this->_root = getPathWithSlashAtEnd(configs[ROOT]);
 	this->_index = configs[INDEX];
@@ -26,7 +26,7 @@ ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &server
 	this->_port = this->_getValidPort(configs[LISTEN]);
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(configs[MAX_SIZE]);
 	this->_errorResponse = this->_generateErrorResponse();
-	this->_isDefault = this->_isDefaultServer(servers);
+	this->_isDefault = this->_checkDefaultServer(servers);
 }
 ServerInfo::~ServerInfo()
 {
@@ -52,6 +52,17 @@ void ServerInfo::_checkKeywords(stringMap &configs)
 		if (configs.find(forbidden[i]) != configs.end())
 			throw std::runtime_error(ERR_FORBIDDEN_KEYWORD(forbidden[i]));
 	}
+}
+
+std::string ServerInfo::_getValidName(std::vector<ServerInfo> const &servers, std::string const &name)
+{
+	std::vector<ServerInfo>::const_iterator previous = servers.begin();
+	for (; previous != servers.end(); previous++)
+	{
+		if (previous->_serverName == name)
+			throw std::runtime_error(ERR_DUPLICATE_NAME(name));
+	}
+	return name;
 }
 
 std::string ServerInfo::_getValidPort(std::string const &port)
@@ -119,7 +130,7 @@ std::string ServerInfo::_generateErrorResponse()
 	return (response + getFileContent(path));
 }
 
-bool ServerInfo::_isDefaultServer(std::vector<ServerInfo> const &servers)
+bool ServerInfo::_checkDefaultServer(std::vector<ServerInfo> const &servers)
 {
 	std::vector<ServerInfo>::const_iterator previous = servers.begin();
 	for (; previous != servers.end(); previous++)
