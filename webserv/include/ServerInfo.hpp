@@ -43,6 +43,7 @@ class ServerInfo
 		std::string _errorPage;
 		std::string _errorResponse;
 		locationMap	_locations;
+		bool		_isDefault;
 		int			_socket;
 
 		void		_checkKeywords(stringMap &configs);
@@ -50,11 +51,12 @@ class ServerInfo
 		std::string	_checkAndGetErrorPage(std::string const &errorPage);
 		size_t		_getConvertedMaxSize(std::string const &size);
 		std::string _generateErrorResponse();
+		bool		_isDefaultServer(std::vector<ServerInfo> const &servers);
 
 		ServerInfo();
 
 	public:
-		ServerInfo(stringMap &configs);
+		ServerInfo(stringMap &configs, std::vector<ServerInfo> const &servers);
 		~ServerInfo();
 
 		void addLocation(locationPair location);

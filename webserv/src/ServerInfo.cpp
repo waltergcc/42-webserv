@@ -14,7 +14,7 @@
 
 // ---> Constructor and destructor --------------------------------------------
 
-ServerInfo::ServerInfo(stringMap &configs)
+ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &servers)
 {
 	this->_checkKeywords(configs);
 
@@ -26,6 +26,7 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_port = this->_getValidPort(configs[LISTEN]);
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(configs[MAX_SIZE]);
 	this->_errorResponse = this->_generateErrorResponse();
+	this->_isDefault = this->_isDefaultServer(servers);
 }
 ServerInfo::~ServerInfo()
 {
@@ -118,6 +119,17 @@ std::string ServerInfo::_generateErrorResponse()
 	return (response + getFileContent(path));
 }
 
+bool ServerInfo::_isDefaultServer(std::vector<ServerInfo> const &servers)
+{
+	std::vector<ServerInfo>::const_iterator previous = servers.begin();
+	for (; previous != servers.end(); previous++)
+	{
+		if (previous->_host == this->_host && previous->_port == this->_port)
+			return false;
+	}
+	return true;
+}
+
 // ---> Public functions ------------------------------------------------------
 
 void ServerInfo::addLocation(locationPair location)
@@ -147,6 +159,7 @@ void ServerInfo::printConfigs()
 	std::cout << "Index: " << this->_index << std::endl;
 	std::cout << "ClientMaxBodySize: " << this->_clientMaxBodySize << std::endl;
 	std::cout << "ErrorPage: " << this->_errorPage << std::endl;
+	std::cout << "IsDefault: " << this->_isDefault << std::endl;
 	
 	for (locationMap::iterator it = this->_locations.begin(); it != this->_locations.end(); it++)
 	{
@@ -166,6 +179,6 @@ void ServerInfo::printConfigs()
 		std::cout << "	UploadTo: " << it->second.uploadTo << std::endl;
 		std::cout << std::endl;
 	}
-	std::cout << "Error Reponse ↓" << std::endl << this->_errorResponse << std::endl;
+	// std::cout << "Error Reponse ↓" << std::endl << this->_errorResponse << std::endl;
 	std::cout << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 16:13:32 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:25:59 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void FileChecker::_parseServerBlock()
 			this->_parseLocationBlock(hasLocation);
 		else if (bracket == 0 && !hasLocation)
 		{
-			this->_servers.push_back(ServerInfo(this->_configs));
+			this->_servers.push_back(ServerInfo(this->_configs, this->_servers));
 			return ;
 		}
 		else if (bracket == 0)
@@ -93,7 +93,7 @@ void FileChecker::_parseLocationBlock(bool &hasLocation)
 	if (!hasLocation)
 	{
 		hasLocation = true;
-		this->_servers.push_back(ServerInfo(this->_configs));
+		this->_servers.push_back(ServerInfo(this->_configs, this->_servers));
 		this->_configs.clear();
 		this->_configs[LOCATION] = tmp;
 	}
