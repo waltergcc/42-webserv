@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 18:20:15 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 21:49:35 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
 #define ERR_OPEN						"Couldn't open file "
 #define ERR_FILE						" is a invalid file\n\tFile must have a name and must be .conf"
-#define ERR_MANDATORY					"server_name, listen, host are mandatory fields"
 #define ERR_INVALID_KEY(token, line)	"Invalid keyword '" + token + "' at line " + line
 #define ERR_MISSING_VALUE(token, line)		"Missing value for keyword '" + token + "' at line " + line
 #define ERR_MISSING_OPEN_BRACKET(line)	"Missing '{' at line " + line
