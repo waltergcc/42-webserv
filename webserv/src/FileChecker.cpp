@@ -6,40 +6,11 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 15:45:33 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:55:28 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FileChecker.hpp"
-
-//	---> Static methods --------------------------------------------------------
-
-static bool isValidKeyword(std::string const &s)
-{
-	return (s == ALLOW_M|| s == AUTOID || s == CGI_E|| s == CGI_P || s == MAX_SIZE 
-		|| s == ERROR_P || s == HOST || s == INDEX || s == LISTEN || s == LOCATION
-		|| s == RETURN || s == ROOT || s == SERVER || s == SERVER_N || s == TRY || s == UPLOAD);
-}
-
-static stringVector getTokens(std::string const &s, char c)
-{
-	stringVector tokens;
-	std::stringstream ss(s);
-	std::string token;
-
-	while (std::getline(ss, token, c))
-	{
-		if (!token.empty())
-			tokens.push_back(token);
-	}
-	return tokens;
-}
-
-static void stringTrim(std::string &s, char const *set)
-{
-	s.erase(0, s.find_first_not_of(set));
-	s.erase(s.find_last_not_of(set) + 1);
-}
 
 //	---> Constructor and destructor --------------------------------------------
 
@@ -143,7 +114,7 @@ locationPair FileChecker::_getLocation()
 		location.root = this->_getPathFixed(ROOT, false);
 
 	if (this->_hasThis(ALLOW_M))
-		location.methods = getTokens(this->_getValue(ALLOW_M), SPACE);
+		location.methods = getStringTokens(this->_getValue(ALLOW_M), SPACE);
 		
 	if (this->_hasThis(RETURN))
 		location.redirect = this->_getValue(RETURN);
