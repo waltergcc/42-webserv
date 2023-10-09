@@ -57,52 +57,6 @@ static size_t getConvertedMaxSize(std::string const &size)
 	return static_cast<size_t>(tmp);
 }
 
-static std::string getFileContent(std::string const &path)
-{
-	std::string content;
-	std::ifstream file(path.c_str(), std::ios::binary | std::ios::in);
-
-	content.assign((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-	file.close();
-	return (content);
-}
-
-static std::string getTimeStamp()
-{
-	time_t		now = time(0);
-	struct tm	tstruct;
-	char		buf[80];
-
-	tstruct = *localtime(&now);
-	strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &tstruct);
-	return (buf);
-}
-
-static std::string getFileType(std::string const &file)
-{
-	stringMap types;
-
-	types["txt"] = "text/plain";
-	types["html"] = "text/html";
-	types["css"] = "text/css";
-
-	types["js"] = "application/javascript";
-	types["py"] = "application/python";
-
-	types["jpg"] = "image/jpg";
-	types["jpeg"] = "image/jpeg";
-	types["png"] = "image/png";
-	types["gif"] = "image/gif";
-
-	if (file.find_last_of(".") != std::string::npos)
-	{
-		std::string extension = file.substr(file.find_last_of(".") + 1);
-		if (types.find(extension) != types.end())
-			return (types[extension]);
-	}
-	return ("text/plain");
-}
-
 // ---> Constructor and destructor --------------------------------------------
 
 ServerInfo::ServerInfo(stringMap &configs)
@@ -113,7 +67,7 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_host = configs[HOST];
 	this->_root = getPathWithSlashAtEnd(configs[ROOT]);
 	this->_index = configs[INDEX];
-	this->_errorPage = this->_CheckAndGetErrorPage(configs[ERROR_P]);
+	this->_errorPage = this->_checkAndGetErrorPage(configs[ERROR_P]);
 	this->_port = getValidPort(configs[LISTEN]);
 	this->_clientMaxBodySize = getConvertedMaxSize(configs[MAX_SIZE]);
 	this->_errorResponse = this->_generateErrorResponse();
@@ -140,7 +94,7 @@ void ServerInfo::_checkKeywords(stringMap &configs)
 	}
 }
 
-std::string ServerInfo::_CheckAndGetErrorPage(std::string const &errorPage)
+std::string ServerInfo::_checkAndGetErrorPage(std::string const &errorPage)
 {
 	std::string path = this->_root + errorPage;
 

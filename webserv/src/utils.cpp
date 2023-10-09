@@ -6,11 +6,20 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 16:10:07 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:19:48 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.hpp"
+
+// ---> Boolean checkers -----------------------------------------------------
+
+bool isValidKeyword(std::string const &s)
+{
+	return (s == ALLOW_M|| s == AUTOID || s == CGI_E|| s == CGI_P || s == MAX_SIZE 
+		|| s == ERROR_P || s == HOST || s == INDEX || s == LISTEN || s == LOCATION
+		|| s == RETURN || s == ROOT || s == SERVER || s == SERVER_N || s == TRY || s == UPLOAD);
+}
 
 //	---> String Utils --------------------------------------------------------
 
@@ -59,11 +68,52 @@ std::string getPathWithoutSlashAtBegin(std::string const &path)
 	return tmp;
 }
 
-// ---> Boolean checkers -----------------------------------------------------
+// ---> Time Utils -----------------------------------------------------------
 
-bool isValidKeyword(std::string const &s)
+std::string getTimeStamp()
 {
-	return (s == ALLOW_M|| s == AUTOID || s == CGI_E|| s == CGI_P || s == MAX_SIZE 
-		|| s == ERROR_P || s == HOST || s == INDEX || s == LISTEN || s == LOCATION
-		|| s == RETURN || s == ROOT || s == SERVER || s == SERVER_N || s == TRY || s == UPLOAD);
+	time_t		now = time(0);
+	struct tm	tstruct;
+	char		buf[80];
+
+	tstruct = *localtime(&now);
+	strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &tstruct);
+	return (buf);
+}
+
+// ---> File Utils -----------------------------------------------------------
+
+std::string getFileContent(std::string const &path)
+{
+	std::string content;
+	std::ifstream file(path.c_str(), std::ios::binary | std::ios::in);
+
+	content.assign((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	file.close();
+	return (content);
+}
+
+std::string getFileType(std::string const &file)
+{
+	stringMap types;
+
+	types["txt"] = "text/plain";
+	types["html"] = "text/html";
+	types["css"] = "text/css";
+
+	types["js"] = "application/javascript";
+	types["py"] = "application/python";
+
+	types["jpg"] = "image/jpg";
+	types["jpeg"] = "image/jpeg";
+	types["png"] = "image/png";
+	types["gif"] = "image/gif";
+
+	if (file.find_last_of(".") != std::string::npos)
+	{
+		std::string extension = file.substr(file.find_last_of(".") + 1);
+		if (types.find(extension) != types.end())
+			return (types[extension]);
+	}
+	return ("text/plain");
 }

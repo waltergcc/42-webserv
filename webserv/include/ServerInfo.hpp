@@ -45,7 +45,7 @@ class ServerInfo
 		locationMap	_locations;
 
 		void		_checkKeywords(stringMap &configs);
-		std::string	_CheckAndGetErrorPage(std::string const &errorPage);
+		std::string	_checkAndGetErrorPage(std::string const &errorPage);
 		std::string _generateErrorResponse();
 
 		ServerInfo();
