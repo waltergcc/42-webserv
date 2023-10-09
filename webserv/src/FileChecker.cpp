@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 22:26:06 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 23:13:01 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ serverVector FileChecker::getServerConfigs()
 {
 	while (this->_token.type != END)
 	{
-		if (this->_token.value == SERVER)
-			this->_parseServerBlock();
-
+		this->_parseServerBlock();
 		this->_token = this->getNextToken();
 	}
 	return (this->_servers);
@@ -56,6 +54,9 @@ void FileChecker::_parseServerBlock()
 	std::string previous;
 	bool		hasLocation = false;
 	int			bracket = 0;
+
+	if (this->_token.value != SERVER)
+		throw std::runtime_error(ERR_BLOCK_START(this->_token.value, intToString(this->_line)));
 	
 	while (true)
 	{

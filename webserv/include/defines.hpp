@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 21:49:35 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 23:12:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,12 @@ typedef std::vector<std::string>			stringVector;
 #define TRY 		"try_file"
 #define UPLOAD		"upload_to"
 
-// Error messages
+// FileChecker check input erros
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
-#define ERR_OPEN						"Couldn't open file "
 #define ERR_FILE						" is a invalid file\n\tFile must have a name and must be .conf"
+#define ERR_OPEN						"Couldn't open file "
+
+// FileChecker getNextToken & auxiliar erros
 #define ERR_INVALID_KEY(token, line)	"Invalid keyword '" + token + "' at line " + line
 #define ERR_MISSING_VALUE(token, line)		"Missing value for keyword '" + token + "' at line " + line
 #define ERR_MISSING_OPEN_BRACKET(line)	"Missing '{' at line " + line
@@ -85,6 +87,9 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_SEMICOLON(line)				"Missing ';' at line " + line
 #define ERR_UNCLOSED_BRACKETS			"Unclosed brackets"
 #define ERR_NO_SERVER_CONFIG			"No server configuration found"
+
+// FileChecker getServerConfigs & auxiliar erros
+#define ERR_BLOCK_START(token, line)	"Invalid block start with '" + token + "' at line " + line + ". Expected 'server' keyword"
 #define ERR_SERVER_BLOCK				"Missing '{' after 'server' keyword"
 #define ERR_KEYWORD_MISSING(keyword)	"Missing keyword '" + keyword + "' in server block"
 #define ERR_FORBIDDEN_KEYWORD(keyword)	"Keyword '" + keyword + "' is not allowed in server block"
