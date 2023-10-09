@@ -194,3 +194,7 @@ void ServerInfo::printConfigs()
 	// std::cout << "Error Reponse ↓" << std::endl << this->_errorResponse << std::endl;
 	std::cout << std::endl;
 }
+
+// ---> Getters ---------------------------------------------------------------
+
+bool ServerInfo::getIsDefault() const{return this->_isDefault;}

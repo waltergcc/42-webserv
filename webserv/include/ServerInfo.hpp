@@ -63,4 +63,6 @@ class ServerInfo
 		void addLocation(locationPair location);
 		void createSocket();
 		void printConfigs();
+
+		bool getIsDefault() const;
 };

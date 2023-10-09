@@ -19,6 +19,10 @@ class Service
 {
 	private:
 		serverVector	_servers;
+		size_t			_defaultServers;
+
+		size_t _countDefaultServers();
+		
 		Service();
 
 	public:

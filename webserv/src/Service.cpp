@@ -31,11 +31,29 @@ Service::Service(int ac, char **av)
 
 	FileChecker	input(ac, av);
 	this->_servers = input.getServerConfigs();
+	this->_defaultServers = this->_countDefaultServers();
 
 	for (serverVector::iterator it = this->_servers.begin(); it != this->_servers.end(); it++)
 		it->printConfigs();
+	
+	std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
 
 	endMessage();
 }
 
 Service::~Service(){}
+
+// ---> Private member functions ---------------------------------------------
+
+size_t Service::_countDefaultServers()
+{
+	serverVector::iterator it = this->_servers.begin();
+	size_t count = 0;
+
+	for (; it != this->_servers.end(); it++)
+	{
+		if (it->getIsDefault() == true)
+			count++;
+	}
+	return count;
+}
