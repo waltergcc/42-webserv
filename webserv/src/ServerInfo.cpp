@@ -27,7 +27,11 @@ ServerInfo::ServerInfo(stringMap &configs)
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(configs[MAX_SIZE]);
 	this->_errorResponse = this->_generateErrorResponse();
 }
-ServerInfo::~ServerInfo(){}
+ServerInfo::~ServerInfo()
+{
+	if (this->_socket)
+		close(this->_socket);
+}
 
 // ---> Private functions -----------------------------------------------------
 
@@ -119,6 +123,19 @@ std::string ServerInfo::_generateErrorResponse()
 void ServerInfo::addLocation(locationPair location)
 {
 	this->_locations.insert(location);
+}
+
+void ServerInfo::createSocket()
+{
+	if (!this->_socket)
+	{
+		this->_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+		if (this->_socket < 0)
+			throw std::runtime_error(ERR_SOCKET(this->_serverName));
+	}
+	else
+		std::cout << "Socket already created" << std::endl;
 }
 
 void ServerInfo::printConfigs()

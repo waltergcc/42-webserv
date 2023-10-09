@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/08 23:41:07 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:50:49 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 #include <limits>
 #include <climits>
 #include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 // Default settings
 #define DEFAULT_CONF	 "system/default.conf"
@@ -91,3 +93,4 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_PORT_INPUT(port)			"'"+ port + "' is not a valid port number. Port must be a number between 0 and 65535"
 #define ERR_MAX_SIZE_INPUT(size)		"'" + size + "' is not a valid size. Size must be a number positive or a number followed by a sufix (b - B, k - K, m - M, g - G)"
 #define ERR_MAX_SIZE_RANGE(size)		"'" + size + "' is not a valid size. The max value allowed is 10G (10737418240 bytes)"
+#define ERR_SOCKET(server)				"failed to create network socket for server " + server

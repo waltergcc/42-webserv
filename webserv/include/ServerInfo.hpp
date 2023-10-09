@@ -43,6 +43,7 @@ class ServerInfo
 		std::string _errorPage;
 		std::string _errorResponse;
 		locationMap	_locations;
+		int			_socket;
 
 		void		_checkKeywords(stringMap &configs);
 		std::string	_getValidPort(std::string const &port);
@@ -57,5 +58,6 @@ class ServerInfo
 		~ServerInfo();
 
 		void addLocation(locationPair location);
+		void createSocket();
 		void printConfigs();
 };
