@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 17:25:59 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 22:26:06 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,9 @@ void FileChecker::_getConfigContent(std::string const &keyword)
 
 		this->_configs[keyword] = content;
 	}
+	else if (this->_c == SEMICOLON)
+		throw std::runtime_error(ERR_MISSING_VALUE(keyword, intToString(this->_line)));
+		
 	this->_c = this->_file.get();
 }
 
