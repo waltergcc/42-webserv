@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 15:54:57 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:10:07 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,24 @@ void stringTrim(std::string &s, char const *set)
 {
 	s.erase(0, s.find_first_not_of(set));
 	s.erase(s.find_last_not_of(set) + 1);
+}
+
+std::string getPathWithSlashAtEnd(std::string const &path)
+{
+	std::string tmp = path;
+
+	if (tmp[tmp.length() - 1] != SLASH)
+		tmp += "/";
+	return tmp;
+}
+
+std::string getPathWithoutSlashAtBegin(std::string const &path)
+{
+	std::string tmp = path;
+
+	if (tmp.at(0) == SLASH)
+		tmp.erase(0, 1);
+	return tmp;
 }
 
 // ---> Boolean checkers -----------------------------------------------------

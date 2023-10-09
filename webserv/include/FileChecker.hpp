@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 15:40:26 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:14:11 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ class FileChecker
 		void			_parseLocationBlock(bool &location);
 		locationPair	_getLocation();
 		bool			_hasThis(std::string const &keyword);
-		std::string		_getPathFixed(std::string const &keyword, bool isUpload);
 		std::string		_getValue(std::string const &keyword);
 		
 		// getNextToken & its auxiliar methods

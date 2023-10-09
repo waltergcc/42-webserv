@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 15:55:28 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:13:32 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ locationPair FileChecker::_getLocation()
 	location_t	location;
 
 	if (this->_hasThis(ROOT))
-		location.root = this->_getPathFixed(ROOT, false);
+		location.root = getPathWithSlashAtEnd(this->_getValue(ROOT));
 
 	if (this->_hasThis(ALLOW_M))
 		location.methods = getStringTokens(this->_getValue(ALLOW_M), SPACE);
@@ -130,13 +130,13 @@ locationPair FileChecker::_getLocation()
 	if (this->_hasThis(CGI_P) && this->_hasThis(CGI_E))
 	{
 		location.hasCGI = true;
-		location.cgiPath = this->_getPathFixed(CGI_P, false);
+		location.cgiPath = getPathWithSlashAtEnd(this->_getValue(CGI_P));
 	}
 	else
 		location.hasCGI = false;
 		
 	if (this->_hasThis(UPLOAD))
-		location.uploadTo = this->_getPathFixed(UPLOAD, true);
+		location.uploadTo = getPathWithoutSlashAtBegin(this->_getValue(UPLOAD));
 	
 	stringTrim(this->_configs[LOCATION], SPACES);
 	return std::make_pair<std::string, location_t>(this->_configs[LOCATION], location);			
@@ -145,23 +145,6 @@ locationPair FileChecker::_getLocation()
 bool FileChecker::_hasThis(std::string const &keyword)
 {
 	return (this->_configs.find(keyword) != this->_configs.end());
-}
-
-std::string FileChecker::_getPathFixed(std::string const &keyword, bool isUpload)
-{
-	std::string tmp = this->_getValue(keyword);
-
-	if (isUpload)
-	{
-		if (tmp.at(0) == SLASH)
-			tmp.erase(0, 1);
-	}
-	else
-	{
-		if (tmp[tmp.length() - 1] != '/')
-			tmp += "/";
-	}
-	return tmp;
 }
 
 std::string	FileChecker::_getValue(std::string const &keyword)

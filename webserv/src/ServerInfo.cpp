@@ -14,15 +14,6 @@
 
 // ---> Static functions ------------------------------------------------------
 
-static std::string getPathFixed(std::string const &path)
-{
-	std::string tmp = path;
-
-	if (tmp[tmp.length() - 1] != SLASH)
-		tmp += "/";
-	return (tmp);
-}
-
 static std::string getValidPort(std::string const &port)
 {
 	int tmp = atoi(port.c_str());
@@ -120,7 +111,7 @@ ServerInfo::ServerInfo(stringMap &configs)
 
 	this->_serverName = configs[SERVER_N];
 	this->_host = configs[HOST];
-	this->_root = getPathFixed(configs[ROOT]);
+	this->_root = getPathWithSlashAtEnd(configs[ROOT]);
 	this->_index = configs[INDEX];
 	this->_errorPage = this->_CheckAndGetErrorPage(configs[ERROR_P]);
 	this->_port = getValidPort(configs[LISTEN]);
