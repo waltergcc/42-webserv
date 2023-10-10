@@ -21,11 +21,17 @@ class Service
 		serverVector	_servers;
 		size_t			_defaultServers;
 
-		size_t _countDefaultServers();
+		// Constructor auxiliar
+		size_t	_countDefaultServers();
+
+		// bootServers auxiliars
+		void	_setServersAddress(addrinfo *parameters, addrinfo *itAdress);
 		
 		Service();
 
 	public:
 		Service(int ac, char **av);
 		~Service();
+
+		void bootServers();
 };

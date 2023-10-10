@@ -28,11 +28,12 @@ Service::Service(int ac, char **av)
 		it->printConfigs();
 	
 	std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
-
-	printInfo(END_MSG, BLUE);
 }
 
-Service::~Service(){}
+Service::~Service()
+{
+	printInfo(END_MSG, GREEN);
+}
 
 // ---> Private member functions ---------------------------------------------
 
@@ -47,4 +48,27 @@ size_t Service::_countDefaultServers()
 			count++;
 	}
 	return count;
+}
+
+void Service::_setServersAddress(addrinfo *parameters, addrinfo *itAdress)
+{
+	(void)parameters;
+	(void)itAdress;
+	std::cout << "	   --> Set server address called" << std::endl;
+}
+
+// ---> Public member functions ----------------------------------------------
+
+void Service::bootServers()
+{
+	printInfo(BOOT_MSG, BLUE);
+	addrinfo	*itAdress = NULL;
+	addrinfo	parameters;
+
+	std::memset(&parameters, 0, sizeof(parameters));
+	parameters.ai_family = AF_INET;			// IPv4
+	parameters.ai_socktype = SOCK_STREAM;	// TCP
+	parameters.ai_protocol = IPPROTO_TCP;	// TCP
+
+	this->_setServersAddress(&parameters, itAdress);
 }

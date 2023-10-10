@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/10 11:53:33 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:09:03 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 // standart libraries
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <exception>
 #include <fstream>
 #include <sstream>
@@ -28,6 +29,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netdb.h>
 
 // Default settings
 #define DEFAULT_CONF	"system/default.conf"
@@ -78,6 +80,7 @@ typedef std::vector<std::string>			stringVector;
 // Log messages
 #define START_MSG	"Starting Webserv Engine..."
 #define END_MSG		"Webserv work is done. Goodbye!"
+#define BOOT_MSG	"Booting servers..."
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
