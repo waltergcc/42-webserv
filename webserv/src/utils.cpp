@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 16:19:48 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/10 11:51:37 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,17 @@ std::string getPathWithoutSlashAtBegin(std::string const &path)
 
 // ---> Time Utils -----------------------------------------------------------
 
+std::string getTime()
+{
+	time_t		now = time(0);
+	struct tm	tstruct;
+	char		buf[9];
+
+	tstruct = *localtime(&now);
+	strftime(buf, sizeof(buf), "%H:%M:%S", &tstruct);
+	return (buf);
+}
+
 std::string getTimeStamp()
 {
 	time_t		now = time(0);
@@ -116,4 +127,17 @@ std::string getFileType(std::string const &file)
 			return (types[extension]);
 	}
 	return ("text/plain");
+}
+
+// ---> Log Utils ------------------------------------------------------------
+
+void printInfo(std::string const &s, std::string const &color)
+{
+	if (s == START_MSG)
+		std::cout << CLEAR;
+		
+	std::cout << color << "[" << getTime() << "] " << RESET << s << std::endl;
+	
+	if (s == START_MSG)
+		std::cout << std::endl;
 }

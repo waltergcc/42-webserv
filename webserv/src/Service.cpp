@@ -12,22 +12,13 @@
 
 #include "Service.hpp"
 #include "FileChecker.hpp"
+#include "utils.hpp"
 
 // ---> Constructor and destructor --------------------------------------------
 
-static void startMessage()
-{
-	std::cout << CLEAR << "Starting webserv..." << std::endl << std::endl;
-}
-
-static void endMessage()
-{
-	std::cout << GREEN << "Webserv .conf file read successfully!" << RESET << std::endl;
-}
-
 Service::Service(int ac, char **av)
 {
-	startMessage();
+	printInfo(START_MSG, GREEN);
 
 	FileChecker	input(ac, av);
 	this->_servers = input.getServerConfigs();
@@ -38,7 +29,7 @@ Service::Service(int ac, char **av)
 	
 	std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
 
-	endMessage();
+	printInfo(END_MSG, BLUE);
 }
 
 Service::~Service(){}

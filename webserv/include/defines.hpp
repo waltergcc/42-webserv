@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 23:30:17 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/10 11:49:05 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@
 // Custom Outputs
 #define RED		"\033[0;31m"
 #define GREEN	"\033[0;32m"
+#define BLUE	"\033[0;34m"
 #define RESET	"\033[0m"
-#define CLEAR	"\033[2J\033[1;1H"
+#define CLEAR	"\033c"
 
 // Charsets
 #define NEWLINE				'\n'
@@ -73,6 +74,10 @@ typedef std::vector<std::string>			stringVector;
 #define SERVER_N	"server_name"
 #define TRY 		"try_file"
 #define UPLOAD		"upload_to"
+
+// Log messages
+#define START_MSG	"Starting Webserv Engine..."
+#define END_MSG		"Webserv work is done. Goodbye!"
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"

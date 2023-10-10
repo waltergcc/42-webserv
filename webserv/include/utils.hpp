@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:24 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/09 16:21:19 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/10 11:51:37 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ std::string		getPathWithoutSlashAtBegin(std::string const &path);
 
 // ---> Time Utils ----------------------------------------------------------
 
+std::string		getTime();
 std::string		getTimeStamp();
 
 // ---> File Utils ----------------------------------------------------------
@@ -35,3 +36,6 @@ std::string		getTimeStamp();
 std::string		getFileContent(std::string const &path);
 std::string		getFileType(std::string const &file);
 
+// ---> Display Utils -----------------------------------------------------------
+
+void			printInfo(std::string const &s, std::string const &color);
