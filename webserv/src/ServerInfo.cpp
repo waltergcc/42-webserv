@@ -111,6 +111,9 @@ size_t ServerInfo::_getConvertedMaxSize(std::string const &size)
 
 std::string ServerInfo::_checkAndGetPage(std::string const &page)
 {
+	if (!hasThisExtension(page, EXT_HTML))
+		throw std::runtime_error(ERR_PAGE_EXT(page));
+
 	std::string path = this->_root + page;
 
 	if (!isReadbleFile(path))

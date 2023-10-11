@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 15:54:18 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:25:40 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 
 // Default settings
 #define DEFAULT_CONF	"system/default.conf"
+#define EXT_CONF		".conf"
+#define EXT_HTML		".html"
 #define MAX_PORT		65535
 #define MAX_SIZE_LIMIT	10737418240.0 // 10GB
 
@@ -105,6 +107,7 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_KEYWORD_MISSING(keyword)	"Missing keyword '" + keyword + "' in server block"
 #define ERR_FORBIDDEN_KEYWORD(keyword)	"Keyword '" + keyword + "' is not allowed in server block"
 #define ERR_DUPLICATE_NAME(name)		"Duplicate server name '" + name + "'. Server names must be unique"
+#define ERR_PAGE_EXT(page)				"'" + page + "' is a invalid file. Pages must be .html"
 #define ERR_PAGE_FIND(page)				"Couldn't open page '" + page + "'"
 #define ERR_PORT_INPUT(port)			"'"+ port + "' is not a valid port number. Port must be a number between 0 and 65535"
 #define ERR_MAX_SIZE_INPUT(size)		"'" + size + "' is not a valid size. Size must be a number positive or a number followed by a sufix (b - B, k - K, m - M, g - G)"

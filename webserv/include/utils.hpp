@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:24 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 15:45:54 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:13:43 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ std::string		getTimeStamp();
 // ---> File Utils ----------------------------------------------------------
 
 bool			isReadbleFile(std::string const &path);
+bool			hasThisExtension(std::string const &file, std::string const &extension);
 std::string		getFileContent(std::string const &path);
 std::string		getFileType(std::string const &file);
 

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 15:46:37 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:13:40 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,15 @@ bool isReadbleFile(std::string const &path)
 {
 	std::ifstream file(path.c_str());
 	return (file.good());	
+}
+
+bool hasThisExtension(std::string const &file, std::string const &extension)
+{
+	size_t dot = file.find_last_of(".");
+	
+	if (dot == std::string::npos || file.substr(dot) != extension || file.length() <= extension.length())
+		return false;
+	return true;
 }
 
 std::string getFileContent(std::string const &path)
