@@ -70,7 +70,7 @@ std::string ServerInfo::_getValidPort(std::string const &port)
 {
 	int tmp = atoi(port.c_str());
 
-	if (port.find_first_not_of(DECIMAL) != std::string::npos || tmp < 0 || tmp > 65535)
+	if (port.find_first_not_of(DECIMAL) != std::string::npos || tmp < 0 || tmp > MAX_PORT)
 		throw std::runtime_error(ERR_PORT_INPUT(port));
 	return (port);
 }

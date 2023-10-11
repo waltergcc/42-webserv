@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/10 12:09:03 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/11 15:21:22 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 // Default settings
 #define DEFAULT_CONF	"system/default.conf"
+#define MAX_PORT		65535
 #define MAX_SIZE_LIMIT	10737418240.0 // 10GB
 
 // Custom Outputs
