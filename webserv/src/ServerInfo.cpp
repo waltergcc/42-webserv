@@ -20,7 +20,7 @@ ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &server
 
 	this->_serverName = this->_getValidName(servers, configs[SERVER_N]);
 	this->_host = configs[HOST];
-	this->_root = getPathWithSlashAtEnd(configs[ROOT]);
+	this->_root = this->_getValidRoot(configs[ROOT]);
 	this->_index = this->_checkAndGetPage(configs[INDEX]);
 	this->_errorPage = this->_checkAndGetPage(configs[ERROR_P]);
 	this->_port = this->_getValidPort(configs[LISTEN]);
@@ -64,6 +64,16 @@ std::string ServerInfo::_getValidName(std::vector<ServerInfo> const &servers, st
 			throw std::runtime_error(ERR_DUPLICATE_NAME(name));
 	}
 	return name;
+}
+
+std::string ServerInfo::_getValidRoot(std::string const &root)
+{
+	std::string path = getPathWithSlashAtEnd(root);
+
+	if (!directoryExists(path))
+		throw std::runtime_error(ERR_DIRECTORY(path));
+	
+	return (path);
 }
 
 std::string ServerInfo::_getValidPort(std::string const &port)

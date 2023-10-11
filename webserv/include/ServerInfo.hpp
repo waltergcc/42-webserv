@@ -49,6 +49,7 @@ class ServerInfo
 		void		_checkKeywords(stringMap &configs);
 		std::string _getValidName(std::vector<ServerInfo> const &servers, std::string const &name);
 		std::string	_getValidPort(std::string const &port);
+		std::string _getValidRoot(std::string const &root);
 		std::string	_checkAndGetPage(std::string const &page);
 		size_t		_getConvertedMaxSize(std::string const &size);
 		std::string _generateErrorResponse();

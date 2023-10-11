@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 16:13:40 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:04:12 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,17 @@ bool hasThisExtension(std::string const &file, std::string const &extension)
 	if (dot == std::string::npos || file.substr(dot) != extension || file.length() <= extension.length())
 		return false;
 	return true;
+}
+
+bool directoryExists(std::string const &path)
+{
+	struct stat info;
+
+	if (stat(path.c_str(), &info) != 0)
+		return false;
+	else if (info.st_mode & S_IFDIR)
+		return true;
+	return false;
 }
 
 std::string getFileContent(std::string const &path)
