@@ -49,7 +49,7 @@ class ServerInfo
 		void		_checkKeywords(stringMap &configs);
 		std::string _getValidName(std::vector<ServerInfo> const &servers, std::string const &name);
 		std::string	_getValidPort(std::string const &port);
-		std::string	_checkAndGetErrorPage(std::string const &errorPage);
+		std::string	_checkAndGetPage(std::string const &page);
 		size_t		_getConvertedMaxSize(std::string const &size);
 		std::string _generateErrorResponse();
 		bool		_checkDefaultServer(std::vector<ServerInfo> const &servers);

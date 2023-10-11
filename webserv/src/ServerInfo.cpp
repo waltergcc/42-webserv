@@ -21,8 +21,8 @@ ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &server
 	this->_serverName = this->_getValidName(servers, configs[SERVER_N]);
 	this->_host = configs[HOST];
 	this->_root = getPathWithSlashAtEnd(configs[ROOT]);
-	this->_index = configs[INDEX];
-	this->_errorPage = this->_checkAndGetErrorPage(configs[ERROR_P]);
+	this->_index = this->_checkAndGetPage(configs[INDEX]);
+	this->_errorPage = this->_checkAndGetPage(configs[ERROR_P]);
 	this->_port = this->_getValidPort(configs[LISTEN]);
 	this->_clientMaxBodySize = this->_getConvertedMaxSize(configs[MAX_SIZE]);
 	this->_errorResponse = this->_generateErrorResponse();
@@ -109,13 +109,13 @@ size_t ServerInfo::_getConvertedMaxSize(std::string const &size)
 	return static_cast<size_t>(tmp);
 }
 
-std::string ServerInfo::_checkAndGetErrorPage(std::string const &errorPage)
+std::string ServerInfo::_checkAndGetPage(std::string const &page)
 {
-	std::string path = this->_root + errorPage;
+	std::string path = this->_root + page;
 
-	if (access(path.c_str(), R_OK) != 0)
-		throw std::runtime_error(ERR_ERROR_PAGE);
-	return (errorPage);
+	if (!isReadbleFile(path))
+		throw std::runtime_error(ERR_PAGE_FIND(page));
+	return (page);
 }
 
 std::string ServerInfo::_generateErrorResponse()
