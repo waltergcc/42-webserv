@@ -14,39 +14,6 @@
 #include "FileChecker.hpp"
 #include "utils.hpp"
 
-// ---> Static functions ------------------------------------------------------
-
-void setCanReuseAddress(int socket, int active)
-{
-	if (setsockopt(socket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
-		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
-}
-
-void convertHostToAddress(addrinfo *address, addrinfo *parameters, char const *host, char const *port)
-{
-	if (getaddrinfo(host, port, parameters, &address) != 0)
-	{
-		freeaddrinfo(address);
-		address = NULL;
-		throw std::runtime_error(ERR_GET_ADDR_INFO + std::string(std::strerror(errno)));
-	}
-}
-
-void bindAdressToSocket(int socket, addrinfo *address)
-{
-	if (address)
-	{
-		if (bind(socket, address->ai_addr, address->ai_addrlen) < 0)
-			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
-	}
-}
-
-void setSocketListening(int socket)
-{
-	if (listen(socket, MAX_PENDING) < 0)
-		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
-}
-
 // ---> Constructor and destructor --------------------------------------------
 
 Service::Service(int ac, char **av)
@@ -73,15 +40,26 @@ Service::~Service()
 void Service::bootServers()
 {
 	printInfo(BOOT_MSG, BLUE);
-	addrinfo	*address = NULL;
-	addrinfo	parameters;
 
-	std::memset(&parameters, 0, sizeof(parameters));
-	parameters.ai_family = AF_INET;			// IPv4
-	parameters.ai_socktype = SOCK_STREAM;	// TCP
-	parameters.ai_protocol = IPPROTO_TCP;	// TCP
+	this->_initAddressParameters();
 
-	this->_setServersAddress(&parameters, address);
+	serverVector::iterator server = this->_servers.begin();
+	for(; server != this->_servers.end(); server++)
+	{
+		if (!server->getIsDefault())
+			continue;
+
+		this->_getSocketInfo(server);
+		this->_setReuseableAddress();
+		this->_convertHostToAddress();
+		this->_bindAddressToSocket();
+		this->_setSocketListening();
+		this->_addSocketToPollfds();
+
+		printInfo(BOOTED_MSG(this->_tmp.host, this->_tmp.port), BLUE);
+		
+		this->_eraseTempInfo();
+	}
 }
 
 // ---> Private member functions ---------------------------------------------
@@ -99,37 +77,70 @@ size_t Service::_countDefaultServers()
 	return count;
 }
 
-void Service::_setServersAddress(addrinfo *parameters, addrinfo *address)
+void Service::_initAddressParameters()
 {
-	serverVector::iterator it = this->_servers.begin();
+	std::memset(&this->_tmp.parameters, 0, sizeof(this->_tmp.parameters));
+	this->_tmp.parameters.ai_family = AF_INET;			// IPv4
+	this->_tmp.parameters.ai_socktype = SOCK_STREAM;	// TCP
+	this->_tmp.parameters.ai_protocol = IPPROTO_TCP;	// TCP
+	this->_tmp.address = NULL;
+}
 
-	for(; it != this->_servers.end(); it++)
+void Service::_getSocketInfo(serverVector::iterator server)
+{
+	server->createSocket();
+	this->_tmp.socket = server->getSocket();
+	this->_tmp.host = server->getHost();
+	this->_tmp.port = server->getPort();
+}
+
+void Service::_setReuseableAddress()
+{
+	int active = 1;
+
+	if (setsockopt(this->_tmp.socket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
+		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
+}
+
+void Service::_convertHostToAddress()
+{
+	if (getaddrinfo(this->_tmp.host.c_str(), this->_tmp.port.c_str(), &this->_tmp.parameters, &this->_tmp.address) != 0)
 	{
-		if (!it->getIsDefault())
-			continue;
-
-		it->createSocket();
-		int socket = it->getSocket();
-
-		setCanReuseAddress(socket, 1);
-		convertHostToAddress(address, parameters, it->getHost().c_str(), it->getPort().c_str());
-		bindAdressToSocket(socket, address);
-		setSocketListening(socket);
-
-		freeaddrinfo(address);
-		address = NULL;
-
-		this->_addSocketToPollfds(socket);
-		printInfo(BOOTED_MSG(it->getHost(), it->getPort()), BLUE);
+		this->_eraseTempInfo();
+		throw std::runtime_error(ERR_GET_ADDR_INFO + std::string(std::strerror(errno)));
 	}
 }
 
-void Service::_addSocketToPollfds(int socket)
+void Service::_bindAddressToSocket()
+{
+	if (this->_tmp.address)
+	{
+		if (bind(this->_tmp.socket, this->_tmp.address->ai_addr, this->_tmp.address->ai_addrlen) < 0)
+			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
+	}
+}
+
+void Service::_setSocketListening()
+{
+	if (listen(this->_tmp.socket, MAX_PENDING) < 0)
+		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
+}
+
+void Service::_addSocketToPollfds()
 {
 	pollfd pollfd;
 
-	pollfd.fd = socket;		// File descriptor
-	pollfd.events = POLLIN; // Input ready
-	pollfd.revents = 0;		// Output ready
+	pollfd.fd = this->_tmp.socket;	// Socket File Descriptor
+	pollfd.events = POLLIN; 		// Input ready
+	pollfd.revents = 0;				// Output ready
 	this->_pollfds.push_back(pollfd);
+}
+
+void Service::_eraseTempInfo()
+{
+	freeaddrinfo(this->_tmp.address);
+	this->_tmp.address = NULL;
+	this->_tmp.socket = 0;
+	this->_tmp.host.clear();
+	this->_tmp.port.clear();
 }

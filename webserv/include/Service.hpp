@@ -15,6 +15,15 @@
 #include "defines.hpp"
 #include "FileChecker.hpp"
 
+struct bootInfo
+{
+	addrinfo	parameters;
+	addrinfo	*address;
+	int			socket;
+	std::string	host;
+	std::string	port;
+};
+
 typedef std::vector<pollfd>	pollfdVector;
 
 class Service
@@ -22,14 +31,21 @@ class Service
 	private:
 		serverVector	_servers;
 		size_t			_defaultServers;
+		bootInfo		_tmp;
 		pollfdVector	_pollfds;
 
 		// Constructor auxiliar
 		size_t	_countDefaultServers();
 
 		// bootServers auxiliars
-		void	_setServersAddress(addrinfo *parameters, addrinfo *address);
-		void	_addSocketToPollfds(int socket);
+		void	_initAddressParameters();
+		void	_getSocketInfo(serverVector::iterator server);
+		void	_setReuseableAddress();
+		void	_convertHostToAddress();
+		void	_bindAddressToSocket();
+		void	_setSocketListening();
+		void	_addSocketToPollfds();
+		void	_eraseTempInfo();
 		
 		Service();
 
