@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 20:02:38 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:29:45 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef std::vector<std::string>			stringVector;
 
 // printInfo messages
 #define START_MSG					"Starting Webserv Engine..."
-#define END_MSG						"Webserv work is done. Goodbye!"
+#define END_MSG						"Webserv Engine shutdown complete"
 #define SETUP_MSG					"Setting up servers..."
 #define SET_SERVER_MSG(host, port)	"Server " + host + ":" + port + " setup complete"
 #define SHUTDOWN_MSG				"Shutting down Webserv Engine..."

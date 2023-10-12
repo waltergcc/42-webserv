@@ -35,7 +35,12 @@ Service::Service(int ac, char **av)
 	// std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
 }
 
-Service::~Service(){}
+Service::~Service()
+{
+	for (size_t i = 0; i < this->_pollingRequests.size(); i++)
+		close(this->_pollingRequests.at(i).fd);
+	printInfo(END_MSG, GREEN);
+}
 
 // ---> Public member functions ----------------------------------------------
 

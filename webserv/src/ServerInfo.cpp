@@ -29,11 +29,7 @@ ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &server
 	this->_isDefault = this->_checkDefaultServer(servers);
 	this->_socket = 0;
 }
-ServerInfo::~ServerInfo()
-{
-	if (this->_socket != 0)
-		close(this->_socket);
-}
+ServerInfo::~ServerInfo(){}
 
 // ---> Private functions -----------------------------------------------------
 
