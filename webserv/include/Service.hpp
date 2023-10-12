@@ -27,6 +27,8 @@ struct setupInfo
 	int			lastServerFd;
 	int			id;
 	short		mode;
+	bool		launch;
+	int			connectionSocket;
 };
 
 typedef std::vector<pollfd>	pollfdVector;

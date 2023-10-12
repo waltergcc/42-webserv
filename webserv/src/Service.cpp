@@ -101,6 +101,8 @@ void Service::_pollingManager()
 			continue;
 		if (this->_hasDataToSend())
 			continue;
+			
+		this->_eraseTempInfo();
 	}
 }
 
@@ -111,6 +113,7 @@ void Service::_getPollingInfo(int const i)
 	this->_tmp.serverFd = this->_pollingRequests.at(i).fd;
 	this->_tmp.mode = this->_pollingRequests.at(i).revents;
 	this->_tmp.lastServerFd = this->_servers.back().getSocket();
+	this->_tmp.launch = true;
 }
 
 bool Service::_hasDataToRead()
@@ -207,6 +210,7 @@ void Service::_getSocketInfo(serverVector::iterator server)
 	this->_tmp.socket = server->getSocket();
 	this->_tmp.host = server->getHost();
 	this->_tmp.port = server->getPort();
+	this->_tmp.launch = false;
 }
 
 void Service::_setReuseableAddress()
@@ -254,9 +258,17 @@ void Service::_addSocketInPollingRequests()
 {
 	pollfd request;
 
-	request.fd = this->_tmp.socket;	// Socket File Descriptor
-	request.events = POLLIN; 		// Input ready
-	request.revents = 0;			// Output ready
+	if (this->_tmp.launch == true)
+	{
+		request.fd = this->_tmp.connectionSocket;
+		request.events = POLLIN | POLLOUT;
+	}
+	else
+	{
+		request.fd = this->_tmp.socket;
+		request.events = POLLIN;
+	}
+	request.revents = 0;
 	this->_pollingRequests.push_back(request);
 }
 
@@ -271,6 +283,13 @@ void Service::_eraseTempInfo()
 	this->_tmp.socket = 0;
 	this->_tmp.host.clear();
 	this->_tmp.port.clear();
+	this->_tmp.id = 0;
+	this->_tmp.clientFd = 0;
+	this->_tmp.serverFd = 0;
+	this->_tmp.lastServerFd = 0;
+	this->_tmp.mode = 0;
+	this->_tmp.connectionSocket = 0;
+	this->_tmp.launch = false;
 }
 
 size_t Service::_countDefaultServers()
