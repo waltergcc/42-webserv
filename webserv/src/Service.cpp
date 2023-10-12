@@ -106,7 +106,27 @@ bool Service::_hasDataToRead()
 {
 	if (this->_tmp.mode & POLLIN)
 	{
-		std::cout << "POLLIN" << std::endl;
+		if (this->_serverExists())
+		{
+			std::cout << "accept client connection" << std::endl;
+			return true;
+		}
+		else
+		{
+			std::cout << "read client request" << std::endl;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Service::_serverExists()
+{
+	serverVector::iterator server = this->_servers.begin();
+	for (; server != this->_servers.end(); server++)
+	{
+		if (server->getSocket() == this->_tmp.serverFd)
+			return true;
 	}
 	return false;
 }

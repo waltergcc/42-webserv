@@ -56,6 +56,7 @@ class Service
 		void	_pollingManager();
 		void	_getPollingInfo(int const i);
 		bool	_hasDataToRead();
+		bool	_serverExists();
 		
 		Service();
 
