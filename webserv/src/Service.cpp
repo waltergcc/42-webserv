@@ -32,6 +32,21 @@ void convertHostToAddress(addrinfo *address, addrinfo *parameters, char const *h
 	}
 }
 
+void bindAdressToSocket(int socket, addrinfo *address)
+{
+	if (address)
+	{
+		if (bind(socket, address->ai_addr, address->ai_addrlen) < 0)
+			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
+	}
+}
+
+void setSocketListening(int socket)
+{
+	if (listen(socket, MAX_PENDING) < 0)
+		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
+}
+
 // ---> Constructor and destructor --------------------------------------------
 
 Service::Service(int ac, char **av)
@@ -87,7 +102,6 @@ size_t Service::_countDefaultServers()
 void Service::_setServersAddress(addrinfo *parameters, addrinfo *address)
 {
 	serverVector::iterator it = this->_servers.begin();
-	// pollfd	inputOutputMonitor;
 
 	for(; it != this->_servers.end(); it++)
 	{
@@ -95,11 +109,27 @@ void Service::_setServersAddress(addrinfo *parameters, addrinfo *address)
 			continue;
 
 		it->createSocket();
+		int socket = it->getSocket();
 
-		setCanReuseAddress(it->getSocket(), 1);
+		setCanReuseAddress(socket, 1);
 		convertHostToAddress(address, parameters, it->getHost().c_str(), it->getPort().c_str());
-		
+		bindAdressToSocket(socket, address);
+		setSocketListening(socket);
 
+		freeaddrinfo(address);
+		address = NULL;
+
+		this->_addSocketToPollfds(socket);
+		printInfo(BOOTED_MSG(it->getHost(), it->getPort()), BLUE);
 	}
 }
 
+void Service::_addSocketToPollfds(int socket)
+{
+	pollfd pollfd;
+
+	pollfd.fd = socket;		// File descriptor
+	pollfd.events = POLLIN; // Input ready
+	pollfd.revents = 0;		// Output ready
+	this->_pollfds.push_back(pollfd);
+}

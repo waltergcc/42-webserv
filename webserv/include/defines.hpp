@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 06:35:58 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 07:27:05 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 #define EXT_HTML		".html"
 #define MAX_PORT		65535
 #define MAX_SIZE_LIMIT	10737418240.0 // 10GB
+#define MAX_PENDING		10
 
 // Custom Outputs
 #define RED		"\033[0;31m"
@@ -83,9 +84,10 @@ typedef std::vector<std::string>			stringVector;
 #define UPLOAD		"upload_to"
 
 // Log messages
-#define START_MSG	"Starting Webserv Engine..."
-#define END_MSG		"Webserv work is done. Goodbye!"
-#define BOOT_MSG	"Booting servers..."
+#define START_MSG				"Starting Webserv Engine..."
+#define END_MSG					"Webserv work is done. Goodbye!"
+#define BOOT_MSG				"Booting servers..."
+#define BOOTED_MSG(host, port)	"Server booted at " + host + ":" + port
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
@@ -120,3 +122,5 @@ typedef std::vector<std::string>			stringVector;
 // Service setServersAddress errors
 #define ERR_SET_SOCKET					"setsockopt() failed: "
 #define ERR_GET_ADDR_INFO				"getaddrinfo() failed: "
+#define ERR_BIND_SOCKET					"bind() failed: "
+#define ERR_LISTEN_SOCKET				"listen() failed: "
