@@ -57,6 +57,9 @@ class Service
 		void	_getLaunchInfo(int const i);
 		bool	_hasDataToRead();
 		bool	_isServerSocket();
+		void	_acceptConnection();
+		void	_readData();
+		void	_closeConnection();
 		bool	_hasErrorRequest();
 		bool	_hasHangUpRequest();
 		bool	_hasInvalidRequest();

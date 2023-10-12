@@ -121,13 +121,9 @@ bool Service::_hasDataToRead()
 	if (this->_tmp.mode & POLLIN)
 	{
 		if (this->_isServerSocket())
-		{
-			std::cout << "accept client connection" << std::endl;
-		}
+			this->_acceptConnection();
 		else
-		{
-			std::cout << "read client request" << std::endl;
-		}
+			this->_readData();
 		return true;
 	}
 	return false;
@@ -144,12 +140,27 @@ bool Service::_isServerSocket()
 	return false;
 }
 
+void Service::_acceptConnection()
+{
+	std::cout << "accept connection" << std::endl;
+}
+
+void Service::_readData()
+{
+	std::cout << "read data" << std::endl;
+}
+
+void Service::_closeConnection()
+{
+	std::cout << "close connection" << std::endl;
+}
+
 bool Service::_hasErrorRequest()
 {
 	if (this->_tmp.mode & POLLERR)
 	{
 		printInfo(POLLERR_MSG, RED);
-		std::cout << "error request" << std::endl;
+		this->_closeConnection();
 		return true;
 	}
 	return false;
@@ -160,7 +171,7 @@ bool Service::_hasHangUpRequest()
 	if (this->_tmp.mode & POLLHUP)
 	{
 		printInfo(POLLHUP_MSG, RED);
-		std::cout << "hang up request" << std::endl;
+		this->_closeConnection();
 		return true;
 	}
 	return false;
@@ -171,7 +182,7 @@ bool Service::_hasInvalidRequest()
 	if (this->_tmp.mode & POLLNVAL)
 	{
 		printInfo(POLLNVAL_MSG, RED);
-		std::cout << "invalid request" << std::endl;
+		this->_closeConnection();
 		return true;
 	}
 	return false;
@@ -253,6 +264,8 @@ void Service::_setSocketListening()
 	}
 }
 
+// ---> Common private auxiliars -------------------------------------------------------
+
 void Service::_addSocketInPollingRequests()
 {
 	pollfd request;
@@ -289,6 +302,8 @@ void Service::_resetInfo()
 	this->_tmp.connectionSocket = 0;
 	this->_tmp.launch = false;
 }
+
+// ---> Constructor auxiliars -------------------------------------------------------
 
 size_t Service::_countDefaultServers()
 {
