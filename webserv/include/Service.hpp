@@ -14,6 +14,7 @@
 
 #include "defines.hpp"
 #include "FileChecker.hpp"
+#include "ClientInfo.hpp"
 
 struct serviceInfo
 {
@@ -31,14 +32,16 @@ struct serviceInfo
 };
 
 typedef std::vector<pollfd>	pollfdVector;
+typedef std::vector<ClientInfo>	clientVector;
 
 class Service
 {
 	private:
 		serverVector	_servers;
+		clientVector	_clients;
+		pollfdVector	_pollingRequests;
 		size_t			_defaultServers;
 		serviceInfo		_tmp;
-		pollfdVector	_pollingRequests;
 
 		// Constructor auxiliar
 		size_t	_countDefaultServers();

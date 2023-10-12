@@ -142,7 +142,15 @@ bool Service::_isServerSocket()
 
 void Service::_acceptConnection()
 {
-	std::cout << "accept connection" << std::endl;
+	this->_tmp.connectionSocket = accept(this->_tmp.serverSocket, NULL, NULL);
+
+	if (this->_tmp.connectionSocket < 0)
+		throw std::runtime_error(ERR_ACCEPT_SOCKET);
+	
+	fcntl(this->_tmp.connectionSocket, F_SETFL, O_NONBLOCK);	// set socket to non-blocking
+	// this->_clients.push_back(ClientInfo(this->_tmp.serverSocket, this->_tmp.connectionSocket));
+
+	this->_addSocketInPollingRequests();
 }
 
 void Service::_readData()

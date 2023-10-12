@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 17:19:53 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 18:38:29 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <poll.h>
+#include <fcntl.h>
 
 // Global variables
 extern bool	g_shutdown;
@@ -135,4 +136,5 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_LISTEN_SOCKET				"listen() failed: "
 
 // Service launch errors
-#define ERR_POLL_FAIL					"poll() failed: "
+#define ERR_POLL_FAIL					"poll() failed"
+#define ERR_ACCEPT_SOCKET				"accept() failed"
