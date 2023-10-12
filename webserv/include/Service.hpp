@@ -63,9 +63,7 @@ class Service
 		void	_acceptConnection();
 		void	_readData();
 		void	_closeConnection(std::string const &msg);
-		bool	_hasErrorRequest();
-		bool	_hasHangUpRequest();
-		bool	_hasInvalidRequest();
+		bool	_hasBadRequest();
 		bool	_isClientRequest();
 		bool	_hasDataToSend();
 		

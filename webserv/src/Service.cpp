@@ -91,11 +91,7 @@ void Service::_pollingManager()
 
 		if (this->_hasDataToRead())
 			continue;
-		if (this->_hasErrorRequest())
-			continue;
-		if (this->_hasHangUpRequest())
-			continue;
-		if (this->_hasInvalidRequest())
+		if (this->_hasBadRequest())
 			continue;
 		if (this->_isClientRequest())
 			continue;
@@ -166,29 +162,19 @@ void Service::_closeConnection(std::string const &msg)
 	printInfo(msg, RED);
 }
 
-bool Service::_hasErrorRequest()
+bool Service::_hasBadRequest()
 {
-	if (this->_tmp.mode & POLLERR)
+	if (this->_tmp.mode & POLLERR)			// POLLERR: error condition
 	{
 		this->_closeConnection(POLLERR_MSG);
 		return true;
 	}
-	return false;
-}
-
-bool Service::_hasHangUpRequest()
-{
-	if (this->_tmp.mode & POLLHUP)
+	else if (this->_tmp.mode & POLLHUP)		// POLLHUP: hang up
 	{
 		this->_closeConnection(POLLHUP_MSG);
 		return true;
 	}
-	return false;
-}
-
-bool Service::_hasInvalidRequest()
-{
-	if (this->_tmp.mode & POLLNVAL)
+	else if (this->_tmp.mode & POLLNVAL)	// POLLNVAL: invalid request
 	{
 		this->_closeConnection(POLLNVAL_MSG);
 		return true;
