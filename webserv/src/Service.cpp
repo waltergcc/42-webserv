@@ -51,7 +51,7 @@ void Service::setupServers()
 		this->_convertHostToAddress();
 		this->_bindAddressToSocket();
 		this->_setSocketListening();
-		this->_addSocketToPollfds();
+		this->_addSocketInPollingRequests();
 
 		printInfo(SET_SERVER_MSG(this->_tmp.host, this->_tmp.port), BLUE);
 
@@ -132,14 +132,14 @@ void Service::_setSocketListening()
 	}
 }
 
-void Service::_addSocketToPollfds()
+void Service::_addSocketInPollingRequests()
 {
-	pollfd pollfd;
+	pollfd request;
 
-	pollfd.fd = this->_tmp.socket;	// Socket File Descriptor
-	pollfd.events = POLLIN; 		// Input ready
-	pollfd.revents = 0;				// Output ready
-	this->_pollfds.push_back(pollfd);
+	request.fd = this->_tmp.socket;	// Socket File Descriptor
+	request.events = POLLIN; 		// Input ready
+	request.revents = 0;			// Output ready
+	this->_pollingRequests.push_back(request);
 }
 
 void Service::_eraseTempInfo()

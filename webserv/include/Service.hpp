@@ -15,7 +15,7 @@
 #include "defines.hpp"
 #include "FileChecker.hpp"
 
-struct bootInfo
+struct setupInfo
 {
 	addrinfo	parameters;
 	addrinfo	*address;
@@ -31,8 +31,8 @@ class Service
 	private:
 		serverVector	_servers;
 		size_t			_defaultServers;
-		bootInfo		_tmp;
-		pollfdVector	_pollfds;
+		setupInfo		_tmp;
+		pollfdVector	_pollingRequests;
 
 		// Constructor auxiliar
 		size_t	_countDefaultServers();
@@ -44,7 +44,7 @@ class Service
 		void	_convertHostToAddress();
 		void	_bindAddressToSocket();
 		void	_setSocketListening();
-		void	_addSocketToPollfds();
+		void	_addSocketInPollingRequests();
 		void	_eraseTempInfo();
 		
 		Service();
