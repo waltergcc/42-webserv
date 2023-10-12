@@ -96,7 +96,10 @@ void Service::_setReuseableAddress()
 	int active = 1;
 
 	if (setsockopt(this->_tmp.socket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
+	{
+		this->_eraseTempInfo();
 		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
+	}
 }
 
 void Service::_convertHostToAddress()
@@ -113,14 +116,20 @@ void Service::_bindAddressToSocket()
 	if (this->_tmp.address)
 	{
 		if (bind(this->_tmp.socket, this->_tmp.address->ai_addr, this->_tmp.address->ai_addrlen) < 0)
+		{
+			this->_eraseTempInfo();
 			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
+		}
 	}
 }
 
 void Service::_setSocketListening()
 {
 	if (listen(this->_tmp.socket, MAX_PENDING) < 0)
+	{
+		this->_eraseTempInfo();
 		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
+	}
 }
 
 void Service::_addSocketToPollfds()
@@ -135,8 +144,12 @@ void Service::_addSocketToPollfds()
 
 void Service::_eraseTempInfo()
 {
-	freeaddrinfo(this->_tmp.address);
-	this->_tmp.address = NULL;
+	if (this->_tmp.address)
+	{
+		freeaddrinfo(this->_tmp.address);
+		this->_tmp.address = NULL;
+	}
+	std::memset(&this->_tmp.parameters, 0, sizeof(this->_tmp.parameters));
 	this->_tmp.socket = 0;
 	this->_tmp.host.clear();
 	this->_tmp.port.clear();
