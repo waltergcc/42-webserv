@@ -22,8 +22,8 @@ struct serviceInfo
 	addrinfo	*address;
 	std::string	host;
 	std::string	port;
-	int			serverSocket;
-	int			clientSocket;
+	int			socket;
+	int			clientID;
 	int			lastServerSocket;
 	int			connectionSocket;
 	int			id;
@@ -62,7 +62,7 @@ class Service
 		bool	_isServerSocket();
 		void	_acceptConnection();
 		void	_readData();
-		void	_closeConnection();
+		void	_closeConnection(std::string const &msg);
 		bool	_hasErrorRequest();
 		bool	_hasHangUpRequest();
 		bool	_hasInvalidRequest();

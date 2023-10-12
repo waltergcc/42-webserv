@@ -109,8 +109,8 @@ void Service::_pollingManager()
 void Service::_getLaunchInfo(int const i)
 {
 	this->_tmp.id = i;
-	this->_tmp.clientSocket = i - this->_defaultServers;
-	this->_tmp.serverSocket = this->_pollingRequests.at(i).fd;
+	this->_tmp.clientID = i - this->_defaultServers;
+	this->_tmp.socket = this->_pollingRequests.at(i).fd;
 	this->_tmp.mode = this->_pollingRequests.at(i).revents;
 	this->_tmp.lastServerSocket = this->_servers.back().getSocket();
 	this->_tmp.launch = true;
@@ -134,7 +134,7 @@ bool Service::_isServerSocket()
 	serverVector::iterator server = this->_servers.begin();
 	for (; server != this->_servers.end(); server++)
 	{
-		if (server->getSocket() == this->_tmp.serverSocket)
+		if (server->getSocket() == this->_tmp.socket)
 			return true;
 	}
 	return false;
@@ -142,13 +142,13 @@ bool Service::_isServerSocket()
 
 void Service::_acceptConnection()
 {
-	this->_tmp.connectionSocket = accept(this->_tmp.serverSocket, NULL, NULL);
+	this->_tmp.connectionSocket = accept(this->_tmp.socket, NULL, NULL);
 
 	if (this->_tmp.connectionSocket < 0)
 		throw std::runtime_error(ERR_ACCEPT_SOCKET);
 	
 	fcntl(this->_tmp.connectionSocket, F_SETFL, O_NONBLOCK);	// set socket to non-blocking
-	// this->_clients.push_back(ClientInfo(this->_tmp.serverSocket, this->_tmp.connectionSocket));
+	// this->_clients.push_back(ClientInfo(this->_servers.at(this->_tmp.id), this->_tmp.connectionSocket));
 
 	this->_addSocketInPollingRequests();
 }
@@ -158,17 +158,19 @@ void Service::_readData()
 	std::cout << "read data" << std::endl;
 }
 
-void Service::_closeConnection()
+void Service::_closeConnection(std::string const &msg)
 {
-	std::cout << "close connection" << std::endl;
+	close(this->_tmp.socket);
+	this->_pollingRequests.erase(this->_pollingRequests.begin() + this->_tmp.id);
+	// this->_clients.erase(this->_clients.begin() + clientID);
+	printInfo(msg, RED);
 }
 
 bool Service::_hasErrorRequest()
 {
 	if (this->_tmp.mode & POLLERR)
 	{
-		printInfo(POLLERR_MSG, RED);
-		this->_closeConnection();
+		this->_closeConnection(POLLERR_MSG);
 		return true;
 	}
 	return false;
@@ -178,8 +180,7 @@ bool Service::_hasHangUpRequest()
 {
 	if (this->_tmp.mode & POLLHUP)
 	{
-		printInfo(POLLHUP_MSG, RED);
-		this->_closeConnection();
+		this->_closeConnection(POLLHUP_MSG);
 		return true;
 	}
 	return false;
@@ -189,8 +190,7 @@ bool Service::_hasInvalidRequest()
 {
 	if (this->_tmp.mode & POLLNVAL)
 	{
-		printInfo(POLLNVAL_MSG, RED);
-		this->_closeConnection();
+		this->_closeConnection(POLLNVAL_MSG);
 		return true;
 	}
 	return false;
@@ -198,7 +198,7 @@ bool Service::_hasInvalidRequest()
 
 bool Service::_isClientRequest()
 {
-	return (this->_tmp.serverSocket < this->_tmp.lastServerSocket);
+	return (this->_tmp.socket < this->_tmp.lastServerSocket);
 }
 
 bool Service::_hasDataToSend()
@@ -225,7 +225,7 @@ void Service::_initAddressParameters()
 void Service::_getSetupInfo(serverVector::iterator server)
 {
 	server->createSocket();
-	this->_tmp.serverSocket = server->getSocket();
+	this->_tmp.socket = server->getSocket();
 	this->_tmp.host = server->getHost();
 	this->_tmp.port = server->getPort();
 	this->_tmp.launch = false;
@@ -235,7 +235,7 @@ void Service::_setReuseableAddress()
 {
 	int active = 1;
 
-	if (setsockopt(this->_tmp.serverSocket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
+	if (setsockopt(this->_tmp.socket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
 	{
 		this->_resetInfo();
 		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
@@ -255,7 +255,7 @@ void Service::_bindAddressToSocket()
 {
 	if (this->_tmp.address)
 	{
-		if (bind(this->_tmp.serverSocket, this->_tmp.address->ai_addr, this->_tmp.address->ai_addrlen) < 0)
+		if (bind(this->_tmp.socket, this->_tmp.address->ai_addr, this->_tmp.address->ai_addrlen) < 0)
 		{
 			this->_resetInfo();
 			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
@@ -265,7 +265,7 @@ void Service::_bindAddressToSocket()
 
 void Service::_setSocketListening()
 {
-	if (listen(this->_tmp.serverSocket, MAX_PENDING) < 0)
+	if (listen(this->_tmp.socket, MAX_PENDING) < 0)
 	{
 		this->_resetInfo();
 		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
@@ -285,7 +285,7 @@ void Service::_addSocketInPollingRequests()
 	}
 	else
 	{
-		request.fd = this->_tmp.serverSocket;
+		request.fd = this->_tmp.socket;
 		request.events = POLLIN;
 	}
 	request.revents = 0;
@@ -303,8 +303,8 @@ void Service::_resetInfo()
 	this->_tmp.host.clear();
 	this->_tmp.port.clear();
 	this->_tmp.id = 0;
-	this->_tmp.clientSocket = 0;
-	this->_tmp.serverSocket = 0;
+	this->_tmp.clientID = 0;
+	this->_tmp.socket = 0;
 	this->_tmp.lastServerSocket = 0;
 	this->_tmp.mode = 0;
 	this->_tmp.connectionSocket = 0;
