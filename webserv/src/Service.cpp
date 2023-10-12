@@ -80,7 +80,7 @@ void Service::launch()
 void Service::_initPollingRequests()
 {
 	if (poll(this->_pollingRequests.data(), this->_pollingRequests.size(), POLL_TIME_OUT) < 0 && g_shutdown == false)
-		throw std::runtime_error(ERR_POLL + std::string(std::strerror(errno)));
+		throw std::runtime_error(ERR_POLL_FAIL + std::string(std::strerror(errno)));
 }
 
 void Service::_pollingManager()
@@ -91,8 +91,15 @@ void Service::_pollingManager()
 
 		if (this->_hasDataToRead())
 			continue;
-		
+		if (this->_hasErrorRequest())
+			continue;
+		if (this->_hasHangUpRequest())
+			continue;
+		if (this->_hasInvalidRequest())
+			continue;
 		if (this->_isClientRequest())
+			continue;
+		if (this->_hasDataToSend())
 			continue;
 	}
 }
@@ -139,6 +146,7 @@ bool Service::_hasErrorRequest()
 {
 	if (this->_tmp.mode & POLLERR)
 	{
+		printInfo(POLLERR_MSG, RED);
 		std::cout << "error request" << std::endl;
 		return true;
 	}
@@ -149,6 +157,7 @@ bool Service::_hasHangUpRequest()
 {
 	if (this->_tmp.mode & POLLHUP)
 	{
+		printInfo(POLLHUP_MSG, RED);
 		std::cout << "hang up request" << std::endl;
 		return true;
 	}
@@ -159,6 +168,7 @@ bool Service::_hasInvalidRequest()
 {
 	if (this->_tmp.mode & POLLNVAL)
 	{
+		printInfo(POLLNVAL_MSG, RED);
 		std::cout << "invalid request" << std::endl;
 		return true;
 	}

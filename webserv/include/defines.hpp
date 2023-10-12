@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 14:46:31 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 17:19:53 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ typedef std::vector<std::string>			stringVector;
 #define SETUP_MSG					"Setting up servers..."
 #define SET_SERVER_MSG(host, port)	"Server " + host + ":" + port + " setup complete"
 #define SHUTDOWN_MSG				"Shutting down Webserv Engine..."
+#define POLLERR_MSG					"Connection closed. Error: POLLERR"
+#define POLLHUP_MSG					"Connection closed. Error: POLLHUP"
+#define POLLNVAL_MSG				"Connection closed. Error: POLLNVAL"
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
@@ -132,4 +135,4 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_LISTEN_SOCKET				"listen() failed: "
 
 // Service launch errors
-#define ERR_POLL						"poll() failed: "
+#define ERR_POLL_FAIL					"poll() failed: "
