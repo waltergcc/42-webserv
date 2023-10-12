@@ -15,20 +15,19 @@
 #include "defines.hpp"
 #include "FileChecker.hpp"
 
-struct tmpInfo
+struct serviceInfo
 {
 	addrinfo	parameters;
 	addrinfo	*address;
 	std::string	host;
 	std::string	port;
-	int			socket;
-	int			clientFd;
-	int			serverFd;
-	int			lastServerFd;
+	int			serverSocket;
+	int			clientSocket;
+	int			lastServerSocket;
+	int			connectionSocket;
 	int			id;
 	short		mode;
 	bool		launch;
-	int			connectionSocket;
 };
 
 typedef std::vector<pollfd>	pollfdVector;
@@ -38,7 +37,7 @@ class Service
 	private:
 		serverVector	_servers;
 		size_t			_defaultServers;
-		tmpInfo			_tmp;
+		serviceInfo		_tmp;
 		pollfdVector	_pollingRequests;
 
 		// Constructor auxiliar
@@ -57,7 +56,7 @@ class Service
 		void	_pollingManager();
 		void	_getPollingInfo(int const i);
 		bool	_hasDataToRead();
-		bool	_serverExists();
+		bool	_isServerSocket();
 		bool	_hasErrorRequest();
 		bool	_hasHangUpRequest();
 		bool	_hasInvalidRequest();

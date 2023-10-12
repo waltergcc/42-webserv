@@ -109,10 +109,10 @@ void Service::_pollingManager()
 void Service::_getPollingInfo(int const i)
 {
 	this->_tmp.id = i;
-	this->_tmp.clientFd = i - this->_defaultServers;
-	this->_tmp.serverFd = this->_pollingRequests.at(i).fd;
+	this->_tmp.clientSocket = i - this->_defaultServers;
+	this->_tmp.serverSocket = this->_pollingRequests.at(i).fd;
 	this->_tmp.mode = this->_pollingRequests.at(i).revents;
-	this->_tmp.lastServerFd = this->_servers.back().getSocket();
+	this->_tmp.lastServerSocket = this->_servers.back().getSocket();
 	this->_tmp.launch = true;
 }
 
@@ -120,26 +120,25 @@ bool Service::_hasDataToRead()
 {
 	if (this->_tmp.mode & POLLIN)
 	{
-		if (this->_serverExists())
+		if (this->_isServerSocket())
 		{
 			std::cout << "accept client connection" << std::endl;
-			return true;
 		}
 		else
 		{
 			std::cout << "read client request" << std::endl;
-			return true;
 		}
+		return true;
 	}
 	return false;
 }
 
-bool Service::_serverExists()
+bool Service::_isServerSocket()
 {
 	serverVector::iterator server = this->_servers.begin();
 	for (; server != this->_servers.end(); server++)
 	{
-		if (server->getSocket() == this->_tmp.serverFd)
+		if (server->getSocket() == this->_tmp.serverSocket)
 			return true;
 	}
 	return false;
@@ -180,7 +179,7 @@ bool Service::_hasInvalidRequest()
 
 bool Service::_isClientRequest()
 {
-	return (this->_tmp.serverFd < this->_tmp.lastServerFd);
+	return (this->_tmp.serverSocket < this->_tmp.lastServerSocket);
 }
 
 bool Service::_hasDataToSend()
@@ -207,7 +206,7 @@ void Service::_initAddressParameters()
 void Service::_getSocketInfo(serverVector::iterator server)
 {
 	server->createSocket();
-	this->_tmp.socket = server->getSocket();
+	this->_tmp.serverSocket = server->getSocket();
 	this->_tmp.host = server->getHost();
 	this->_tmp.port = server->getPort();
 	this->_tmp.launch = false;
@@ -217,7 +216,7 @@ void Service::_setReuseableAddress()
 {
 	int active = 1;
 
-	if (setsockopt(this->_tmp.socket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
+	if (setsockopt(this->_tmp.serverSocket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
 	{
 		this->_eraseTmpInfo();
 		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
@@ -237,7 +236,7 @@ void Service::_bindAddressToSocket()
 {
 	if (this->_tmp.address)
 	{
-		if (bind(this->_tmp.socket, this->_tmp.address->ai_addr, this->_tmp.address->ai_addrlen) < 0)
+		if (bind(this->_tmp.serverSocket, this->_tmp.address->ai_addr, this->_tmp.address->ai_addrlen) < 0)
 		{
 			this->_eraseTmpInfo();
 			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
@@ -247,7 +246,7 @@ void Service::_bindAddressToSocket()
 
 void Service::_setSocketListening()
 {
-	if (listen(this->_tmp.socket, MAX_PENDING) < 0)
+	if (listen(this->_tmp.serverSocket, MAX_PENDING) < 0)
 	{
 		this->_eraseTmpInfo();
 		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
@@ -265,7 +264,7 @@ void Service::_addSocketInPollingRequests()
 	}
 	else
 	{
-		request.fd = this->_tmp.socket;
+		request.fd = this->_tmp.serverSocket;
 		request.events = POLLIN;
 	}
 	request.revents = 0;
@@ -280,13 +279,12 @@ void Service::_eraseTmpInfo()
 		this->_tmp.address = NULL;
 	}
 	std::memset(&this->_tmp.parameters, 0, sizeof(this->_tmp.parameters));
-	this->_tmp.socket = 0;
 	this->_tmp.host.clear();
 	this->_tmp.port.clear();
 	this->_tmp.id = 0;
-	this->_tmp.clientFd = 0;
-	this->_tmp.serverFd = 0;
-	this->_tmp.lastServerFd = 0;
+	this->_tmp.clientSocket = 0;
+	this->_tmp.serverSocket = 0;
+	this->_tmp.lastServerSocket = 0;
 	this->_tmp.mode = 0;
 	this->_tmp.connectionSocket = 0;
 	this->_tmp.launch = false;
