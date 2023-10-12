@@ -14,11 +14,7 @@
 
 // ---> Constructor and destructor --------------------------------------------
 
-ClientInfo::ClientInfo()
-{
+ClientInfo::ClientInfo(ServerInfo server, int socket) : _server(server), _socket(socket), _sentRequest(false){}
+ClientInfo::~ClientInfo(){}
 
-}
-ClientInfo::~ClientInfo()
-{
-	
-}
+// ---> Public member functions ----------------------------------------------

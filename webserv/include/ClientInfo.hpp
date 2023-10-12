@@ -13,11 +13,19 @@
 #pragma once
 
 #include "defines.hpp"
+#include "ServerInfo.hpp"
 #include "utils.hpp"
 
 class ClientInfo
 {
-	public:
+	private:
+		ServerInfo	_server;
+		int			_socket;
+		bool		_sentRequest;
+
 		ClientInfo();
+
+	public:
+		ClientInfo(ServerInfo server, int socket);
 		~ClientInfo();
 };
