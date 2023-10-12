@@ -65,5 +65,8 @@ class ServerInfo
 		void createSocket();
 		void printConfigs();
 
-		bool getIsDefault() const;
+		int			getSocket() const;
+		std::string const &getHost() const;
+		std::string const &getPort() const;
+		bool		getIsDefault() const;
 };

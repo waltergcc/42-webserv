@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 17:06:19 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 06:35:58 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <poll.h>
 
 // Default settings
 #define DEFAULT_CONF	"system/default.conf"
@@ -115,3 +116,7 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_MAX_SIZE_INPUT(size)		"'" + size + "' is not a valid size. Size must be a number positive or a number followed by a sufix (b - B, k - K, m - M, g - G)"
 #define ERR_MAX_SIZE_RANGE(size)		"'" + size + "' is not a valid size. The max value allowed is 10G (10737418240 bytes)"
 #define ERR_SOCKET(server)				"failed to create network socket for server " + server
+
+// Service setServersAddress errors
+#define ERR_SET_SOCKET					"setsockopt() failed: "
+#define ERR_GET_ADDR_INFO				"getaddrinfo() failed: "

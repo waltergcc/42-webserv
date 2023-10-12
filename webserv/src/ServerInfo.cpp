@@ -210,4 +210,7 @@ void ServerInfo::printConfigs()
 
 // ---> Getters ---------------------------------------------------------------
 
-bool ServerInfo::getIsDefault() const{return this->_isDefault;}
+int			ServerInfo::getSocket() const{return this->_socket;}
+std::string const &ServerInfo::getHost() const{return this->_host;}
+std::string const &ServerInfo::getPort() const{return this->_port;}
+bool		ServerInfo::getIsDefault() const{return this->_isDefault;}

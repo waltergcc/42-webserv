@@ -25,7 +25,7 @@ class Service
 		size_t	_countDefaultServers();
 
 		// bootServers auxiliars
-		void	_setServersAddress(addrinfo *parameters, addrinfo *itAdress);
+		void	_setServersAddress(addrinfo *parameters, addrinfo *address);
 		
 		Service();
 
