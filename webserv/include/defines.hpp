@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 19:16:31 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:43:05 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ extern bool	g_shutdown;
 #define EXT_HTML		".html"
 #define MAX_PORT		65535
 #define MAX_SIZE_LIMIT	10737418240.0	// 10GB
-#define MAX_PENDING		10
+#define MAX_PENDING		10				// Maximum number of pending connections
 #define POLL_TIME_OUT	200				// 200ms
+#define BUFFER_SIZE		2048			// 2KB
 
 // Custom Outputs
 #define RED		"\033[0;31m"
