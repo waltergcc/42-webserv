@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 19:43:05 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:02:38 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef std::vector<std::string>			stringVector;
 #define POLLHUP_MSG					"Connection closed. Error: POLLHUP"
 #define POLLNVAL_MSG				"Connection closed. Error: POLLNVAL"
 #define CLOSE_MSG					"Connection closed"
+#define TIMEOUT_MSG					"Connection closed. Timeout"
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"

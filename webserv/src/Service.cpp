@@ -108,7 +108,7 @@ void Service::_getLaunchInfo(int const i)
 	this->_tmp.clientID = i - this->_defaultServers;
 	this->_tmp.socket = this->_pollingRequests.at(i).fd;
 	this->_tmp.mode = this->_pollingRequests.at(i).revents;
-	this->_tmp.lastServerSocket = this->_servers.back().getSocket();
+	this->_tmp.lastServerSocket = this->_servers.at(this->_defaultServers - 1).getSocket();
 	this->_tmp.launch = true;
 }
 
@@ -200,9 +200,18 @@ bool Service::_isClientRequest()
 
 bool Service::_hasDataToSend()
 {
+	std::string tmp = "";
+
 	if (this->_tmp.mode & POLLOUT)
 	{
-		std::cout << "send data" << std::endl;
+		if (tmp == "time out")
+		{
+			this->_closeConnection(TIMEOUT_MSG);
+			return true;	
+		}
+		if (tmp != "prepare to send")
+			return true;
+		std::cout << "can send data" << std::endl;
 		return true;
 	}
 	return false;
