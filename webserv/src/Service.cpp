@@ -34,7 +34,7 @@ Service::~Service(){}
 
 // ---> Public member functions ----------------------------------------------
 
-void Service::setupServers()
+void Service::setup()
 {
 	printInfo(SETUP_MSG, BLUE);
 
