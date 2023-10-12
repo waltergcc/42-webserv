@@ -45,7 +45,7 @@ class Service
 
 		// setup auxiliars
 		void	_initAddressParameters();
-		void	_getSocketInfo(serverVector::iterator server);
+		void	_getSetupInfo(serverVector::iterator server);
 		void	_setReuseableAddress();
 		void	_convertHostToAddress();
 		void	_bindAddressToSocket();
@@ -54,7 +54,7 @@ class Service
 		// launch auxiliars
 		void	_initPollingRequests();
 		void	_pollingManager();
-		void	_getPollingInfo(int const i);
+		void	_getLaunchInfo(int const i);
 		bool	_hasDataToRead();
 		bool	_isServerSocket();
 		bool	_hasErrorRequest();
@@ -65,7 +65,7 @@ class Service
 		
 		// Common auxiliars
 		void	_addSocketInPollingRequests();
-		void	_eraseTmpInfo();
+		void	_resetInfo();
 
 		Service();
 

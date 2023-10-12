@@ -51,7 +51,7 @@ void Service::setup()
 		if (!server->getIsDefault())
 			continue;
 
-		this->_getSocketInfo(server);
+		this->_getSetupInfo(server);
 		this->_setReuseableAddress();
 		this->_convertHostToAddress();
 		this->_bindAddressToSocket();
@@ -60,7 +60,7 @@ void Service::setup()
 
 		printInfo(SET_SERVER_MSG(this->_tmp.host, this->_tmp.port), BLUE);
 
-		this->_eraseTmpInfo();
+		this->_resetInfo();
 	}
 }
 
@@ -87,7 +87,7 @@ void Service::_pollingManager()
 {
 	for (size_t i = 0; i < this->_pollingRequests.size(); i++)
 	{
-		this->_getPollingInfo(i);
+		this->_getLaunchInfo(i);
 
 		if (this->_hasDataToRead())
 			continue;
@@ -102,11 +102,11 @@ void Service::_pollingManager()
 		if (this->_hasDataToSend())
 			continue;
 
-		this->_eraseTmpInfo();
+		this->_resetInfo();
 	}
 }
 
-void Service::_getPollingInfo(int const i)
+void Service::_getLaunchInfo(int const i)
 {
 	this->_tmp.id = i;
 	this->_tmp.clientSocket = i - this->_defaultServers;
@@ -203,7 +203,7 @@ void Service::_initAddressParameters()
 	this->_tmp.address = NULL;
 }
 
-void Service::_getSocketInfo(serverVector::iterator server)
+void Service::_getSetupInfo(serverVector::iterator server)
 {
 	server->createSocket();
 	this->_tmp.serverSocket = server->getSocket();
@@ -218,7 +218,7 @@ void Service::_setReuseableAddress()
 
 	if (setsockopt(this->_tmp.serverSocket, SOL_SOCKET, SO_REUSEADDR, &active, sizeof(int)) < 0)
 	{
-		this->_eraseTmpInfo();
+		this->_resetInfo();
 		throw std::runtime_error(ERR_SET_SOCKET + std::string(std::strerror(errno)));
 	}
 }
@@ -227,7 +227,7 @@ void Service::_convertHostToAddress()
 {
 	if (getaddrinfo(this->_tmp.host.c_str(), this->_tmp.port.c_str(), &this->_tmp.parameters, &this->_tmp.address) != 0)
 	{
-		this->_eraseTmpInfo();
+		this->_resetInfo();
 		throw std::runtime_error(ERR_GET_ADDR_INFO + std::string(std::strerror(errno)));
 	}
 }
@@ -238,7 +238,7 @@ void Service::_bindAddressToSocket()
 	{
 		if (bind(this->_tmp.serverSocket, this->_tmp.address->ai_addr, this->_tmp.address->ai_addrlen) < 0)
 		{
-			this->_eraseTmpInfo();
+			this->_resetInfo();
 			throw std::runtime_error(ERR_BIND_SOCKET + std::string(std::strerror(errno)));
 		}
 	}
@@ -248,7 +248,7 @@ void Service::_setSocketListening()
 {
 	if (listen(this->_tmp.serverSocket, MAX_PENDING) < 0)
 	{
-		this->_eraseTmpInfo();
+		this->_resetInfo();
 		throw std::runtime_error(ERR_LISTEN_SOCKET + std::string(std::strerror(errno)));
 	}
 }
@@ -271,7 +271,7 @@ void Service::_addSocketInPollingRequests()
 	this->_pollingRequests.push_back(request);
 }
 
-void Service::_eraseTmpInfo()
+void Service::_resetInfo()
 {
 	if (this->_tmp.address)
 	{
