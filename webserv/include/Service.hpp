@@ -24,6 +24,7 @@ struct setupInfo
 	int			socket;
 	int			clientFd;
 	int			serverFd;
+	int			lastServerFd;
 	int			id;
 	short		mode;
 };
@@ -57,6 +58,11 @@ class Service
 		void	_getPollingInfo(int const i);
 		bool	_hasDataToRead();
 		bool	_serverExists();
+		bool	_hasErrorRequest();
+		bool	_hasHangUpRequest();
+		bool	_hasInvalidRequest();
+		bool	_isClientRequest();
+		bool	_hasDataToSend();
 		
 		Service();
 

@@ -75,7 +75,7 @@ void Service::launch()
 	}
 }
 
-// ---> Private member functions ---------------------------------------------
+// ---> Launch private auxiliars -----------------------------------------------------
 
 void Service::_initPollingRequests()
 {
@@ -91,6 +91,9 @@ void Service::_pollingManager()
 
 		if (this->_hasDataToRead())
 			continue;
+		
+		if (this->_isClientRequest())
+			continue;
 	}
 }
 
@@ -100,6 +103,7 @@ void Service::_getPollingInfo(int const i)
 	this->_tmp.clientFd = i - this->_defaultServers;
 	this->_tmp.serverFd = this->_pollingRequests.at(i).fd;
 	this->_tmp.mode = this->_pollingRequests.at(i).revents;
+	this->_tmp.lastServerFd = this->_servers.back().getSocket();
 }
 
 bool Service::_hasDataToRead()
@@ -130,6 +134,53 @@ bool Service::_serverExists()
 	}
 	return false;
 }
+
+bool Service::_hasErrorRequest()
+{
+	if (this->_tmp.mode & POLLERR)
+	{
+		std::cout << "error request" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool Service::_hasHangUpRequest()
+{
+	if (this->_tmp.mode & POLLHUP)
+	{
+		std::cout << "hang up request" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool Service::_hasInvalidRequest()
+{
+	if (this->_tmp.mode & POLLNVAL)
+	{
+		std::cout << "invalid request" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+bool Service::_isClientRequest()
+{
+	return (this->_tmp.serverFd < this->_tmp.lastServerFd);
+}
+
+bool Service::_hasDataToSend()
+{
+	if (this->_tmp.mode & POLLOUT)
+	{
+		std::cout << "send data" << std::endl;
+		return true;
+	}
+	return false;
+}
+
+// ---> Setup private auxiliars -------------------------------------------------------
 
 void Service::_initAddressParameters()
 {
