@@ -175,42 +175,51 @@ void ServerInfo::createSocket()
 		std::cout << "Socket already created" << std::endl;
 }
 
-void ServerInfo::printConfigs()
-{
-	std::cout << "ServerName: " << this->_serverName << std::endl;
-	std::cout << "Port: " << this->_port << std::endl;
-	std::cout << "Host: " << this->_host << std::endl;
-	std::cout << "Root: " << this->_root << std::endl;
-	std::cout << "Index: " << this->_index << std::endl;
-	std::cout << "ClientMaxBodySize: " << this->_clientMaxBodySize << std::endl;
-	std::cout << "ErrorPage: " << this->_errorPage << std::endl;
-	std::cout << "IsDefault: " << this->_isDefault << std::endl;
-	
-	for (locationMap::iterator it = this->_locations.begin(); it != this->_locations.end(); it++)
-	{
-		std::cout << "location: " << it->first << std::endl;
-		std::cout << "	Root: " << it->second.root << std::endl;
-		std::cout << "	Methods: ";
-
-		for (stringVector::iterator it2 = it->second.methods.begin(); it2 != it->second.methods.end(); it2++)
-			std::cout << *it2 << " ";
-		std::cout << std::endl;
-		std::cout << "	Redirect: " << it->second.redirect << std::endl;
-		std::cout << "	Autoindex: " << it->second.autoindex << std::endl;
-		std::cout << "	TryFile: " << it->second.tryFile << std::endl;
-		std::cout << "	HasCGI: " << it->second.hasCGI << std::endl;
-		std::cout << "	CGIPath: " << it->second.cgiPath << std::endl;
-		std::cout << "	CGIExtension: " << it->second.cgiExtension << std::endl;
-		std::cout << "	UploadTo: " << it->second.uploadTo << std::endl;
-		std::cout << std::endl;
-	}
-	// std::cout << "Error Reponse ↓" << std::endl << this->_errorResponse << std::endl;
-	std::cout << std::endl;
-}
-
 // ---> Getters ---------------------------------------------------------------
 
-int			ServerInfo::getSocket() const{return this->_socket;}
-std::string const &ServerInfo::getHost() const{return this->_host;}
-std::string const &ServerInfo::getPort() const{return this->_port;}
-bool		ServerInfo::getIsDefault() const{return this->_isDefault;}
+std::string const	&ServerInfo::getServerName() const{return this->_serverName;}
+std::string const	&ServerInfo::getHost() const{return this->_host;}
+std::string const	&ServerInfo::getPort() const{return this->_port;}
+std::string const	&ServerInfo::getRoot() const{return this->_root;}
+std::string const	&ServerInfo::getIndex() const{return this->_index;}
+std::string const	&ServerInfo::getErrorPage() const{return this->_errorPage;}
+std::string const	&ServerInfo::getErrorResponse() const{return this->_errorResponse;}
+size_t				ServerInfo::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+bool				ServerInfo::getIsDefault() const{return this->_isDefault;}
+int					ServerInfo::getSocket() const{return this->_socket;}
+locationMap const	&ServerInfo::getLocations() const{return this->_locations;}
+
+// ---> output operator -------------------------------------------------------
+
+std::ostream &operator<<(std::ostream &out, ServerInfo const &server)
+{
+	out << "ServerName: " << server.getServerName() << std::endl;
+	out << "Port: " << server.getPort() << std::endl;
+	out << "Host: " << server.getHost() << std::endl;
+	out << "Root: " << server.getRoot() << std::endl;
+	out << "Index: " << server.getIndex() << std::endl;
+	out << "ClientMaxBodySize: " << server.getClientMaxBodySize() << std::endl;
+	out << "ErrorPage: " << server.getErrorPage() << std::endl;
+	out << "IsDefault: " << server.getIsDefault() << std::endl;
+	
+	for (locationMap::const_iterator it = server.getLocations().begin(); it != server.getLocations().end(); it++)
+	{
+		out << "location: " << it->first << std::endl;
+		out << "	Root: " << it->second.root << std::endl;
+		out << "	Methods: ";
+
+		for (stringVector::const_iterator it2 = it->second.methods.begin(); it2 != it->second.methods.end(); it2++)
+			out << *it2 << " ";
+		out << std::endl;
+		out << "	Redirect: " << it->second.redirect << std::endl;
+		out << "	Autoindex: " << it->second.autoindex << std::endl;
+		out << "	TryFile: " << it->second.tryFile << std::endl;
+		out << "	HasCGI: " << it->second.hasCGI << std::endl;
+		out << "	CGIPath: " << it->second.cgiPath << std::endl;
+		out << "	CGIExtension: " << it->second.cgiExtension << std::endl;
+		out << "	UploadTo: " << it->second.uploadTo << std::endl;
+		out << std::endl;
+	}
+	// out << "Error Reponse ↓" << std::endl << server.getErrorResponse() << std::endl;
+	return out;
+}

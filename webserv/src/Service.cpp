@@ -24,8 +24,8 @@ Service::Service(int ac, char **av)
 	this->_servers = input.getServerConfigs();
 	this->_defaultServers = this->_countDefaultServers();
 
-	for (serverVector::iterator it = this->_servers.begin(); it != this->_servers.end(); it++)
-		it->printConfigs();
+	for (serverVector::iterator server = this->_servers.begin(); server != this->_servers.end(); server++)
+		std::cout << *server << std::endl;
 	
 	std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
 }
@@ -57,7 +57,7 @@ void Service::bootServers()
 		this->_addSocketToPollfds();
 
 		printInfo(BOOTED_MSG(this->_tmp.host, this->_tmp.port), BLUE);
-		
+
 		this->_eraseTempInfo();
 	}
 }
@@ -66,12 +66,12 @@ void Service::bootServers()
 
 size_t Service::_countDefaultServers()
 {
-	serverVector::iterator it = this->_servers.begin();
+	serverVector::iterator server = this->_servers.begin();
 	size_t count = 0;
 
-	for (; it != this->_servers.end(); it++)
+	for (; server != this->_servers.end(); server++)
 	{
-		if (it->getIsDefault() == true)
+		if (server->getIsDefault() == true)
 			count++;
 	}
 	return count;

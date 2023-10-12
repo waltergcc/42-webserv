@@ -63,10 +63,19 @@ class ServerInfo
 
 		void addLocation(locationPair location);
 		void createSocket();
-		void printConfigs();
 
-		int			getSocket() const;
-		std::string const &getHost() const;
-		std::string const &getPort() const;
-		bool		getIsDefault() const;
+		// Getters
+		std::string const	&getServerName() const;
+		std::string const	&getHost() const;
+		std::string const	&getPort() const;
+		std::string const	&getRoot() const;
+		std::string const	&getIndex() const;
+		std::string const	&getErrorPage() const;
+		std::string const	&getErrorResponse() const;
+		size_t				getClientMaxBodySize() const;
+		bool				getIsDefault() const;
+		int					getSocket() const;
+		locationMap const	&getLocations() const;
 };
+
+std::ostream &operator<<(std::ostream &out, ServerInfo const &server);
