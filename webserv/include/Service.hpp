@@ -37,7 +37,7 @@ class Service
 		// Constructor auxiliar
 		size_t	_countDefaultServers();
 
-		// bootServers auxiliars
+		// setupServers auxiliars
 		void	_initAddressParameters();
 		void	_getSocketInfo(serverVector::iterator server);
 		void	_setReuseableAddress();
@@ -53,5 +53,5 @@ class Service
 		Service(int ac, char **av);
 		~Service();
 
-		void bootServers();
+		void setupServers();
 };

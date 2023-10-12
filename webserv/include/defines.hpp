@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 07:27:05 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 09:31:59 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ typedef std::vector<std::string>			stringVector;
 #define UPLOAD		"upload_to"
 
 // Log messages
-#define START_MSG				"Starting Webserv Engine..."
-#define END_MSG					"Webserv work is done. Goodbye!"
-#define BOOT_MSG				"Booting servers..."
-#define BOOTED_MSG(host, port)	"Server booted at " + host + ":" + port
+#define START_MSG					"Starting Webserv Engine..."
+#define END_MSG						"Webserv work is done. Goodbye!"
+#define SETUP_MSG					"Setting up servers..."
+#define SET_SERVER_MSG(host, port)	"Server " + host + ":" + port + " setup complete"
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"

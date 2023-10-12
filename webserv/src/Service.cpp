@@ -24,22 +24,19 @@ Service::Service(int ac, char **av)
 	this->_servers = input.getServerConfigs();
 	this->_defaultServers = this->_countDefaultServers();
 
-	for (serverVector::iterator server = this->_servers.begin(); server != this->_servers.end(); server++)
-		std::cout << *server << std::endl;
+	// for (serverVector::iterator server = this->_servers.begin(); server != this->_servers.end(); server++)
+	// 	std::cout << *server << std::endl;
 	
-	std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
+	// std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
 }
 
-Service::~Service()
-{
-	printInfo(END_MSG, GREEN);
-}
+Service::~Service(){}
 
 // ---> Public member functions ----------------------------------------------
 
-void Service::bootServers()
+void Service::setupServers()
 {
-	printInfo(BOOT_MSG, BLUE);
+	printInfo(SETUP_MSG, BLUE);
 
 	this->_initAddressParameters();
 
@@ -56,7 +53,7 @@ void Service::bootServers()
 		this->_setSocketListening();
 		this->_addSocketToPollfds();
 
-		printInfo(BOOTED_MSG(this->_tmp.host, this->_tmp.port), BLUE);
+		printInfo(SET_SERVER_MSG(this->_tmp.host, this->_tmp.port), BLUE);
 
 		this->_eraseTempInfo();
 	}

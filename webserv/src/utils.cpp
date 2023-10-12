@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 17:04:12 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 09:33:00 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,5 @@ void printInfo(std::string const &s, std::string const &color)
 {
 	if (s == START_MSG)
 		std::cout << CLEAR;
-		
 	std::cout << color << "[" << getTime() << "] " << RESET << s << std::endl;
-	
-	if (s == START_MSG)
-		std::cout << std::endl;
 }
