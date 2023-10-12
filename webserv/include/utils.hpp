@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:24 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 17:03:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:25:57 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,3 +42,7 @@ std::string		getFileType(std::string const &file);
 // ---> Display Utils -----------------------------------------------------------
 
 void			printInfo(std::string const &s, std::string const &color);
+
+// ---> Signal Utils -----------------------------------------------------------
+
+void			signalHandler(int signum);

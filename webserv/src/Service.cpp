@@ -14,11 +14,16 @@
 #include "FileChecker.hpp"
 #include "utils.hpp"
 
+bool	g_shutdown = false;
+
 // ---> Constructor and destructor --------------------------------------------
 
 Service::Service(int ac, char **av)
 {
 	printInfo(START_MSG, GREEN);
+
+	std::signal(SIGPIPE, SIG_IGN);
+	std::signal(SIGINT, signalHandler);
 
 	FileChecker	input(ac, av);
 	this->_servers = input.getServerConfigs();
@@ -61,7 +66,12 @@ void Service::setup()
 
 void Service::launch()
 {
-	
+	printInfo("Launching server...", BLUE);
+
+	while (g_shutdown == false)
+	{
+		
+	}
 }
 
 // ---> Private member functions ---------------------------------------------

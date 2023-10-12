@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 09:31:59 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:32:58 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,16 @@
 #include <utility>
 #include <limits>
 #include <climits>
+#include <csignal>
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <poll.h>
+
+// Global variables
+extern bool	g_shutdown;
 
 // Default settings
 #define DEFAULT_CONF	"system/default.conf"
@@ -88,6 +92,7 @@ typedef std::vector<std::string>			stringVector;
 #define END_MSG						"Webserv work is done. Goodbye!"
 #define SETUP_MSG					"Setting up servers..."
 #define SET_SERVER_MSG(host, port)	"Server " + host + ":" + port + " setup complete"
+#define SHUTDOWN_MSG				"Shutting down Webserv Engine..."
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"

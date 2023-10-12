@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 09:33:00 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:36:03 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,20 @@ void printInfo(std::string const &s, std::string const &color)
 {
 	if (s == START_MSG)
 		std::cout << CLEAR;
+	
+	if (s == SHUTDOWN_MSG)
+		std::cout << std::endl;
+
 	std::cout << color << "[" << getTime() << "] " << RESET << s << std::endl;
+}
+
+// ---> Signal Utils -----------------------------------------------------------
+
+void signalHandler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_shutdown = true;
+		printInfo(SHUTDOWN_MSG, RED);
+	}
 }
