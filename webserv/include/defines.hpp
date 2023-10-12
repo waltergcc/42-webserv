@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 14:32:58 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:46:31 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ extern bool	g_shutdown;
 #define EXT_CONF		".conf"
 #define EXT_HTML		".html"
 #define MAX_PORT		65535
-#define MAX_SIZE_LIMIT	10737418240.0 // 10GB
+#define MAX_SIZE_LIMIT	10737418240.0	// 10GB
 #define MAX_PENDING		10
+#define POLL_TIME_OUT	200				// 200ms
 
 // Custom Outputs
 #define RED		"\033[0;31m"
@@ -87,7 +88,7 @@ typedef std::vector<std::string>			stringVector;
 #define TRY 		"try_file"
 #define UPLOAD		"upload_to"
 
-// Log messages
+// printInfo messages
 #define START_MSG					"Starting Webserv Engine..."
 #define END_MSG						"Webserv work is done. Goodbye!"
 #define SETUP_MSG					"Setting up servers..."
@@ -129,3 +130,6 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_GET_ADDR_INFO				"getaddrinfo() failed: "
 #define ERR_BIND_SOCKET					"bind() failed: "
 #define ERR_LISTEN_SOCKET				"listen() failed: "
+
+// Service launch errors
+#define ERR_POLL						"poll() failed: "

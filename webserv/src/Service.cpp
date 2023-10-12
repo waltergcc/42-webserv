@@ -70,23 +70,45 @@ void Service::launch()
 
 	while (g_shutdown == false)
 	{
-		
+		this->_initPollingRequests();
+		this->_pollingManager();	
 	}
 }
 
 // ---> Private member functions ---------------------------------------------
 
-size_t Service::_countDefaultServers()
+void Service::_initPollingRequests()
 {
-	serverVector::iterator server = this->_servers.begin();
-	size_t count = 0;
+	if (poll(this->_pollingRequests.data(), this->_pollingRequests.size(), POLL_TIME_OUT) < 0 && g_shutdown == false)
+		throw std::runtime_error(ERR_POLL + std::string(std::strerror(errno)));
+}
 
-	for (; server != this->_servers.end(); server++)
+void Service::_pollingManager()
+{
+	for (size_t i = 0; i < this->_pollingRequests.size(); i++)
 	{
-		if (server->getIsDefault() == true)
-			count++;
+		this->_getPollingInfo(i);
+
+		if (this->_hasDataToRead())
+			continue;
 	}
-	return count;
+}
+
+void Service::_getPollingInfo(int const i)
+{
+	this->_tmp.id = i;
+	this->_tmp.clientFd = i - this->_defaultServers;
+	this->_tmp.serverFd = this->_pollingRequests.at(i).fd;
+	this->_tmp.mode = this->_pollingRequests.at(i).revents;
+}
+
+bool Service::_hasDataToRead()
+{
+	if (this->_tmp.mode & POLLIN)
+	{
+		std::cout << "POLLIN" << std::endl;
+	}
+	return false;
 }
 
 void Service::_initAddressParameters()
@@ -168,4 +190,17 @@ void Service::_eraseTempInfo()
 	this->_tmp.socket = 0;
 	this->_tmp.host.clear();
 	this->_tmp.port.clear();
+}
+
+size_t Service::_countDefaultServers()
+{
+	serverVector::iterator server = this->_servers.begin();
+	size_t count = 0;
+
+	for (; server != this->_servers.end(); server++)
+	{
+		if (server->getIsDefault() == true)
+			count++;
+	}
+	return count;
 }

@@ -19,9 +19,13 @@ struct setupInfo
 {
 	addrinfo	parameters;
 	addrinfo	*address;
-	int			socket;
 	std::string	host;
 	std::string	port;
+	int			socket;
+	int			clientFd;
+	int			serverFd;
+	int			id;
+	short		mode;
 };
 
 typedef std::vector<pollfd>	pollfdVector;
@@ -46,6 +50,12 @@ class Service
 		void	_setSocketListening();
 		void	_addSocketInPollingRequests();
 		void	_eraseTempInfo();
+
+		// launch auxiliars
+		void	_initPollingRequests();
+		void	_pollingManager();
+		void	_getPollingInfo(int const i);
+		bool	_hasDataToRead();
 		
 		Service();
 

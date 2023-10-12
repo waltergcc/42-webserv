@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 14:36:03 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:48:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,6 @@ void signalHandler(int signum)
 	if (signum == SIGINT)
 	{
 		g_shutdown = true;
-		printInfo(SHUTDOWN_MSG, RED);
+		printInfo(SHUTDOWN_MSG, GREEN);
 	}
 }
