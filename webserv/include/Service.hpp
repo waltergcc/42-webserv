@@ -54,4 +54,5 @@ class Service
 		~Service();
 
 		void setup();
+		void launch();
 };

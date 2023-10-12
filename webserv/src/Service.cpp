@@ -59,6 +59,11 @@ void Service::setup()
 	}
 }
 
+void Service::launch()
+{
+	
+}
+
 // ---> Private member functions ---------------------------------------------
 
 size_t Service::_countDefaultServers()

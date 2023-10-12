@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:32:18 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 14:08:05 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:11:04 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int main(int ac, char **av)
 	{
 		Service webserv(ac, av);
 		webserv.setup();
+		webserv.launch();
 	}
 	catch(const std::exception &e)
 	{
