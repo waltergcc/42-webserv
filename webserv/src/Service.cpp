@@ -160,14 +160,9 @@ void Service::_readData()
 	int		bytes = recv(this->_tmp.socket, buffer, BUFFER_SIZE, 0);
 
 	if (bytes > 0)
-	{
-		std::cout << "can read data" << std::endl;
-		// this->_clients.at(this->_tmp.clientID).setRequest(buffer, bytes);
-	}
+		this->_clients.at(this->_tmp.clientID).appendRequest(buffer, bytes);
 	else
-	{
 		this->_closeConnection(CLOSE_MSG);
-	}
 }
 
 void Service::_closeConnection(std::string const &msg)

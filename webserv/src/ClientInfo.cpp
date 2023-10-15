@@ -18,3 +18,12 @@ ClientInfo::ClientInfo(ServerInfo server, int socket) : _server(server), _socket
 ClientInfo::~ClientInfo(){}
 
 // ---> Public member functions ----------------------------------------------
+
+void	ClientInfo::appendRequest(char const *buffer, size_t size)
+{
+	this->_lastRequest = std::time(NULL); 
+	this->_sentRequest = false;
+	this->_request.append(buffer, size);
+}
+
+std::string const	&ClientInfo::getRequest() const{return (this->_request);}

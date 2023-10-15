@@ -22,10 +22,15 @@ class ClientInfo
 		ServerInfo	_server;
 		int			_socket;
 		bool		_sentRequest;
+		std::string	_request;
+		time_t		_lastRequest;
 
 		ClientInfo();
 
 	public:
 		ClientInfo(ServerInfo server, int socket);
 		~ClientInfo();
+
+		void				appendRequest(char const *buffer, size_t size);
+		std::string const	&getRequest() const;
 };
