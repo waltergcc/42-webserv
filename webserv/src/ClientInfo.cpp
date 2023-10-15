@@ -26,4 +26,11 @@ void	ClientInfo::appendRequest(char const *buffer, size_t size)
 	this->_request.append(buffer, size);
 }
 
+bool	ClientInfo::isTimeout() const
+{
+	return (std::time(NULL) - this->_lastRequest > SENT_TIMEOUT);
+}
+
+// ---> Getters and setters ---------------------------------------------------
+
 std::string const	&ClientInfo::getRequest() const{return (this->_request);}

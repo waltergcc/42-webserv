@@ -204,7 +204,7 @@ bool Service::_hasDataToSend()
 
 	if (this->_tmp.mode & POLLOUT)
 	{
-		if (tmp == "time out")
+		if (this->_clients.at(this->_tmp.clientID).isTimeout())
 		{
 			this->_closeConnection(TIMEOUT_MSG);
 			return true;	

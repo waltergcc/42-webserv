@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/15 21:05:48 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/15 21:19:42 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ extern bool	g_shutdown;
 #define MAX_PENDING		10				// Maximum number of pending connections
 #define POLL_TIME_OUT	200				// 200ms
 #define BUFFER_SIZE		2048			// 2KB
+#define SENT_TIMEOUT	60				// 60s
 
 // Custom Outputs
 #define RED		"\033[0;31m"
