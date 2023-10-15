@@ -98,7 +98,7 @@ void Service::_pollingManager()
 			continue;
 		if (this->_hasBadRequest())
 			continue;
-		if (this->_isClientRequest())
+		if (this->_isServerRequest())
 			continue;
 		if (this->_hasDataToSend())
 			continue;
@@ -197,9 +197,9 @@ bool Service::_hasBadRequest()
 	return false;
 }
 
-bool Service::_isClientRequest()
+bool Service::_isServerRequest()
 {
-	return (this->_tmp.socket < this->_tmp.lastServerSocket);
+	return (this->_tmp.socket <= this->_tmp.lastServerSocket);
 }
 
 bool Service::_hasDataToSend()
