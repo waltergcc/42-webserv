@@ -102,6 +102,7 @@ void Service::_pollingManager()
 			continue;
 		if (this->_hasDataToSend())
 			continue;
+
 		this->_resetInfo();
 	}
 }
@@ -173,7 +174,7 @@ void Service::_closeConnection(std::string const &msg)
 {
 	close(this->_tmp.socket);
 	this->_pollingRequests.erase(this->_pollingRequests.begin() + this->_tmp.id);
-	// this->_clients.erase(this->_clients.begin() + clientID);
+	this->_clients.erase(this->_clients.begin() + this->_tmp.clientID);
 	printInfo(msg, RED);
 }
 
