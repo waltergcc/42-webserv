@@ -200,8 +200,6 @@ bool Service::_isServerRequest()
 
 bool Service::_hasDataToSend()
 {
-	std::string tmp = "";
-
 	if (this->_tmp.mode & POLLOUT)
 	{
 		if (this->_clients.at(this->_tmp.clientID).isTimeout())
@@ -209,7 +207,7 @@ bool Service::_hasDataToSend()
 			this->_closeConnection(TIMEOUT_MSG);
 			return true;	
 		}
-		if (tmp != "prepare to send")
+		if (!this->_clients.at(this->_tmp.clientID).isReadyToSend())
 			return true;
 		std::cout << "can send data" << std::endl;
 		return true;

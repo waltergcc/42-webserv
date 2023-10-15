@@ -31,6 +31,11 @@ bool	ClientInfo::isTimeout() const
 	return (std::time(NULL) - this->_lastRequest > SENT_TIMEOUT);
 }
 
+bool	ClientInfo::isReadyToSend() const
+{
+	return (this->_sentRequest == true || this->_request.find(REQUEST_END) != std::string::npos);
+}
+
 // ---> Getters and setters ---------------------------------------------------
 
 std::string const	&ClientInfo::getRequest() const{return (this->_request);}

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/15 21:19:42 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/16 00:11:28 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ extern bool	g_shutdown;
 #define SPACES				" \t\r\v\f"
 #define DECIMAL				"0123456789"
 #define SUFIX_BYTES			"bBkKmMgG"
+#define REQUEST_END			"\r\n\r\n"
 
 // Common typedefs
 typedef std::map<std::string, std::string>	stringMap;

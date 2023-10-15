@@ -33,6 +33,7 @@ class ClientInfo
 
 		void				appendRequest(char const *buffer, size_t size);
 		bool				isTimeout() const;
+		bool				isReadyToSend() const;
 
 		std::string const	&getRequest() const;
 };
