@@ -110,9 +110,7 @@ void	ClientInfo::_checkAndGetHeaders(std::stringstream &ss)
 			stringTrim(value, SPACES);
 
 			if (value.length() != 0 && key.length() != 0)
-			{
 				this->_headers[key] = value;
-			}
 			else
 				throw std::runtime_error(RS_400);
 		}
