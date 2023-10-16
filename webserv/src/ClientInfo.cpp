@@ -51,6 +51,7 @@ void	ClientInfo::sendResponse()
 	}
 
 	this->_request.clear();
+	this->_requestPayload.clear();
 	this->_sentRequest = false;
 }
 
@@ -60,6 +61,8 @@ void	ClientInfo::_checkRequest()
 {
 	std::stringstream	ss(this->_request);
 
+	this->_requestPayload.clear();
+	this->_headers.clear();
 	this->_checkFirstLine(ss);
 	this->_checkAndGetHeaders(ss);
 	this->_checkAndGetPayload(ss);

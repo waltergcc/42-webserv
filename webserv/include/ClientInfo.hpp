@@ -31,11 +31,13 @@ class ClientInfo
 		size_t		_contentLength;
 
 		// _checkRequest auxiliars
-		void		_checkRequest();
-		void		_checkFirstLine(std::stringstream &ss);
-		void		_checkAndGetHeaders(std::stringstream &ss);
-		void		_checkAndGetPayload(std::stringstream &ss);
-		size_t		_getValidContentLength(std::string const &length);
+		void	_checkRequest();
+		void	_checkFirstLine(std::stringstream &ss);
+		void	_checkAndGetHeaders(std::stringstream &ss);
+		void	_checkAndGetPayload(std::stringstream &ss);
+		size_t	_getValidContentLength(std::string const &length);
+
+		void	_cleanRequest();
 
 		ClientInfo();
 
@@ -43,10 +45,10 @@ class ClientInfo
 		ClientInfo(ServerInfo server, int socket);
 		~ClientInfo();
 
-		void				appendRequest(char const *buffer, size_t size);
-		bool				isTimeout() const;
-		bool				isReadyToSend() const;
-		void				sendResponse();
+		void	appendRequest(char const *buffer, size_t size);
+		bool	isTimeout() const;
+		bool	isReadyToSend() const;
+		void	sendResponse();
 
 		// Getters and setters
 		std::string const	&getRequest() const;
