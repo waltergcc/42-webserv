@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/16 13:29:46 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:39:12 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,11 @@ typedef std::vector<std::string>			stringVector;
 #define SERVER_N	"server_name"
 #define TRY 		"try_file"
 #define UPLOAD		"upload_to"
+
+// Allowed methods keywords
+#define GET			"GET"
+#define DELETE		"DELETE"
+#define POST		"POST"
 
 // printInfo messages
 #define START_MSG					"Starting Webserv Engine..."

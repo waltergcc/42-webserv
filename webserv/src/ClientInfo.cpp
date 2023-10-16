@@ -49,7 +49,7 @@ void	ClientInfo::sendResponse()
 	{
 		printInfo(e.what(), RED);
 	}
-	
+
 	this->_request.clear();
 	this->_sentRequest = false;
 }
@@ -74,6 +74,10 @@ void	ClientInfo::_checkFirstLine(std::string &line)
 
 	if (parameters.size() != 3)
 		throw std::runtime_error(RS_400);
+	
+	if (parameters.at(0) != GET && parameters.at(0) != DELETE && parameters.at(0) != POST)
+		throw std::runtime_error(RS_501);
+		
 }
 
 // ---> Getters and setters ---------------------------------------------------
