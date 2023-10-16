@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/16 14:39:28 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/16 19:26:35 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ typedef std::vector<std::string>			stringVector;
 #define UPLOAD		"upload_to"
 
 // Check send request keywords
-#define GET			"GET"
-#define DELETE		"DELETE"
-#define POST		"POST"
-#define HTTP_1_0	"HTTP/1.0"
-#define HTTP_1_1	"HTTP/1.1"
-
+#define GET				"GET"
+#define DELETE			"DELETE"
+#define POST			"POST"
+#define HTTP_1_0		"HTTP/1.0"
+#define HTTP_1_1		"HTTP/1.1"
+#define CONTENT_LENGTH	"Content-Length"
 
 // printInfo messages
 #define START_MSG					"Starting Webserv Engine..."
@@ -124,6 +124,8 @@ typedef std::vector<std::string>			stringVector;
 #define RS_400	"400 Bad Request"
 #define RS_403	"403 Forbidden"
 #define RS_405	"405 Method Not Allowed"
+#define RS_409	"409 Conflict"
+#define RS_411	"411 Length Required"
 #define RS_413	"413 Payload Too Large"
 #define RS_414	"414 URI Too Long"
 #define RS_500	"500 Internal Server Error"

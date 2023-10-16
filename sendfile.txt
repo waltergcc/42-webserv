@@ -1,4 +1,4 @@
-GET resourcePath HTTP/1.1
+POST resourcePath HTTP/1.1
 Host: the4
-Test: more
+Content-Length: 30
 

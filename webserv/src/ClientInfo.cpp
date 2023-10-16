@@ -63,6 +63,10 @@ void	ClientInfo::_checkRequest()
 	this->_checkFirstLine(ss);
 	this->_checkAndGetHeaders(ss);
 
+
+	
+	this->_checkAndGetBodyInfo(ss);
+
 	// print headers
 	for (stringMap::iterator it = this->_headers.begin(); it != this->_headers.end(); it++)
 		std::cout << it->first << ": " << it->second << std::endl;
@@ -115,6 +119,31 @@ void	ClientInfo::_checkAndGetHeaders(std::stringstream &ss)
 				throw std::runtime_error(RS_400);
 		}
 	}
+}
+
+void	ClientInfo::_checkAndGetBodyInfo(std::stringstream &ss)
+{
+	if (this->_method == GET || this->_method == DELETE)
+		return;
+	else if (this->_method == POST && this->_headers.find(CONTENT_LENGTH) == this->_headers.end())
+		throw std::runtime_error(RS_411);
+	
+	this->_contentLength = this->_getValidContentLength(this->_headers[CONTENT_LENGTH]);
+	
+	(void)ss;
+}
+
+size_t	ClientInfo::_getValidContentLength(std::string const &length)
+{
+	size_t tmp = std::atoi(length.c_str());
+
+	if (length.find_first_not_of(DECIMAL) != std::string::npos)
+		throw std::runtime_error(RS_409);
+
+	if (tmp > this->_server.getClientMaxBodySize())
+		throw std::runtime_error(RS_413);
+
+	return tmp;
 }
 
 // ---> Getters and setters ---------------------------------------------------

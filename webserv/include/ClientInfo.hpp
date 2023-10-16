@@ -27,11 +27,14 @@ class ClientInfo
 		std::string	_method;
 		std::string _resourceTarget;
 		stringMap	_headers;
+		size_t		_contentLength;
 
 		// _checkRequest auxiliars
 		void		_checkRequest();
 		void		_checkFirstLine(std::stringstream &ss);
 		void		_checkAndGetHeaders(std::stringstream &ss);
+		void		_checkAndGetBodyInfo(std::stringstream &ss);
+		size_t		_getValidContentLength(std::string const &length);
 
 		ClientInfo();
 
