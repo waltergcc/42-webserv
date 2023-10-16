@@ -24,6 +24,7 @@ class ClientInfo
 		bool		_sentRequest;
 		std::string	_request;
 		time_t		_lastRequest;
+		std::string	_requestPayload;
 		std::string	_method;
 		std::string _resourceTarget;
 		stringMap	_headers;
@@ -33,7 +34,7 @@ class ClientInfo
 		void		_checkRequest();
 		void		_checkFirstLine(std::stringstream &ss);
 		void		_checkAndGetHeaders(std::stringstream &ss);
-		void		_checkAndGetBodyInfo(std::stringstream &ss);
+		void		_checkAndGetPayload(std::stringstream &ss);
 		size_t		_getValidContentLength(std::string const &length);
 
 		ClientInfo();

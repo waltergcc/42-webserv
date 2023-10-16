@@ -62,16 +62,13 @@ void	ClientInfo::_checkRequest()
 
 	this->_checkFirstLine(ss);
 	this->_checkAndGetHeaders(ss);
+	this->_checkAndGetPayload(ss);
 
-
-	
-	this->_checkAndGetBodyInfo(ss);
+	std::cout << "requestPayload: " << this->_requestPayload << std::endl;
 
 	// print headers
-	for (stringMap::iterator it = this->_headers.begin(); it != this->_headers.end(); it++)
-		std::cout << it->first << ": " << it->second << std::endl;
-
-
+	// for (stringMap::iterator it = this->_headers.begin(); it != this->_headers.end(); it++)
+	// 	std::cout << it->first << ": " << it->second << std::endl;
 }
 
 void	ClientInfo::_checkFirstLine(std::stringstream &ss)
@@ -106,6 +103,9 @@ void	ClientInfo::_checkAndGetHeaders(std::stringstream &ss)
 	std::string line;
 	while (std::getline(ss, line))
 	{
+		if (line.length() == 0)
+			break;
+		
 		if (line.find(COLON) != std::string::npos)
 		{
 			std::string key = line.substr(0, line.find(COLON));
@@ -121,7 +121,7 @@ void	ClientInfo::_checkAndGetHeaders(std::stringstream &ss)
 	}
 }
 
-void	ClientInfo::_checkAndGetBodyInfo(std::stringstream &ss)
+void	ClientInfo::_checkAndGetPayload(std::stringstream &ss)
 {
 	if (this->_method == GET || this->_method == DELETE)
 		return;
@@ -129,8 +129,12 @@ void	ClientInfo::_checkAndGetBodyInfo(std::stringstream &ss)
 		throw std::runtime_error(RS_411);
 	
 	this->_contentLength = this->_getValidContentLength(this->_headers[CONTENT_LENGTH]);
-	
-	(void)ss;
+
+	std::streampos pos = ss.tellg();
+	std::stringstream binarySs(ss.str(), std::stringstream::in | std::stringstream::binary);
+	binarySs.seekg(pos);
+	this->_requestPayload.resize(this->_contentLength);
+	binarySs.read(&this->_requestPayload[0], this->_contentLength);
 }
 
 size_t	ClientInfo::_getValidContentLength(std::string const &length)

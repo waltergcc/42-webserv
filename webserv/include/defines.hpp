@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/16 19:26:35 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/16 23:39:06 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ extern bool	g_shutdown;
 #define SUFIX_BYTES			"bBkKmMgG"
 #define RELATIVE_BACK		"../"
 #define LITERAL_BACK		".."
-#define REQUEST_END			"\n\n"
+#define CARRIAGE_RETURN		'\r'
+#define STR_NEWLINE			"\n"
+#define REQUEST_END			"\n\n\n"
 #define REQUEST_HOST		"Host: "
 
 // Common typedefs
