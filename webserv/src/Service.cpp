@@ -207,10 +207,13 @@ bool Service::_hasDataToSend()
 			this->_closeConnection(TIMEOUT_MSG);
 			return true;	
 		}
+
 		if (!this->_clients.at(this->_tmp.clientID).isReadyToSend())
 			return true;
+
 		this->_checkRequestedServer();
-		std::cout << "can send data" << std::endl;
+		this->_clients.at(this->_tmp.clientID).sendResponse();
+		
 		return true;
 	}
 	return false;

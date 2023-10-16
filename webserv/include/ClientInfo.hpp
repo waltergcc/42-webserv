@@ -25,6 +25,9 @@ class ClientInfo
 		std::string	_request;
 		time_t		_lastRequest;
 
+		// _checkRequest auxiliars
+		void		_checkRequest();
+
 		ClientInfo();
 
 	public:
@@ -34,6 +37,7 @@ class ClientInfo
 		void				appendRequest(char const *buffer, size_t size);
 		bool				isTimeout() const;
 		bool				isReadyToSend() const;
+		void				sendResponse();
 
 		// Getters and setters
 		std::string const	&getRequest() const;

@@ -36,6 +36,20 @@ bool	ClientInfo::isReadyToSend() const
 	return (this->_sentRequest == true || this->_request.find(REQUEST_END) != std::string::npos);
 }
 
+void	ClientInfo::sendResponse()
+{
+	this->_sentRequest = true;
+	this->_lastRequest = std::time(NULL);
+	this->_checkRequest();
+}
+
+// ---> _checkRequest auxiliars ------------------------------------------------
+
+void	ClientInfo::_checkRequest()
+{
+	std::cout << "request checked" << std::endl;
+}
+
 // ---> Getters and setters ---------------------------------------------------
 
 std::string const	&ClientInfo::getRequest() const{return (this->_request);}
