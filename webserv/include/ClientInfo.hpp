@@ -29,7 +29,7 @@ class ClientInfo
 
 		// _checkRequest auxiliars
 		void		_checkRequest();
-		void		_checkFirstLine(std::string &line);
+		void		_checkFirstLine(std::stringstream &ss);
 
 		ClientInfo();
 

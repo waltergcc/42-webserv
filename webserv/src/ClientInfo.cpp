@@ -58,18 +58,18 @@ void	ClientInfo::sendResponse()
 
 void	ClientInfo::_checkRequest()
 {
-	std::string			line;
 	std::stringstream	ss(this->_request);
 
-	std::getline(ss, line);
-	this->_checkFirstLine(line);
+	this->_checkFirstLine(ss);
 
 	std::cout << "request checked" << std::endl;
 	std::cout << "Server name: " << this->_server.getServerName() << std::endl;
 }
 
-void	ClientInfo::_checkFirstLine(std::string &line)
+void	ClientInfo::_checkFirstLine(std::stringstream &ss)
 {
+	std::string		line;
+	std::getline(ss, line);
 	stringVector	parameters = getStringTokens(line, SPACE);
 
 	if (parameters.size() != 3)
