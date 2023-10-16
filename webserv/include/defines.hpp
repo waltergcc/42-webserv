@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/16 14:06:09 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:39:28 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@ extern bool	g_shutdown;
 #define OPEN_BRACKET_CHAR	'{'
 #define CLOSE_BRACKET_CHAR	'}'
 #define UNDERSCORE			'_'
+#define COLON				':'
 #define SEMICOLON			';'
 #define SPACE				' '
 #define SLASH				'/'
 #define SPACES				" \t\r\v\f"
+#define CURSOR_NEWLINE		"\r\n"
 #define DECIMAL				"0123456789"
 #define SUFIX_BYTES			"bBkKmMgG"
 #define RELATIVE_BACK		"../"

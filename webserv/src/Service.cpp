@@ -210,7 +210,7 @@ bool Service::_hasDataToSend()
 
 		if (!this->_clients.at(this->_tmp.clientID).isReadyToSend())
 			return true;
-
+	
 		this->_checkRequestedServer();
 		this->_clients.at(this->_tmp.clientID).sendResponse();
 

@@ -26,10 +26,12 @@ class ClientInfo
 		time_t		_lastRequest;
 		std::string	_method;
 		std::string _resourceTarget;
+		stringMap	_headers;
 
 		// _checkRequest auxiliars
 		void		_checkRequest();
 		void		_checkFirstLine(std::stringstream &ss);
+		void		_checkAndGetHeaders(std::stringstream &ss);
 
 		ClientInfo();
 

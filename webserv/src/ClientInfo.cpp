@@ -61,9 +61,13 @@ void	ClientInfo::_checkRequest()
 	std::stringstream	ss(this->_request);
 
 	this->_checkFirstLine(ss);
+	this->_checkAndGetHeaders(ss);
 
-	std::cout << "request checked" << std::endl;
-	std::cout << "Server name: " << this->_server.getServerName() << std::endl;
+	// print headers
+	for (stringMap::iterator it = this->_headers.begin(); it != this->_headers.end(); it++)
+		std::cout << it->first << ": " << it->second << std::endl;
+
+
 }
 
 void	ClientInfo::_checkFirstLine(std::stringstream &ss)
@@ -91,6 +95,28 @@ void	ClientInfo::_checkFirstLine(std::stringstream &ss)
 		
 	if (parameters.at(2) != HTTP_1_1)
 		throw std::runtime_error(RS_400);
+}
+
+void	ClientInfo::_checkAndGetHeaders(std::stringstream &ss)
+{
+	std::string line;
+	while (std::getline(ss, line))
+	{
+		if (line.find(COLON) != std::string::npos)
+		{
+			std::string key = line.substr(0, line.find(COLON));
+			std::string value = line.substr(line.find(COLON) + 1, line.find(NEWLINE));
+			stringTrim(key, SPACES);
+			stringTrim(value, SPACES);
+
+			if (value.length() != 0 && key.length() != 0)
+			{
+				this->_headers[key] = value;
+			}
+			else
+				throw std::runtime_error(RS_400);
+		}
+	}
 }
 
 // ---> Getters and setters ---------------------------------------------------
