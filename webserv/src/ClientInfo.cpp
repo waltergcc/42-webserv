@@ -40,7 +40,16 @@ void	ClientInfo::sendResponse()
 {
 	this->_sentRequest = true;
 	this->_lastRequest = std::time(NULL);
-	this->_checkRequest();
+
+	try
+	{
+		this->_checkRequest();
+	}
+	catch(const std::exception& e)
+	{
+		printInfo(e.what(), RED);
+	}
+	
 	this->_request.clear();
 	this->_sentRequest = false;
 }
@@ -49,8 +58,22 @@ void	ClientInfo::sendResponse()
 
 void	ClientInfo::_checkRequest()
 {
+	std::string			line;
+	std::stringstream	ss(this->_request);
+
+	std::getline(ss, line);
+	this->_checkFirstLine(line);
+
 	std::cout << "request checked" << std::endl;
 	std::cout << "Server name: " << this->_server.getServerName() << std::endl;
+}
+
+void	ClientInfo::_checkFirstLine(std::string &line)
+{
+	stringVector	parameters = getStringTokens(line, SPACE);
+
+	if (parameters.size() != 3)
+		throw std::runtime_error(RS_400);
 }
 
 // ---> Getters and setters ---------------------------------------------------

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/16 12:31:05 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:29:46 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,18 @@ typedef std::vector<std::string>			stringVector;
 #define POLLNVAL_MSG				"Connection closed. Error: POLLNVAL"
 #define CLOSE_MSG					"Connection closed"
 #define TIMEOUT_MSG					"Connection closed. Timeout"
+
+// SendResponse status
+#define RS_200	"200 OK"
+#define RS_400	"400 Bad Request"
+#define RS_403	"403 Forbidden"
+#define RS_405	"405 Method Not Allowed"
+#define RS_413	"413 Payload Too Large"
+#define RS_414	"414 URI Too Long"
+#define RS_500	"500 Internal Server Error"
+#define RS_501	"501 Not Implemented"
+#define RS_505	"505 HTTP Version Not Supported"
+#define RS_508	"508 Loop Detected"
 
 // FileChecker check input errors
 #define ERR_ARG							"Invalid arguments\n\tUsage: ./webserv [config_file]"
