@@ -209,10 +209,36 @@ bool Service::_hasDataToSend()
 		}
 		if (!this->_clients.at(this->_tmp.clientID).isReadyToSend())
 			return true;
+		this->_checkRequestedServer();
 		std::cout << "can send data" << std::endl;
 		return true;
 	}
 	return false;
+}
+
+void Service::_checkRequestedServer()
+{
+	std::string	request = this->_clients.at(this->_tmp.clientID).getRequest();
+	std::string	requestedServer;
+	size_t 		pos;
+
+	if ((pos = request.find(REQUEST_HOST)))
+	{
+		requestedServer = request.substr(pos + std::strlen(REQUEST_HOST));
+		if ((pos = requestedServer.find(NEWLINE)))
+			requestedServer = requestedServer.substr(0, pos);
+	}
+	else
+		return;
+
+	ServerInfo	defaultServer = this->_clients.at(this->_tmp.clientID).getServer();
+	serverVector::iterator server = this->_servers.begin();
+
+	for (; server != this->_servers.end(); server++)
+	{
+		if (requestedServer == server->getServerName() && server->getHost() == defaultServer.getHost())
+			this->_clients.at(this->_tmp.clientID).changeServer(*server);
+	}
 }
 
 // ---> Setup private auxiliars -------------------------------------------------------

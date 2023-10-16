@@ -66,6 +66,7 @@ class Service
 		bool	_hasBadRequest();
 		bool	_isServerRequest();
 		bool	_hasDataToSend();
+		void	_checkRequestedServer();
 		
 		// Common auxiliars
 		void	_addSocketInPollingRequests();

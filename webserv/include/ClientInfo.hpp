@@ -35,5 +35,8 @@ class ClientInfo
 		bool				isTimeout() const;
 		bool				isReadyToSend() const;
 
+		// Getters and setters
 		std::string const	&getRequest() const;
+		ServerInfo const	&getServer() const;
+		void				changeServer(ServerInfo server);
 };

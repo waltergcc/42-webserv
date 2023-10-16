@@ -39,3 +39,5 @@ bool	ClientInfo::isReadyToSend() const
 // ---> Getters and setters ---------------------------------------------------
 
 std::string const	&ClientInfo::getRequest() const{return (this->_request);}
+ServerInfo const	&ClientInfo::getServer() const{return (this->_server);}
+void				ClientInfo::changeServer(ServerInfo server){this->_server = server;}
