@@ -86,7 +86,11 @@ void	ClientInfo::_checkFirstLine(std::string &line)
 		throw std::runtime_error(RS_400);
 	this->_resourceTarget = parameters.at(1);
 
+	if (parameters.at(2) == HTTP_1_0)
+		throw std::runtime_error(RS_505);
 		
+	if (parameters.at(2) != HTTP_1_1)
+		throw std::runtime_error(RS_400);
 }
 
 // ---> Getters and setters ---------------------------------------------------

@@ -1,3 +1,3 @@
-GET resourcePath third
+GET resourcePath HTTP/1.1
 Host: the4
 
