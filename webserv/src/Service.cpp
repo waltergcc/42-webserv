@@ -213,7 +213,7 @@ bool Service::_hasDataToSend()
 
 		this->_checkRequestedServer();
 		this->_clients.at(this->_tmp.clientID).sendResponse();
-		
+
 		return true;
 	}
 	return false;

@@ -41,6 +41,8 @@ void	ClientInfo::sendResponse()
 	this->_sentRequest = true;
 	this->_lastRequest = std::time(NULL);
 	this->_checkRequest();
+	this->_request.clear();
+	this->_sentRequest = false;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
@@ -48,6 +50,7 @@ void	ClientInfo::sendResponse()
 void	ClientInfo::_checkRequest()
 {
 	std::cout << "request checked" << std::endl;
+	std::cout << "Server name: " << this->_server.getServerName() << std::endl;
 }
 
 // ---> Getters and setters ---------------------------------------------------
