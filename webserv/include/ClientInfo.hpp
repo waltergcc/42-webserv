@@ -24,6 +24,8 @@ class ClientInfo
 		bool		_sentRequest;
 		std::string	_request;
 		time_t		_lastRequest;
+		std::string	_method;
+		std::string _resourceTarget;
 
 		// _checkRequest auxiliars
 		void		_checkRequest();

@@ -1,3 +1,3 @@
-GET second third
+GET resourcePath third
 Host: the4
 

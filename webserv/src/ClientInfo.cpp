@@ -77,6 +77,15 @@ void	ClientInfo::_checkFirstLine(std::string &line)
 	
 	if (parameters.at(0) != GET && parameters.at(0) != DELETE && parameters.at(0) != POST)
 		throw std::runtime_error(RS_501);
+	this->_method = parameters.at(0);
+
+	if (parameters.at(1).length() > MAX_URI_LENGHT)
+		throw std::runtime_error(RS_414);
+	
+	if (parameters.at(1).find(RELATIVE_BACK) != std::string::npos || parameters.at(1) == LITERAL_BACK)
+		throw std::runtime_error(RS_400);
+	this->_resourceTarget = parameters.at(1);
+
 		
 }
 
