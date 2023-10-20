@@ -44,6 +44,7 @@ class ClientInfo
 		bool	_resourceHasNotLocation(std::string const &location, std::string &resource);
 		bool	_methodMatches(stringVector const &methods);
 		bool	_hasRedirection(std::string &resource, std::string &root, size_t loopCount, std::string const &redirect, std::string const &location);
+		void	_updateRootIfLocationHasIt(std::string &resource, std::string &root, std::string const &location, std::string const &locationRoot);
 
 		// Common auxiliars
 		void	_cleanRequest();

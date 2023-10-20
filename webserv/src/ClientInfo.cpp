@@ -72,28 +72,20 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 
 void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resource, size_t loopCount)
 {
-	std::cout << this->_server.getServerName() << std::endl;
 	locationMap::const_iterator location;
 	for (location = this->_server.getLocations().begin(); location != this->_server.getLocations().end(); location++)
 	{
-		std::cout << "resource: " << resource << std::endl;
-		std::cout << "get here in check all server locations" << std::endl;
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
-		
 		if (this->_resourceHasNotLocation(location->first, resource))
-		{
-			std::cout << "Resource hasn't location" << std::endl;
 			continue;
-		}
-		std::cout << "Resource has location" << std::endl;
-
 		if (!this->_methodMatches(location->second.methods))
 			throw std::runtime_error(RS_405);
-		std::cout << "Method match" << std::endl;
-
+			
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
+
+		this->_updateRootIfLocationHasIt(resource, root, location->first, location->second.root);
 	}
 }
 
@@ -123,14 +115,22 @@ bool	ClientInfo::_hasRedirection(std::string &resource, std::string &root, size_
 	if (redirect.length() == 0)
 		return false;
 	
-	std::cout << "has redirection" << std::endl;
-	
 	size_t pos = resource.find(location);
 	std::string newResource = resource;
 
 	newResource.replace(pos, location.length(), redirect);
 	this->_checkLocation(root, newResource, loopCount + 1);
 	return true;
+}
+
+void	ClientInfo::_updateRootIfLocationHasIt(std::string &resource, std::string &root, std::string const &location, std::string const &locationRoot)
+{
+	if (locationRoot.length() == 0)
+		return;
+	
+	size_t pos = resource.find(location);
+	resource.erase(pos, location.length());
+	root = locationRoot;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
