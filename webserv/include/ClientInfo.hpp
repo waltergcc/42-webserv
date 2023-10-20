@@ -42,7 +42,7 @@ class ClientInfo
 		void	_checkAllServerLocations(std::string &root, std::string &resource);
 		bool	_locationIsRootAndResourceNot(std::string const &location, std::string const &resource);
 		bool	_resourceHasNotLocation(std::string const &location, std::string const &resource);
-
+		bool	_methodMatches(stringVector const &methods);
 
 		// Common auxiliars
 		void	_cleanRequest();

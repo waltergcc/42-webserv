@@ -75,21 +75,23 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 	// size_t			matchPosition;
 	(void)root;
 	std::cout << this->_server.getServerName() << std::endl;
-	locationMap::const_iterator it;
-	for (it = this->_server.getLocations().begin(); it != this->_server.getLocations().end(); it++)
+	locationMap::const_iterator location;
+	for (location = this->_server.getLocations().begin(); location != this->_server.getLocations().end(); location++)
 	{
 		std::cout << "get here in check all server locations" << std::endl;
-		if (this->_locationIsRootAndResourceNot(it->first, resource))
+		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
 		
-		if (this->_resourceHasNotLocation(it->first, resource))
+		if (this->_resourceHasNotLocation(location->first, resource))
 		{
 			std::cout << "Resource hasn't location" << std::endl;
 			continue;
 		}
 		std::cout << "Resource has location" << std::endl;
-		
 
+		if (!this->_methodMatches(location->second.methods))
+			throw std::runtime_error(RS_405);
+		std::cout << "Method match" << std::endl;
 	}
 }
 
@@ -101,6 +103,17 @@ bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std:
 bool	ClientInfo::_resourceHasNotLocation(std::string const &location, std::string const &resource)
 {
 	return (resource.find(getPathWithSlashAtEnd(location)) == std::string::npos && !isItSufix(location, resource));
+}
+
+bool	ClientInfo::_methodMatches(stringVector const &methods)
+{
+	stringVector::const_iterator method;
+	for (method = methods.begin(); method != methods.end(); method++)
+	{
+		if (*method == this->_method)
+			return true;
+	}
+	return false;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
