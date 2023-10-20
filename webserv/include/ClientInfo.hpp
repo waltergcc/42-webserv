@@ -37,6 +37,10 @@ class ClientInfo
 		void	_checkAndGetPayload(std::stringstream &ss);
 		size_t	_getValidContentLength(std::string const &length);
 
+		// _checkLocation auxiliars
+		void	_checkLocation(std::string const &root, std::string const &resource, size_t loopCount);
+
+		// Common auxiliars
 		void	_cleanRequest();
 
 		ClientInfo();

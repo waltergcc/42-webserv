@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/20 10:27:15 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/20 11:07:23 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ extern bool	g_shutdown;
 #define POLL_TIME_OUT	200				// 200ms
 #define BUFFER_SIZE		2048			// 2KB
 #define SENT_TIMEOUT	60				// 60s
-#define MAX_URI_LENGHT	1024			// 1024 characters
+#define MAX_URI_LENGHT	1024			// 1024 characters	
+#define MAX_LOOP_COUNT	10				// 10 loops
 
 // Custom Outputs
 #define RED		"\033[0;31m"

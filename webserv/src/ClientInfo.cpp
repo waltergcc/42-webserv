@@ -44,6 +44,7 @@ void	ClientInfo::sendResponse()
 	try
 	{
 		this->_checkRequest();
+		this->_checkLocation(this->_server.getRoot(), this->_resourceTarget, 0);
 	}
 	catch(const std::exception& e)
 	{
@@ -53,6 +54,18 @@ void	ClientInfo::sendResponse()
 	this->_request.clear();
 	this->_requestPayload.clear();
 	this->_sentRequest = false;
+}
+
+// ---> _checkLocation auxiliars ---------------------------------------------
+
+void	ClientInfo::_checkLocation(std::string const &root, std::string const &resource, size_t loopCount)
+{
+	if (loopCount > MAX_LOOP_COUNT)
+		throw std::runtime_error(RS_508);
+	
+	std::cout << "get until here" << std::endl;
+	std::cout << "root: " << root << std::endl;
+	std::cout << "resource: " << resource << std::endl;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
@@ -66,12 +79,6 @@ void	ClientInfo::_checkRequest()
 	this->_checkFirstLine(ss);
 	this->_checkAndGetHeaders(ss);
 	this->_checkAndGetPayload(ss);
-
-	std::cout << "requestPayload: " << this->_requestPayload << std::endl;
-
-	// print headers
-	// for (stringMap::iterator it = this->_headers.begin(); it != this->_headers.end(); it++)
-	// 	std::cout << it->first << ": " << it->second << std::endl;
 }
 
 void	ClientInfo::_checkFirstLine(std::stringstream &ss)
