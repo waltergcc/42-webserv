@@ -28,11 +28,6 @@ Service::Service(int ac, char **av)
 	FileChecker	input(ac, av);
 	this->_servers = input.getServerConfigs();
 	this->_defaultServers = this->_countDefaultServers();
-
-	// for (serverVector::iterator server = this->_servers.begin(); server != this->_servers.end(); server++)
-	// 	std::cout << *server << std::endl;
-	
-	// std::cout << "Default servers: " << this->_defaultServers << std::endl << std::endl;
 }
 
 Service::~Service()
@@ -71,7 +66,7 @@ void Service::setup()
 
 void Service::launch()
 {
-	printInfo("Launching server...", BLUE);
+	printInfo(LAUNCH_MSG, BLUE);
 
 	while (g_shutdown == false)
 	{

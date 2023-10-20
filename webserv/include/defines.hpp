@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/16 23:39:06 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/20 10:27:15 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef std::vector<std::string>			stringVector;
 #define END_MSG						"Webserv Engine shutdown complete"
 #define SETUP_MSG					"Setting up servers..."
 #define SET_SERVER_MSG(host, port)	"Server " + host + ":" + port + " setup complete"
+#define LAUNCH_MSG					"Launching servers..."
 #define SHUTDOWN_MSG				"Shutting down Webserv Engine..."
 #define POLLERR_MSG					"Connection closed. Error: POLLERR"
 #define POLLHUP_MSG					"Connection closed. Error: POLLHUP"
