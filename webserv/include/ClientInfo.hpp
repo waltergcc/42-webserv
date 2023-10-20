@@ -41,6 +41,7 @@ class ClientInfo
 		void	_checkLocation(std::string &root, std::string &resource, size_t loopCount);
 		void	_checkAllServerLocations(std::string &root, std::string &resource);
 		bool	_locationIsRootAndResourceNot(std::string const &location, std::string const &resource);
+		bool	_resourceHasNotLocation(std::string const &location, std::string const &resource);
 
 
 		// Common auxiliars

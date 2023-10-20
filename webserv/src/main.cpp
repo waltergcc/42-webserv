@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:32:18 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/20 14:59:14 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/20 16:07:51 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int ac, char **av)
 	try
 	{
 		Service webserv(ac, av);
-		webserv.printServersInfo();
+		// webserv.printServersInfo();
 		webserv.setup();
 		webserv.launch();
 	}

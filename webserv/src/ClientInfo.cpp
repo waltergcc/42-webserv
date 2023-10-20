@@ -74,32 +74,33 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 {
 	// size_t			matchPosition;
 	(void)root;
-	locationMap::const_iterator it = this->_server.getLocations().begin();
-	for (; it != this->_server.getLocations().end(); it++)
+	std::cout << this->_server.getServerName() << std::endl;
+	locationMap::const_iterator it;
+	for (it = this->_server.getLocations().begin(); it != this->_server.getLocations().end(); it++)
 	{
 		std::cout << "get here in check all server locations" << std::endl;
 		if (this->_locationIsRootAndResourceNot(it->first, resource))
 			continue;
 		
-		std::cout << "location: " << it->first << std::endl;
-		std::cout << "resource: " << resource << std::endl;
-		if (isItSufix(resource, it->first))
+		if (this->_resourceHasNotLocation(it->first, resource))
 		{
-			std::cout << "location: " << it->first << std::endl;
-			std::cout << "resource: " << resource << std::endl;
-			std::cout << "is sufix" << std::endl;
+			std::cout << "Resource hasn't location" << std::endl;
+			continue;
 		}
+		std::cout << "Resource has location" << std::endl;
 		
 
 	}
-	
-
-
 }
 
 bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string const &resource)
 {
 	return (location == SLASH_STR && resource != SLASH_STR);
+}
+
+bool	ClientInfo::_resourceHasNotLocation(std::string const &location, std::string const &resource)
+{
+	return (resource.find(getPathWithSlashAtEnd(location)) == std::string::npos && !isItSufix(location, resource));
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
