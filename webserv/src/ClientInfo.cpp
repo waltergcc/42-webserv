@@ -65,19 +65,18 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	if (loopCount > MAX_LOOP_COUNT)
 		throw std::runtime_error(RS_508);
 	
-	this->_checkAllServerLocations(root, resource);
+	this->_checkAllServerLocations(root, resource, loopCount);
 	
 	std::cout << "get until here at the end" << std::endl;
 }
 
-void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resource)
+void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resource, size_t loopCount)
 {
-	// size_t			matchPosition;
-	(void)root;
 	std::cout << this->_server.getServerName() << std::endl;
 	locationMap::const_iterator location;
 	for (location = this->_server.getLocations().begin(); location != this->_server.getLocations().end(); location++)
 	{
+		std::cout << "resource: " << resource << std::endl;
 		std::cout << "get here in check all server locations" << std::endl;
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
@@ -92,15 +91,18 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 		if (!this->_methodMatches(location->second.methods))
 			throw std::runtime_error(RS_405);
 		std::cout << "Method match" << std::endl;
+
+		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
+			return;
 	}
 }
 
-bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string const &resource)
+bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
 {
 	return (location == SLASH_STR && resource != SLASH_STR);
 }
 
-bool	ClientInfo::_resourceHasNotLocation(std::string const &location, std::string const &resource)
+bool	ClientInfo::_resourceHasNotLocation(std::string const &location, std::string &resource)
 {
 	return (resource.find(getPathWithSlashAtEnd(location)) == std::string::npos && !isItSufix(location, resource));
 }
@@ -114,6 +116,21 @@ bool	ClientInfo::_methodMatches(stringVector const &methods)
 			return true;
 	}
 	return false;
+}
+
+bool	ClientInfo::_hasRedirection(std::string &resource, std::string &root, size_t loopCount, std::string const &redirect, std::string const &location)
+{
+	if (redirect.length() == 0)
+		return false;
+	
+	std::cout << "has redirection" << std::endl;
+	
+	size_t pos = resource.find(location);
+	std::string newResource = resource;
+
+	newResource.replace(pos, location.length(), redirect);
+	this->_checkLocation(root, newResource, loopCount + 1);
+	return true;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

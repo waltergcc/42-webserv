@@ -207,7 +207,7 @@ std::ostream &operator<<(std::ostream &out, ServerInfo const &server)
 		for (stringVector::const_iterator it2 = it->second.methods.begin(); it2 != it->second.methods.end(); it2++)
 			out << *it2 << " ";
 		out << std::endl;
-		out << "	Redirect: " << it->second.redirect << std::endl;
+		out << "	Return: " << it->second.redirect << std::endl;
 		out << "	Autoindex: " << it->second.autoindex << std::endl;
 		out << "	TryFile: " << it->second.tryFile << std::endl;
 		out << "	HasCGI: " << it->second.hasCGI << std::endl;
