@@ -65,6 +65,9 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	if (loopCount > MAX_LOOP_COUNT)
 		throw std::runtime_error(RS_508);
 	
+	if (!this->_hasValidMethod())
+		throw std::runtime_error(RS_403);
+	
 	this->_checkAllServerLocations(root, resource, loopCount);
 	
 	std::cout << "get until here at the end" << std::endl;
@@ -73,6 +76,7 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resource, size_t loopCount)
 {
 	locationMap::const_iterator location;
+
 	for (location = this->_server.getLocations().begin(); location != this->_server.getLocations().end(); location++)
 	{
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
@@ -81,7 +85,6 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 			continue;
 		if (!this->_methodMatches(location->second.methods))
 			throw std::runtime_error(RS_405);
-			
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
 
@@ -131,6 +134,15 @@ void	ClientInfo::_updateRootIfLocationHasIt(std::string &resource, std::string &
 	size_t pos = resource.find(location);
 	resource.erase(pos, location.length());
 	root = locationRoot;
+}
+
+bool	ClientInfo::_hasValidMethod()
+{
+	locationMap::const_iterator location = this->_server.getLocations().begin();
+
+	if (location == this->_server.getLocations().end() && this->_method != GET)
+		return false;
+	return true;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
