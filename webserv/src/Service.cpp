@@ -75,6 +75,15 @@ void Service::launch()
 	}
 }
 
+void Service::printServersInfo()
+{
+	serverVector::iterator server = this->_servers.begin();
+	for (; server != this->_servers.end(); server++)
+	{
+		std::cout << *server << std::endl;
+	}
+}
+
 // ---> Launch private auxiliars -----------------------------------------------------
 
 void Service::_initPollingRequests()

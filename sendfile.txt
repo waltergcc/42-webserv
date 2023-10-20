@@ -1,4 +1,4 @@
-POST resourcePath HTTP/1.1
+POST resource/images/ HTTP/1.1
 Host: the4
 Content-Length: 30
 

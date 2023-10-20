@@ -80,4 +80,5 @@ class Service
 
 		void setup();
 		void launch();
+		void printServersInfo();
 };

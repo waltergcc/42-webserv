@@ -38,7 +38,10 @@ class ClientInfo
 		size_t	_getValidContentLength(std::string const &length);
 
 		// _checkLocation auxiliars
-		void	_checkLocation(std::string const &root, std::string const &resource, size_t loopCount);
+		void	_checkLocation(std::string &root, std::string &resource, size_t loopCount);
+		void	_checkAllServerLocations(std::string &root, std::string &resource);
+		bool	_locationIsRootAndResourceNot(std::string const &location, std::string const &resource);
+
 
 		// Common auxiliars
 		void	_cleanRequest();

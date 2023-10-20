@@ -44,7 +44,9 @@ void	ClientInfo::sendResponse()
 	try
 	{
 		this->_checkRequest();
-		this->_checkLocation(this->_server.getRoot(), this->_resourceTarget, 0);
+		std::string root = this->_server.getRoot();
+		std::string resource = this->_resourceTarget;
+		this->_checkLocation(root, resource, 0);
 	}
 	catch(const std::exception& e)
 	{
@@ -58,14 +60,46 @@ void	ClientInfo::sendResponse()
 
 // ---> _checkLocation auxiliars ---------------------------------------------
 
-void	ClientInfo::_checkLocation(std::string const &root, std::string const &resource, size_t loopCount)
+void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 {
 	if (loopCount > MAX_LOOP_COUNT)
 		throw std::runtime_error(RS_508);
 	
-	std::cout << "get until here" << std::endl;
-	std::cout << "root: " << root << std::endl;
-	std::cout << "resource: " << resource << std::endl;
+	this->_checkAllServerLocations(root, resource);
+	
+	std::cout << "get until here at the end" << std::endl;
+}
+
+void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resource)
+{
+	// size_t			matchPosition;
+	(void)root;
+	locationMap::const_iterator it = this->_server.getLocations().begin();
+	for (; it != this->_server.getLocations().end(); it++)
+	{
+		std::cout << "get here in check all server locations" << std::endl;
+		if (this->_locationIsRootAndResourceNot(it->first, resource))
+			continue;
+		
+		std::cout << "location: " << it->first << std::endl;
+		std::cout << "resource: " << resource << std::endl;
+		if (isItSufix(resource, it->first))
+		{
+			std::cout << "location: " << it->first << std::endl;
+			std::cout << "resource: " << resource << std::endl;
+			std::cout << "is sufix" << std::endl;
+		}
+		
+
+	}
+	
+
+
+}
+
+bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string const &resource)
+{
+	return (location == SLASH_STR && resource != SLASH_STR);
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

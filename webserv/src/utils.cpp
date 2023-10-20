@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 14:48:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:48:43 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ std::string getPathWithoutSlashAtBegin(std::string const &path)
 	if (tmp.at(0) == SLASH)
 		tmp.erase(0, 1);
 	return tmp;
+}
+
+bool	isItSufix(std::string const &s, std::string const &sufix)
+{
+	if (s.length() < sufix.length())
+		return false;
+	return (s.substr(s.length() - sufix.length()) == sufix);
 }
 
 // ---> Time Utils -----------------------------------------------------------

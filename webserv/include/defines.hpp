@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/20 11:07:23 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:56:05 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ extern bool	g_shutdown;
 #define SEMICOLON			';'
 #define SPACE				' '
 #define SLASH				'/'
+#define SLASH_STR			"/"
 #define SPACES				" \t\r\v\f"
 #define CURSOR_NEWLINE		"\r\n"
 #define DECIMAL				"0123456789"
