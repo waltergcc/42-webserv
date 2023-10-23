@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 15:55:46 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:38:19 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,19 @@ std::string getFileType(std::string const &file)
 			return (types[extension]);
 	}
 	return ("text/plain");
+}
+
+std::string generateResponseOK(std::string const &path)
+{
+	std::string response = 
+		"HTTP/1.1 200 OK\n"
+		"Date: " + getTimeStamp() + "\n" +
+		"Server: Webserv/1.0.0 (Linux)\n" +
+		"Connection: keep-alive\n" +
+		"Content-Type: " + getFileType(path) + "; charset=utf-8\n" +
+		"Content-Length: " + intToString(getFileContent(path).length()) + "\n\n";
+
+	return (response + getFileContent(path));
 }
 
 // ---> Log Utils ------------------------------------------------------------

@@ -173,8 +173,14 @@ void	ClientInfo::_writeResponseOnSocket(std::string const &filepath)
 	if (!file.is_open())
 	{
 		write(this->_socket, this->_server.getErrorResponse().c_str(), this->_server.getErrorResponse().length());
-		printInfo(filepath + " -> " + RS_404, RED);
+		printInfo("socket[" + intToString(this->_socket) + "] " + filepath + " -> " + RS_404, RED);
+		return;
 	}
+	file.close();
+
+	std::string response = generateResponseOK(filepath);
+	write(this->_socket, response.c_str(), response.length());
+	printInfo("socket[" + intToString(this->_socket) + "] " + filepath + " -> " + RS_200, GREEN);
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

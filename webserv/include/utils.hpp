@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:24 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 15:31:52 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:38:19 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ bool			hasThisExtension(std::string const &file, std::string const &extension);
 bool			directoryExists(std::string const &path);
 std::string		getFileContent(std::string const &path);
 std::string		getFileType(std::string const &file);
+std::string		generateResponseOK(std::string const &path);
 
 // ---> Display Utils -----------------------------------------------------------
 
