@@ -1,4 +1,4 @@
-DELETE /test.jh HTTP/1.1
+GET /test? HTTP/1.1
 Host: withLocations
 Content-Length: 30
 
