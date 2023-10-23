@@ -65,10 +65,7 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	if (loopCount > MAX_LOOP_COUNT)
 		throw std::runtime_error(RS_508);
 	
-	if (!this->_hasValidMethod())
-		throw std::runtime_error(RS_403);
-	else if (this->_method == POST || this->_method == DELETE)
-		this->_checkAllServerLocations(root, resource, loopCount);
+	this->_checkAllServerLocations(root, resource, loopCount);
 	
 	std::cout << "get until here at the end" << std::endl;
 }
@@ -81,17 +78,25 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 	{
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
+
 		if (this->_resourceHasNotLocation(location->first, resource))
 			continue;
+
 		if (!this->_methodMatches(location->second.methods))
 			throw std::runtime_error(RS_405);
+			
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
 
 		this->_updateRootIfLocationHasIt(resource, root, location->first, location->second.root);
 
-		this->_checkPaths(resource, root, location->second);
+		if (this->_hasValidPath(resource, root, location->second))
+			return;
+
+		break;
 	}
+	if (this->_hasInvalidLocation(location))
+		throw std::runtime_error(RS_403);
 }
 
 bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
@@ -138,25 +143,33 @@ void	ClientInfo::_updateRootIfLocationHasIt(std::string &resource, std::string &
 	root = locationRoot;
 }
 
-bool	ClientInfo::_hasValidMethod()
+bool	ClientInfo::_hasInvalidLocation(locationMap::const_iterator &location)
 {
-	locationMap::const_iterator location = this->_server.getLocations().begin();
-
-	if (location == this->_server.getLocations().end() && this->_method != GET)
-		return false;
-	return true;
+	if (location == this->_server.getLocations().end() && (this->_method == GET || this->_method == POST))
+		return true;
+	return false;
 }
 
-void	ClientInfo::_checkPaths(std::string const &resource, std::string const &root, location_t const &location)
+bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &root, location_t const &location)
 {
-	(void)location;
 	std::string path = root + resource;
 	std::cout << "path: " << path << std::endl;
 	if (directoryExists(path))
 	{
 		std::cout << "directory exists" << std::endl;
+		if (location.tryFile.size())
+			std::cout << "try_file : " << location.tryFile << std::endl;
+		else if (location.autoindex)
+			std::cout << "auto_index: " << location.autoindex << std::endl;
+		else if (resource == SLASH_STR)
+			std::cout << "root: " << root << std::endl;
+		else
+			throw std::runtime_error(RS_403);
+		return true;
 	}
-	std::cout << "directory does not exists" << std::endl;
+	else
+		std::cout << "directory does not exists" << std::endl;
+	return false;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
