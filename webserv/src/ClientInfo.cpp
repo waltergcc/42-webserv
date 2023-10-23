@@ -83,8 +83,8 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	}
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
-	this->_updateResourceIfNecessary(resource, location->first);
-	this->_methodsManager(root, resource, location->second);
+	// this->_updateResourceIfNecessary(resource, location->first);
+	this->_methodsManager(root, resource, location);
 }
 
 bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
@@ -195,22 +195,22 @@ void	ClientInfo::_writeAutoIndexResponse(std::string const &path)
 	this->_request.clear();
 }
 
-void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string const &location)
-{
-	size_t pos;
-	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
-	{
-		std::cout << "resource: " << resource << std::endl;
-		pos = resource.find(location);
-		if (pos != std::string::npos)
-			resource.erase(pos, location.length());
-		std::cout << "resource: " << resource << std::endl;
-	}
-}
+// void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string const &location)
+// {
+// 	size_t pos;
+// 	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
+// 	{
+// 		std::cout << "resource: " << resource << std::endl;
+// 		pos = resource.find(location);
+// 		if (pos != std::string::npos)
+// 			resource.erase(pos, location.length());
+// 		std::cout << "resource: " << resource << std::endl;
+// 	}
+// }
 
 // ---> _methodsManager auxiliars --------------------------------------------
 
-void	ClientInfo::_methodsManager(std::string &root, std::string &resource, location_t const &location)
+void	ClientInfo::_methodsManager(std::string &root, std::string &resource, locationMap::const_iterator &location)
 {
 	(void)location;
 	if (this->_method == GET)
