@@ -158,7 +158,7 @@ bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &r
 		else if (location.autoindex)
 			std::cout << "auto_index: " << location.autoindex << std::endl;
 		else if (resource == SLASH_STR)
-			std::cout << "root: " << root << std::endl;
+			this->_writeResponseOnSocket(path + this->_server.getIndex());
 		else
 			throw std::runtime_error(RS_403);
 		return true;
