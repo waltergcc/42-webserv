@@ -49,6 +49,7 @@ class ClientInfo
 		bool	_hasValidPath(std::string const &resource, std::string const &root, location_t const &location);
 		void	_writeResponseOnSocket(std::string const &filepath);
 		void	_writeAutoIndexResponse(std::string const &path);
+		void	_updateResourceIfNecessary(std::string &resource, std::string const &location);
 
 		// Common auxiliars
 		void	_cleanRequest();

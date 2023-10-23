@@ -94,6 +94,8 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
+	
+	this->_updateResourceIfNecessary(resource, location->first);
 }
 
 bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
@@ -201,6 +203,18 @@ void	ClientInfo::_writeAutoIndexResponse(std::string const &path)
 	std::string response = generateResponseWithCustomHTML(RS_200, getPathWithoutSlashAtBegin(this->_resourceTarget), htmlInfo);
 	write(this->_socket, response.c_str(), response.length());
 	printInfo("socket[" + intToString(this->_socket) + "] " + path + " -> " + RS_200, GREEN);
+	this->_request.clear();
+}
+
+void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string const &location)
+{
+	size_t pos;
+	if (this->_method == POST || (this->_method == GET && *(resource.end() - 1) == INTERROGATION))
+	{
+		pos = resource.find(location);
+		if (pos != std::string::npos)
+			resource.erase(pos, location.length());
+	}
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
