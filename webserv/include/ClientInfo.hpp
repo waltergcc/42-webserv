@@ -47,6 +47,7 @@ class ClientInfo
 		void	_updateRootIfLocationHasIt(std::string &resource, std::string &root, std::string const &location, std::string const &locationRoot);
 		bool	_hasInvalidLocation(locationMap::const_iterator &location);
 		bool	_hasValidPath(std::string const &resource, std::string const &root, location_t const &location);
+		void	_writeResponseOnSocket(std::string const &filepath);
 
 		// Common auxiliars
 		void	_cleanRequest();

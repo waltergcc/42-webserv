@@ -154,7 +154,7 @@ bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &r
 	if (directoryExists(path))
 	{
 		if (location.tryFile.size())
-			std::cout << "try_file : " << location.tryFile << std::endl;
+			this->_writeResponseOnSocket(path + location.tryFile);
 		else if (location.autoindex)
 			std::cout << "auto_index: " << location.autoindex << std::endl;
 		else if (resource == SLASH_STR)
@@ -164,6 +164,11 @@ bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &r
 		return true;
 	}
 	return false;
+}
+
+void	ClientInfo::_writeResponseOnSocket(std::string const &filepath)
+{
+	std::cout << "filepath: " << filepath << std::endl;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
