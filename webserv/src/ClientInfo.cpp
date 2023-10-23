@@ -67,8 +67,8 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	
 	if (!this->_hasValidMethod())
 		throw std::runtime_error(RS_403);
-	
-	this->_checkAllServerLocations(root, resource, loopCount);
+	else if (this->_method == POST || this->_method == DELETE)
+		this->_checkAllServerLocations(root, resource, loopCount);
 	
 	std::cout << "get until here at the end" << std::endl;
 }
