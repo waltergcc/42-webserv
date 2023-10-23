@@ -200,7 +200,6 @@ void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string c
 	size_t pos;
 	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
 	{
-		std::cout << "resource: " << resource << std::endl;
 		pos = resource.find(location);
 		if (pos != std::string::npos)
 			resource.erase(pos, location.length());
