@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:18:12 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:10:33 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 #include <netdb.h>
 #include <poll.h>
 #include <fcntl.h>
+#include <dirent.h>
 
 // Global variables
 extern bool	g_shutdown;

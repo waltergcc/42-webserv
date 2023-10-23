@@ -156,7 +156,7 @@ bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &r
 		if (location.tryFile.size())
 			this->_writeResponseOnSocket(path + location.tryFile);
 		else if (location.autoindex)
-			std::cout << "auto_index: " << location.autoindex << std::endl;
+			this->_writeAutoIndexResponse(path);
 		else if (resource == SLASH_STR)
 			this->_writeResponseOnSocket(path + this->_server.getIndex());
 		else
@@ -181,6 +181,26 @@ void	ClientInfo::_writeResponseOnSocket(std::string const &filepath)
 	std::string response = generateResponseOK(filepath);
 	write(this->_socket, response.c_str(), response.length());
 	printInfo("socket[" + intToString(this->_socket) + "] " + filepath + " -> " + RS_200, GREEN);
+}
+
+void	ClientInfo::_writeAutoIndexResponse(std::string const &path)
+{
+	std::string htmlInfo;
+	DIR *root;
+	dirent *current;
+
+	root = opendir(path.c_str());
+	while ((current = readdir(root)) != NULL)
+	{
+		if (current->d_name == std::string(".") || current->d_name == std::string(".."))
+			continue;
+		htmlInfo.append("\t<a href=\"" + getPathWithoutSlashAtBegin(this->_resourceTarget) + "/" + current->d_name + "\">" + current->d_name + "</a><br>\n");
+	}
+	closedir(root);
+
+	std::string response = generateResponseWithCustomHTML(RS_200, getPathWithoutSlashAtBegin(this->_resourceTarget), htmlInfo);
+	write(this->_socket, response.c_str(), response.length());
+	printInfo("socket[" + intToString(this->_socket) + "] " + path + " -> " + RS_200, GREEN);
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

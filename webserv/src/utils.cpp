@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:38:19 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:37:32 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,33 @@ std::string generateResponseOK(std::string const &path)
 		"Content-Length: " + intToString(getFileContent(path).length()) + "\n\n";
 
 	return (response + getFileContent(path));
+}
+
+std::string generateResponseWithCustomHTML(std::string const &code, std::string const &title, std::string const &body)
+{
+	std::string customHTML =
+		"<!DOCTYPE html>\n"
+		"<html lang=\"en\">\n"
+		"<head>\n"
+		"    <meta charset=\"UTF-8\">\n"
+		"    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n"
+		"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+		"    <title>" + title +	"</title>\n"
+		"</head>\n"
+		"<body>\n " +
+		body +
+		"</body>\n"
+		"</html>\n"; 
+	
+	std::string response = 
+		"HTTP/1.1 " + code + " " + title + "\n"
+		"Date: " + getTimeStamp() + "\n" +
+		"Server: Webserv/1.0.0 (Linux)\n" +
+		"Connection: keep-alive\n" +
+		"Content-Type: text/html; charset=utf-8\n" +
+		"Content-Length: " + intToString(customHTML.length()) + "\n\n" + customHTML;
+
+	return response;
 }
 
 // ---> Log Utils ------------------------------------------------------------

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:24 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:38:19 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:25:50 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ bool			directoryExists(std::string const &path);
 std::string		getFileContent(std::string const &path);
 std::string		getFileType(std::string const &file);
 std::string		generateResponseOK(std::string const &path);
+std::string		generateResponseWithCustomHTML(std::string const &code, std::string const &title, std::string const &body);
 
 // ---> Display Utils -----------------------------------------------------------
 
