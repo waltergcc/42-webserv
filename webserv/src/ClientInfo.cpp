@@ -149,12 +149,8 @@ bool	ClientInfo::_hasInvalidLocation(locationMap::const_iterator &location)
 
 bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &root, location_t const &location)
 {
-	std::string path;
-	if (resource == SLASH_STR)
-		path = root;
-	else
-		path = getPathWithSlashAtEnd(root) + getPathWithoutSlashAtBegin(resource);
-		
+	std::string path = getCorrectPath(root, resource);
+
 	if (directoryExists(path))
 	{
 		if (location.tryFile.size())
