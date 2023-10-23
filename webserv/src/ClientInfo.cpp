@@ -78,23 +78,18 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 	{
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
-
 		if (this->_resourceHasNotLocation(location->first, resource))
 			continue;
-
 		if (!this->_methodMatches(location->second.methods))
 			throw std::runtime_error(RS_405);
-			
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
-
 		this->_updateRootIfLocationHasIt(resource, root, location->first, location->second.root);
-
 		if (this->_hasValidPath(resource, root, location->second))
 			return;
-
 		break;
 	}
+
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
 }
