@@ -40,7 +40,7 @@ class ClientInfo
 		// _checkLocation auxiliars
 		void	_checkLocation(std::string &root, std::string &resource, size_t loopCount);
 		bool	_locationIsRootAndResourceNot(std::string const &location, std::string &resource);
-		bool	_resourceHasNotLocation(std::string const &location, std::string &resource);
+		bool	_resourceHasLocation(std::string const &location, std::string &resource);
 		bool	_methodMatches(stringVector const &methods);
 		bool	_hasRedirection(std::string &resource, std::string &root, size_t loopCount, std::string const &redirect, std::string const &location);
 		void	_updateRootIfLocationHasIt(std::string &resource, std::string &root, std::string const &location, std::string const &locationRoot);

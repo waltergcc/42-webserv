@@ -70,7 +70,7 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	{
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
-		if (this->_resourceHasNotLocation(location->first, resource))
+		if (!this->_resourceHasLocation(location->first, resource))
 			continue;
 		if (!this->_methodMatches(location->second.methods))
 			throw std::runtime_error(RS_405);
@@ -92,9 +92,9 @@ bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std:
 	return (location == SLASH_STR && resource != SLASH_STR);
 }
 
-bool	ClientInfo::_resourceHasNotLocation(std::string const &location, std::string &resource)
+bool	ClientInfo::_resourceHasLocation(std::string const &location, std::string &resource)
 {
-	return (resource.find(getPathWithSlashAtEnd(location)) == std::string::npos && !isItSufix(location, resource));
+	return (resource.find(location) != std::string::npos && isItSufix(resource, location));
 }
 
 bool	ClientInfo::_methodMatches(stringVector const &methods)
@@ -200,9 +200,11 @@ void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string c
 	size_t pos;
 	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
 	{
+		std::cout << "resource: " << resource << std::endl;
 		pos = resource.find(location);
 		if (pos != std::string::npos)
 			resource.erase(pos, location.length());
+		std::cout << "resource: " << resource << std::endl;
 	}
 }
 

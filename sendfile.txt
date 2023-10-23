@@ -1,4 +1,4 @@
-GET /test? HTTP/1.1
+GET posts/test? HTTP/1.1
 Host: withLocations
 Content-Length: 30
 
