@@ -168,7 +168,13 @@ bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &r
 
 void	ClientInfo::_writeResponseOnSocket(std::string const &filepath)
 {
-	std::cout << "filepath: " << filepath << std::endl;
+	std::ifstream file(filepath.c_str(), std::ios::binary | std::ios::in);
+
+	if (!file.is_open())
+	{
+		write(this->_socket, this->_server.getErrorResponse().c_str(), this->_server.getErrorResponse().length());
+		printInfo(filepath + " -> " + RS_404, RED);
+	}
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

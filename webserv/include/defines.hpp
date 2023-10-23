@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/20 13:56:05 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:18:12 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef std::vector<std::string>			stringVector;
 #define RS_200	"200 OK"
 #define RS_400	"400 Bad Request"
 #define RS_403	"403 Forbidden"
+#define RS_404	"404 Not Found"
 #define RS_405	"405 Method Not Allowed"
 #define RS_409	"409 Conflict"
 #define RS_411	"411 Length Required"
