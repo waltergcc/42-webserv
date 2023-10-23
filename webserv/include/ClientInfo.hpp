@@ -39,7 +39,6 @@ class ClientInfo
 
 		// _checkLocation auxiliars
 		void	_checkLocation(std::string &root, std::string &resource, size_t loopCount);
-		void	_checkAllServerLocations(std::string &root, std::string &resource, size_t loopCount);
 		bool	_locationIsRootAndResourceNot(std::string const &location, std::string &resource);
 		bool	_resourceHasNotLocation(std::string const &location, std::string &resource);
 		bool	_methodMatches(stringVector const &methods);
@@ -50,6 +49,9 @@ class ClientInfo
 		void	_writeResponseOnSocket(std::string const &filepath);
 		void	_writeAutoIndexResponse(std::string const &path);
 		void	_updateResourceIfNecessary(std::string &resource, std::string const &location);
+
+		// _methodsManager auxiliars
+		void	_methodsManager(std::string &root, std::string &resource, location_t const &location);
 
 		// Common auxiliars
 		void	_cleanRequest();

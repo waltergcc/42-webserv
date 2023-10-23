@@ -64,16 +64,8 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 {
 	if (loopCount > MAX_LOOP_COUNT)
 		throw std::runtime_error(RS_508);
-	
-	this->_checkAllServerLocations(root, resource, loopCount);
-	
-	std::cout << "get until here at the end" << std::endl;
-}
 
-void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resource, size_t loopCount)
-{
 	locationMap::const_iterator location;
-
 	for (location = this->_server.getLocations().begin(); location != this->_server.getLocations().end(); location++)
 	{
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
@@ -84,18 +76,15 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 			throw std::runtime_error(RS_405);
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
-
 		this->_updateRootIfLocationHasIt(resource, root, location->first, location->second.root);
-
 		if (this->_hasValidPath(resource, root, location->second))
 			return;
 		break;
 	}
-
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
-	
 	this->_updateResourceIfNecessary(resource, location->first);
+	this->_methodsManager(resource, root, location->second);
 }
 
 bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
@@ -215,6 +204,21 @@ void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string c
 		if (pos != std::string::npos)
 			resource.erase(pos, location.length());
 	}
+}
+
+// ---> _methodsManager auxiliars --------------------------------------------
+
+void	ClientInfo::_methodsManager(std::string &root, std::string &resource, location_t const &location)
+{
+	(void)root;
+	(void)resource;
+	(void)location;
+	if (this->_method == GET)
+		std::cout << "GET" << std::endl;
+	else if (this->_method == POST)
+		std::cout << "POST" << std::endl;
+	else if (this->_method == DELETE)
+		std::cout << "DELETE" << std::endl;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
