@@ -84,7 +84,7 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
 	this->_updateResourceIfNecessary(resource, location->first);
-	this->_methodsManager(resource, root, location->second);
+	this->_methodsManager(root, resource, location->second);
 }
 
 bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
@@ -140,7 +140,7 @@ bool	ClientInfo::_hasInvalidLocation(locationMap::const_iterator &location)
 
 bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &root, location_t const &location)
 {
-	std::string path = getCorrectPath(root, resource);
+	std::string path = getPathWithSlashAtEnd(getCorrectPath(root, resource));
 
 	if (directoryExists(path))
 	{
@@ -210,15 +210,32 @@ void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string c
 
 void	ClientInfo::_methodsManager(std::string &root, std::string &resource, location_t const &location)
 {
-	(void)root;
-	(void)resource;
 	(void)location;
 	if (this->_method == GET)
 		std::cout << "GET" << std::endl;
 	else if (this->_method == POST)
 		std::cout << "POST" << std::endl;
 	else if (this->_method == DELETE)
-		std::cout << "DELETE" << std::endl;
+		this->_methodDelete(root, resource);
+}
+
+void	ClientInfo::_methodDelete(std::string const &root, std::string const &resource)
+{
+	std::string file = getCorrectPath(root, resource);
+	std::string response;
+
+	if (remove(file.c_str()) == 0)
+	{
+		response = generateResponseWithCustomHTML(RS_200, "OK", "\t<h1>File deleted.</h1>\n");
+		write(this->_socket, response.c_str(), response.length());
+		printInfo("socket[" + intToString(this->_socket) + "] " + file + " -> " + RS_200, GREEN);
+	}
+	else
+	{
+		response = this->_server.getErrorResponse();
+		write(this->_socket, response.c_str(), response.length());
+		printInfo("socket[" + intToString(this->_socket) + "] " + file + " -> " + RS_404, RED);
+	}
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

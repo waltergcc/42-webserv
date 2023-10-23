@@ -52,6 +52,7 @@ class ClientInfo
 
 		// _methodsManager auxiliars
 		void	_methodsManager(std::string &root, std::string &resource, location_t const &location);
+		void	_methodDelete(std::string const &root, std::string const &resource);
 
 		// Common auxiliars
 		void	_cleanRequest();

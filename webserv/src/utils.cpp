@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 17:37:32 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/23 23:13:10 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ std::string getCorrectPath(std::string const &root, std::string const &resource)
 {
 	if (resource == SLASH_STR)
 		return root;
-	return getPathWithSlashAtEnd(getPathWithSlashAtEnd(root) + getPathWithoutSlashAtBegin(resource));
+	return (getPathWithSlashAtEnd(root) + getPathWithoutSlashAtBegin(resource));
 }
 
 bool	isItSufix(std::string const &s, std::string const &sufix)
