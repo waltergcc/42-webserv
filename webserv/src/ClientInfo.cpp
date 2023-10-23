@@ -84,7 +84,9 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 			throw std::runtime_error(RS_405);
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
+
 		this->_updateRootIfLocationHasIt(resource, root, location->first, location->second.root);
+
 		if (this->_hasValidPath(resource, root, location->second))
 			return;
 		break;
@@ -147,11 +149,14 @@ bool	ClientInfo::_hasInvalidLocation(locationMap::const_iterator &location)
 
 bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &root, location_t const &location)
 {
-	std::string path = root + resource;
-	std::cout << "path: " << path << std::endl;
+	std::string path;
+	if (resource == SLASH_STR)
+		path = root;
+	else
+		path = getPathWithSlashAtEnd(root) + getPathWithoutSlashAtBegin(resource);
+		
 	if (directoryExists(path))
 	{
-		std::cout << "directory exists" << std::endl;
 		if (location.tryFile.size())
 			std::cout << "try_file : " << location.tryFile << std::endl;
 		else if (location.autoindex)
@@ -162,8 +167,6 @@ bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &r
 			throw std::runtime_error(RS_403);
 		return true;
 	}
-	else
-		std::cout << "directory does not exists" << std::endl;
 	return false;
 }
 
