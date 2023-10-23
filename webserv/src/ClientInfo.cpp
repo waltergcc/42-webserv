@@ -89,6 +89,8 @@ void	ClientInfo::_checkAllServerLocations(std::string &root, std::string &resour
 			return;
 
 		this->_updateRootIfLocationHasIt(resource, root, location->first, location->second.root);
+
+		this->_checkPaths(resource, root, location->second);
 	}
 }
 
@@ -143,6 +145,18 @@ bool	ClientInfo::_hasValidMethod()
 	if (location == this->_server.getLocations().end() && this->_method != GET)
 		return false;
 	return true;
+}
+
+void	ClientInfo::_checkPaths(std::string const &resource, std::string const &root, location_t const &location)
+{
+	(void)location;
+	std::string path = root + resource;
+	std::cout << "path: " << path << std::endl;
+	if (directoryExists(path))
+	{
+		std::cout << "directory exists" << std::endl;
+	}
+	std::cout << "directory does not exists" << std::endl;
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------
