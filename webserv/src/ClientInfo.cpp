@@ -248,8 +248,9 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 
 		try
 		{
-			ScriptInfo cgi;
 			stringVector enviromnent = this->_createEnvironment(resource, location);
+			ScriptInfo cgi(PYTHON_EXT, this->_request, enviromnent, 0, "");
+
 			response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
 			write(this->_socket, response.c_str(), response.length());
 			printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_200, GREEN);

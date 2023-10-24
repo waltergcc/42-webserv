@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 02:41:07 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:02:37 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ extern bool	g_shutdown;
 #define DEFAULT_CONF		"system/default.conf"
 #define EXT_CONF			".conf"
 #define EXT_HTML			".html"
+#define CGI_OUTPUT_FILE		".cgi_output"
+#define PYTHON_EXT			".py"
 #define MAX_PORT			65535
 #define MAX_SIZE_LIMIT		10737418240.0	// 10GB
 #define MAX_PENDING			10				// Maximum number of pending connections
@@ -52,7 +54,7 @@ extern bool	g_shutdown;
 #define SENT_TIMEOUT		60				// 60s
 #define MAX_URI_LENGHT		1024			// 1024 characters	
 #define MAX_LOOP_COUNT		10				// 10 loops
-#define CGI_OUTPUT_FILE		".cgi_output"
+
 
 // Custom Outputs
 #define RED		"\033[0;31m"
@@ -115,6 +117,7 @@ typedef std::vector<std::string>			stringVector;
 #define HTTP_1_1		"HTTP/1.1"
 #define CONTENT_LENGTH	"Content-Length"
 #define CONTENT_TYPE	"Content-Type"
+#define SCRIPT_NAME		"SCRIPT_FILENAME="
 
 // printInfo messages
 #define START_MSG					"Starting Webserv Engine..."
@@ -183,3 +186,6 @@ typedef std::vector<std::string>			stringVector;
 // Service launch errors
 #define ERR_POLL_FAIL					"poll() failed"
 #define ERR_ACCEPT_SOCKET				"accept() failed"
+
+// ScriptInfo constructor & its auxiliar methods errors
+#define ERR_SCRIPT_NAME					"No SCRIPT_FILENAME found in environment"
