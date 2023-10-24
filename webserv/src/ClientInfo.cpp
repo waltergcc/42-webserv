@@ -273,7 +273,7 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 	this->_writeResponseOnSocket(path);
 }
 
-void	ClientInfo::_methodPost(std::string const &resource, location_t const &location)
+void	ClientInfo::_methodPost(std::string &resource, location_t const &location)
 {
 	std::string response;
 	std::string uploadPath;
@@ -284,8 +284,8 @@ void	ClientInfo::_methodPost(std::string const &resource, location_t const &loca
 	try
 	{
 		uploadPath = getCorrectPath(this->_getAvaliableRoot(location), location.uploadTo);
-		stringVector enviromnent = this->_createEnvironment(resource, location);
-		Script cgi(PYTHON_EXT, this->_request, enviromnent, this->_contentLength, uploadPath);
+		stringVector environment = this->_createEnvironment(resource, location);
+		Script cgi(PYTHON_EXT, this->_request, environment, this->_contentLength, uploadPath);
 
 		response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
 		write(this->_socket, response.c_str(), response.length());

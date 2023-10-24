@@ -55,7 +55,7 @@ class ClientInfo
 		void		_methodDelete(std::string const &root, std::string const &resource);
 		void		_methodGet(std::string &root, std::string &resource, location_t const &location);
 		std::string	_getPath(std::string const &root, std::string const &resource);
-		void		_methodPost(std::string const &resource, location_t const &location);
+		void		_methodPost(std::string &resource, location_t const &location);
 
 		// _createEnvironment auxiliars
 		stringVector	_createEnvironment(std::string &resource, location_t const &location);
