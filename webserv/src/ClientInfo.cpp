@@ -50,7 +50,11 @@ void	ClientInfo::sendResponse()
 	}
 	catch(const std::exception& e)
 	{
-		printInfo(e.what(), RED);
+		this->_writeErrorResponse(e.what());
+		if (!this->_method.empty() && !this->_resourceTarget.empty())
+			printInfo(this->_method + " " + this->_resourceTarget + " -> " + e.what(), RED);
+		else
+			printInfo(e.what(), RED);
 	}
 
 	this->_request.clear();
@@ -249,8 +253,6 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 		try
 		{
 			stringVector enviromnent = this->_createEnvironment(resource, location);
-			for (size_t i = 0; i < enviromnent.size(); i++)
-				std::cout << enviromnent[i] << std::endl;
 			response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
 			write(this->_socket, response.c_str(), response.length());
 			printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_200, GREEN);
@@ -383,6 +385,20 @@ size_t	ClientInfo::_getValidContentLength(std::string const &length)
 		throw std::runtime_error(RS_413);
 
 	return tmp;
+}
+
+// ---> Common auxiliars -------------------------------------------------------
+
+void	ClientInfo::_writeErrorResponse(std::string const &error)
+{
+	std::string body = 
+		"    <div class=\"error-container\">\n"
+		"        <h1 class=\"error-heading\">Erro " + error + "</h1>\n"
+		"        <p class=\"error-message\">Sorry, an error occurred during the processing of your request.</p>\n"
+		"    </div>\n";
+
+	std::string response = generateResponseWithCustomHTML(error, "Error", body);
+	write(this->_socket, response.c_str(), response.length());
 }
 
 // ---> Getters and setters ---------------------------------------------------

@@ -57,7 +57,8 @@ class ClientInfo
 		stringVector	_createEnvironment(std::string &resource, location_t const &location);
 
 		// Common auxiliars
-		void	_cleanRequest();
+		// void	_cleanRequest();
+		void	_writeErrorResponse(std::string const &error);
 
 		ClientInfo();
 
