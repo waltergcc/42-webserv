@@ -83,8 +83,8 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	}
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
-	// this->_updateResourceIfNecessary(resource, location->first);
-	this->_methodsManager(root, resource, location);
+	this->_updateResourceIfNecessary(resource, location->first);
+	this->_methodsManager(root, resource, location->second);
 }
 
 bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
@@ -195,26 +195,25 @@ void	ClientInfo::_writeAutoIndexResponse(std::string const &path)
 	this->_request.clear();
 }
 
-// void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string const &location)
-// {
-// 	size_t pos;
-// 	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
-// 	{
-// 		std::cout << "resource: " << resource << std::endl;
-// 		pos = resource.find(location);
-// 		if (pos != std::string::npos)
-// 			resource.erase(pos, location.length());
-// 		std::cout << "resource: " << resource << std::endl;
-// 	}
-// }
+void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string const &location)
+{
+	size_t pos;
+	std::string toFind = getPathWithoutSlashAtBegin(location);
+	if (this->_method == POST /* || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)) */)
+	{
+		pos = resource.find(toFind);
+		if (pos != std::string::npos)
+			resource.erase(pos, toFind.length());
+	}
+}
 
 // ---> _methodsManager auxiliars --------------------------------------------
 
-void	ClientInfo::_methodsManager(std::string &root, std::string &resource, locationMap::const_iterator &location)
+void	ClientInfo::_methodsManager(std::string &root, std::string &resource, location_t const &location)
 {
 	(void)location;
 	if (this->_method == GET)
-		std::cout << "GET" << std::endl;
+		this->_methodGet(root, resource, location);
 	else if (this->_method == POST)
 		std::cout << "POST" << std::endl;
 	else if (this->_method == DELETE)
@@ -238,6 +237,60 @@ void	ClientInfo::_methodDelete(std::string const &root, std::string const &resou
 		write(this->_socket, response.c_str(), response.length());
 		printInfo("socket[" + intToString(this->_socket) + "] " + file + " -> " + RS_404, RED);
 	}
+}
+
+void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t const &location)
+{
+	if (isItSufix(resource, INTERROGATION_STR))
+	{
+		resource.erase(resource.end() - 1);
+		std::string response;
+
+		try
+		{
+			stringVector enviromnent = this->_createEnvironment(resource, location);
+			for (size_t i = 0; i < enviromnent.size(); i++)
+				std::cout << enviromnent[i] << std::endl;
+			response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
+			write(this->_socket, response.c_str(), response.length());
+			printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_200, GREEN);
+		}
+		catch(const std::exception& e)
+		{
+			response = generateResponseWithCustomHTML(RS_500, "Internal Server Error", "\t<h1>500 Internal Server Error</h1>\n");
+			write(this->_socket, response.c_str(), response.length());
+			printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_500, RED);
+		}
+		return;
+	}
+
+	std::string path;
+	if (resource == SLASH_STR)
+		path = getPathWithSlashAtEnd(getCorrectPath(root, resource)) + this->_server.getIndex();
+	else
+		path = getCorrectPath(root, resource);
+
+	if (directoryExists(path))
+		throw std::runtime_error(RS_403);
+
+	this->_writeResponseOnSocket(path);
+}
+
+stringVector	ClientInfo::_createEnvironment(std::string &resource, location_t const &location)
+{
+	stringVector environment; 	
+
+	environment.push_back("SCRIPT_FILENAME=" + (location.root + location.cgiPath + resource));
+	if (this->_headers.count(CONTENT_LENGTH) > 0)
+		environment.push_back("CONTENT_LENGTH=" + this->_headers[CONTENT_LENGTH]);
+	if (this->_headers.count(CONTENT_TYPE) > 0)
+		environment.push_back("CONTENT_TYPE=" + this->_headers[CONTENT_TYPE]);
+	environment.push_back("GATEWAY_INTERFACE=CGI/1.1");
+	environment.push_back("REQUEST_METHOD=" + this->_method);
+	environment.push_back("SERVER_PROTOCOL=HTTP/1.1");
+	environment.push_back("SERVER_SOFTWARE=Webserv/1.0");
+
+	return environment;		
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

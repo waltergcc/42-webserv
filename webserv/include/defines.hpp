@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 23:35:27 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 02:41:07 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,18 @@
 extern bool	g_shutdown;
 
 // Default settings
-#define DEFAULT_CONF	"system/default.conf"
-#define EXT_CONF		".conf"
-#define EXT_HTML		".html"
-#define MAX_PORT		65535
-#define MAX_SIZE_LIMIT	10737418240.0	// 10GB
-#define MAX_PENDING		10				// Maximum number of pending connections
-#define POLL_TIME_OUT	200				// 200ms
-#define BUFFER_SIZE		2048			// 2KB
-#define SENT_TIMEOUT	60				// 60s
-#define MAX_URI_LENGHT	1024			// 1024 characters	
-#define MAX_LOOP_COUNT	10				// 10 loops
+#define DEFAULT_CONF		"system/default.conf"
+#define EXT_CONF			".conf"
+#define EXT_HTML			".html"
+#define MAX_PORT			65535
+#define MAX_SIZE_LIMIT		10737418240.0	// 10GB
+#define MAX_PENDING			10				// Maximum number of pending connections
+#define POLL_TIME_OUT		200				// 200ms
+#define BUFFER_SIZE			2048			// 2KB
+#define SENT_TIMEOUT		60				// 60s
+#define MAX_URI_LENGHT		1024			// 1024 characters	
+#define MAX_LOOP_COUNT		10				// 10 loops
+#define CGI_OUTPUT_FILE		".cgi_output"
 
 // Custom Outputs
 #define RED		"\033[0;31m"
@@ -113,6 +114,7 @@ typedef std::vector<std::string>			stringVector;
 #define HTTP_1_0		"HTTP/1.0"
 #define HTTP_1_1		"HTTP/1.1"
 #define CONTENT_LENGTH	"Content-Length"
+#define CONTENT_TYPE	"Content-Type"
 
 // printInfo messages
 #define START_MSG					"Starting Webserv Engine..."

@@ -48,11 +48,13 @@ class ClientInfo
 		bool	_hasValidPath(std::string const &resource, std::string const &root, location_t const &location);
 		void	_writeResponseOnSocket(std::string const &filepath);
 		void	_writeAutoIndexResponse(std::string const &path);
-		// void	_updateResourceIfNecessary(std::string &resource, std::string const &location);
+		void	_updateResourceIfNecessary(std::string &resource, std::string const &location);
 
 		// _methodsManager auxiliars
-		void	_methodsManager(std::string &root, std::string &resource, locationMap::const_iterator &location);
-		void	_methodDelete(std::string const &root, std::string const &resource);
+		void			_methodsManager(std::string &root, std::string &resource, location_t const &location);
+		void			_methodDelete(std::string const &root, std::string const &resource);
+		void			_methodGet(std::string &root, std::string &resource, location_t const &location);
+		stringVector	_createEnvironment(std::string &resource, location_t const &location);
 
 		// Common auxiliars
 		void	_cleanRequest();
