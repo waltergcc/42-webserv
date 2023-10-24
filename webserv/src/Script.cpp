@@ -24,19 +24,11 @@ Script::Script(std::string const &extension, std::string const &request, stringV
 	this->_path = this->_getValidPath();
 	this->_setArgvEnvp();
 	this->_run();
-
-	// debug info
-	for (size_t i = 0; this->_argv[i]; i++)
-		std::cout << "argv[" << i << "] = " << this->_argv[i] << std::endl;
-	
-	for (size_t i = 0; this->_envp[i]; i++)
-		std::cout << "envp[" << i << "] = " << this->_envp[i] << std::endl;
-
 }
 
 Script::~Script()
 {
-	// remove(CGI_OUTPUT_FILE);
+	remove(CGI_OUTPUT_FILE);
 	if (this->_argv)
 	{
 		for (size_t i = 0; this->_argv[i]; i++)
@@ -107,7 +99,47 @@ void		Script::_setArgvEnvp()
 
 void	Script::_run()
 {
-	int file = open(CGI_OUTPUT_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (file == -1)
+	int file, status, fd[2];
+
+	this->_setPipeAndFile(file, fd);
+	pid_t pid = fork();
+
+	if (pid == -1)
+		throw std::runtime_error(ERR_SCRIPT_FORK);
+
+	if (pid == 0)
+		this->_executeBin(file, fd);
+	else
+	{
+		close(fd[READ_END]);
+		close(file);
+		waitpid(pid, &status, 0);
+	}
+
+}
+
+void	Script::_setPipeAndFile(int &file, int (&fd)[2])
+{
+	if ((file = open(CGI_OUTPUT_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0644)) == -1)
 		throw std::runtime_error(ERR_SCRIPT_OPEN);
+
+	if (pipe(fd) == -1)
+		throw std::runtime_error(ERR_SCRIPT_PIPE);
+	
+	if (this->_size > 0)
+		fcntl(fd[WRITE_END], F_SETPIPE_SZ, this->_size);
+	
+	write(fd[WRITE_END], this->_request.data(), this->_size);
+	close(fd[WRITE_END]);
+}
+
+void	Script::_executeBin(int &file, int (&fd)[2])
+{
+	dup2(fd[READ_END], STDIN_FILENO);
+	close(fd[READ_END]);
+	dup2(file, STDOUT_FILENO);
+	close(file);
+
+	if (execve(this->_executable.c_str(), this->_argv, this->_envp) == -1)
+		throw std::runtime_error(ERR_SCRIPT_EXEC);
 }

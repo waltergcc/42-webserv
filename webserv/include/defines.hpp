@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 15:50:26 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 23:06:49 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 #include <poll.h>
 #include <fcntl.h>
 #include <dirent.h>
+#include <sys/wait.h>
 
 // Global variables
 extern bool	g_shutdown;
@@ -56,6 +57,8 @@ extern bool	g_shutdown;
 #define SENT_TIMEOUT		60				// 60s
 #define MAX_URI_LENGHT		1024			// 1024 characters	
 #define MAX_LOOP_COUNT		10				// 10 loops
+#define WRITE_END			1
+#define READ_END			0
 
 
 // Custom Outputs
@@ -197,3 +200,6 @@ typedef std::vector<std::string>			stringVector;
 
 // Script run errors
 #define ERR_SCRIPT_OPEN					"open() failed:"
+#define ERR_SCRIPT_PIPE					"pipe() failed:"
+#define ERR_SCRIPT_FORK					"fork() failed:"
+#define ERR_SCRIPT_EXEC					"execve() failed:"

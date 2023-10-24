@@ -16,7 +16,6 @@
 #include "ServerInfo.hpp"
 #include "utils.hpp"
 #include "Script.hpp"
-
 class ClientInfo
 {
 	private:

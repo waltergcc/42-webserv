@@ -33,6 +33,9 @@ class Script
 		std::string _getScriptName();
 		void		_setArgvEnvp();
 		void		_run();
+		void		_setPipeAndFile(int &file, int (&fd)[2]);
+		void		_executeBin(int &file, int (&fd)[2]);
+
 		Script();
 		
 	public:
