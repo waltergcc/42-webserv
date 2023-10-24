@@ -15,6 +15,7 @@
 #include "defines.hpp"
 #include "ServerInfo.hpp"
 #include "utils.hpp"
+#include "ScriptInfo.hpp"
 
 class ClientInfo
 {
