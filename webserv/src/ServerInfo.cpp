@@ -167,8 +167,6 @@ void ServerInfo::createSocket()
 		if (this->_socket < 0)
 			throw std::runtime_error(ERR_SOCKET(this->_serverName));
 	}
-	else
-		std::cout << "Socket already created" << std::endl;
 }
 
 // ---> Getters ---------------------------------------------------------------
