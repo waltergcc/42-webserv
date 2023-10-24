@@ -277,11 +277,15 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 	this->_writeResponseOnSocket(path);
 }
 
+// ---> _createEnvironment auxiliars ------------------------------------------
+
 stringVector	ClientInfo::_createEnvironment(std::string &resource, location_t const &location)
 {
-	stringVector environment; 	
+	stringVector environment;
+	std::string root = this->_getAvaliableRoot(location);
+	std::string path = this->_getFullPath(location, root, resource);
 
-	environment.push_back("SCRIPT_FILENAME=" + (location.root + location.cgiPath + resource));
+	environment.push_back("SCRIPT_FILENAME=" + path);
 	if (this->_headers.count(CONTENT_LENGTH) > 0)
 		environment.push_back("CONTENT_LENGTH=" + this->_headers[CONTENT_LENGTH]);
 	if (this->_headers.count(CONTENT_TYPE) > 0)
@@ -292,6 +296,23 @@ stringVector	ClientInfo::_createEnvironment(std::string &resource, location_t co
 	environment.push_back("SERVER_SOFTWARE=Webserv/1.0");
 
 	return environment;		
+}
+
+std::string		ClientInfo::_getAvaliableRoot(location_t const &location)
+{
+	if (location.root.length() > 0)
+		return location.root;
+	return this->_server.getRoot();
+}
+
+std::string		ClientInfo::_getFullPath(location_t const &location, std::string const &root, std::string const &resource)
+{
+	std::string cgi = location.cgiPath;
+	if (cgi.empty())
+		return getCorrectPath(root, resource);
+	
+	std::string path = getCorrectPath(root, cgi);
+	return getCorrectPath(path, resource);
 }
 
 // ---> _checkRequest auxiliars ------------------------------------------------

@@ -52,10 +52,14 @@ class ClientInfo
 		void	_updateResourceIfNecessary(std::string &resource, std::string const &location);
 
 		// _methodsManager auxiliars
-		void			_methodsManager(std::string &root, std::string &resource, location_t const &location);
-		void			_methodDelete(std::string const &root, std::string const &resource);
-		void			_methodGet(std::string &root, std::string &resource, location_t const &location);
+		void	_methodsManager(std::string &root, std::string &resource, location_t const &location);
+		void	_methodDelete(std::string const &root, std::string const &resource);
+		void	_methodGet(std::string &root, std::string &resource, location_t const &location);
+
+		// _createEnvironment auxiliars
 		stringVector	_createEnvironment(std::string &resource, location_t const &location);
+		std::string		_getAvaliableRoot(location_t const &location);
+		std::string		_getFullPath(location_t const &location, std::string const &root, std::string const &resource);
 
 		// Common auxiliars
 		// void	_cleanRequest();
