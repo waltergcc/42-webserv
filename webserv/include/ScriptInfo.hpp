@@ -6,13 +6,14 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 12:07:47 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 12:49:59 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:30:57 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "defines.hpp"
+#include "utils.hpp"
 
 class ScriptInfo
 {
