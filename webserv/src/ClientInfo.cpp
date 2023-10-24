@@ -215,7 +215,7 @@ void	ClientInfo::_methodsManager(std::string &root, std::string &resource, locat
 	if (this->_method == GET)
 		this->_methodGet(root, resource, location);
 	else if (this->_method == POST)
-		std::cout << "POST" << std::endl;
+		this->_methodPost(resource, location);
 	else if (this->_method == DELETE)
 		this->_methodDelete(root, resource);
 }
@@ -266,11 +266,38 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 	}
 
 	std::string path = this->_getPath(root, resource);
-	
+
 	if (directoryExists(path))
 		throw std::runtime_error(RS_403);
 
 	this->_writeResponseOnSocket(path);
+}
+
+void	ClientInfo::_methodPost(std::string const &resource, location_t const &location)
+{
+	std::string response;
+	std::string uploadPath;
+
+	if (location.uploadTo.empty() && location.hasCGI == false)
+		throw std::runtime_error(RS_405);
+	
+	try
+	{
+		uploadPath = getCorrectPath(this->_getAvaliableRoot(location), location.uploadTo);
+		stringVector enviromnent = this->_createEnvironment(resource, location);
+		Script cgi(PYTHON_EXT, this->_request, enviromnent, this->_contentLength, uploadPath);
+
+		response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
+		write(this->_socket, response.c_str(), response.length());
+		printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_200, GREEN);
+	}
+	catch(const std::exception& e)
+	{
+		response = generateResponseWithCustomHTML(RS_500, "Internal Server Error", "\t<h1>500 Internal Server Error</h1>\n");
+		write(this->_socket, response.c_str(), response.length());
+		printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_500, RED);
+		std::cerr << "           " << e.what() << std::endl;
+	}
 }
 
 std::string	ClientInfo::_getPath(std::string const &root, std::string const &resource)
