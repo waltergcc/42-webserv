@@ -51,10 +51,6 @@ void	ClientInfo::sendResponse()
 	catch(const std::exception& e)
 	{
 		this->_writeErrorResponse(e.what());
-		if (!this->_method.empty() && !this->_resourceTarget.empty())
-			printInfo(this->_method + " " + this->_resourceTarget + " -> " + e.what(), RED);
-		else
-			printInfo(e.what(), RED);
 	}
 
 	this->_request.clear();
@@ -399,6 +395,11 @@ void	ClientInfo::_writeErrorResponse(std::string const &error)
 
 	std::string response = generateResponseWithCustomHTML(error, "Error", body);
 	write(this->_socket, response.c_str(), response.length());
+
+	if (!this->_method.empty() && !this->_resourceTarget.empty())
+		printInfo(this->_method + " " + this->_resourceTarget + " -> " + error, RED);
+	else
+		printInfo(error, RED);
 }
 
 // ---> Getters and setters ---------------------------------------------------
