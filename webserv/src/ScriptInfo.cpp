@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 12:07:43 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 13:10:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:18:33 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ std::string ScriptInfo::_getValidPath()
 	dot = path.find_last_of(".");
 	if (dot == std::string::npos)
 		throw std::runtime_error(ERR_SCRIPT_NO_EXT(this->_extension));
+	
+	std::string tmp = path.substr(dot);
+	if (tmp != this->_extension)
+		throw std::runtime_error(ERR_SCRIPT_EXT(this->_extension, tmp));
 
 	return path;
 }
