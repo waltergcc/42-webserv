@@ -22,20 +22,32 @@ Script::Script(std::string const &extension, std::string const &request, stringV
 	this->_size = size;
 	this->_uploadTo = uploadTo;
 	this->_path = this->_getValidPath();
+	this->_setArgvEnvp();
 
-	std::cout << "Extension: " << this->_extension << std::endl;
-	std::cout << "Request: " << this->_request << std::endl;
-	std::cout << "Environment: " << std::endl;
-	for (stringVector::const_iterator it = this->_environment.begin(); it != this->_environment.end(); it++)
-		std::cout << *it << std::endl;
-	std::cout << "Size: " << this->_size << std::endl;
-	std::cout << "UploadTo: " << this->_uploadTo << std::endl;
-	std::cout << "Path: " << this->_path << std::endl;
+	// debug info
+	for (size_t i = 0; this->_argv[i]; i++)
+		std::cout << "argv[" << i << "] = " << this->_argv[i] << std::endl;
+	
+	for (size_t i = 0; this->_envp[i]; i++)
+		std::cout << "envp[" << i << "] = " << this->_envp[i] << std::endl;
+
 }
 
 Script::~Script()
 {
-	std::cout << "Script destroyed" << std::endl;
+	if (this->_argv)
+	{
+		for (size_t i = 0; this->_argv[i]; i++)
+			free(this->_argv[i]);
+		delete [] this->_argv;
+	}
+
+	if (this->_envp)
+	{
+		for (size_t i = 0; this->_envp[i]; i++)
+			free(this->_envp[i]);
+		delete [] this->_envp;
+	}
 }
 
 // ---> Private Constructors auxiliars -------------------------------------------------- //
@@ -71,4 +83,22 @@ std::string Script::_getScriptName()
 			return it->substr(it->find("=") + 1);
 	}
 	return "";
+}
+
+void		Script::_setArgvEnvp()
+{
+	if (this->_extension == PYTHON_EXT)
+	{
+		this->_executable = PYTHON_BIN;
+		this->_argv = new char*[4];
+		this->_argv[0] = strdup(PYTHON_VERSION);
+		this->_argv[1] = strdup(this->_path.c_str());
+		this->_argv[2] = strdup(this->_uploadTo.c_str());
+		this->_argv[3] = NULL;
+	}
+
+	this->_envp = new char*[this->_environment.size() + 1];
+	for (size_t i = 0; i < this->_environment.size(); i++)
+		this->_envp[i] = strdup(this->_environment[i].c_str());
+	this->_envp[this->_environment.size()] = NULL;
 }

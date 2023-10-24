@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 13:34:56 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:26:10 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ extern bool	g_shutdown;
 #define EXT_HTML			".html"
 #define CGI_OUTPUT_FILE		".cgi_output"
 #define PYTHON_EXT			".py"
+#define PYTHON_BIN			"/usr/bin/python3"
+#define PYTHON_VERSION		"python3"
 #define MAX_PORT			65535
 #define MAX_SIZE_LIMIT		10737418240.0	// 10GB
 #define MAX_PENDING			10				// Maximum number of pending connections

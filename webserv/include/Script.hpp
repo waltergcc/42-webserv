@@ -24,10 +24,14 @@ class Script
 		size_t			_size;
 		std::string		_uploadTo;
 		std::string 	_path;
+		char			**_envp;
+		char			**_argv;
+		std::string		_executable;
 
 		// Constructor auxiliars
 		std::string	_getValidPath();
 		std::string _getScriptName();
+		void		_setArgvEnvp();
 		Script();
 		
 	public:
