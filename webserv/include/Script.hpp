@@ -32,6 +32,7 @@ class Script
 		std::string	_getValidPath();
 		std::string _getScriptName();
 		void		_setArgvEnvp();
+		void		_run();
 		Script();
 		
 	public:

@@ -23,6 +23,7 @@ Script::Script(std::string const &extension, std::string const &request, stringV
 	this->_uploadTo = uploadTo;
 	this->_path = this->_getValidPath();
 	this->_setArgvEnvp();
+	this->_run();
 
 	// debug info
 	for (size_t i = 0; this->_argv[i]; i++)
@@ -35,6 +36,7 @@ Script::Script(std::string const &extension, std::string const &request, stringV
 
 Script::~Script()
 {
+	// remove(CGI_OUTPUT_FILE);
 	if (this->_argv)
 	{
 		for (size_t i = 0; this->_argv[i]; i++)
@@ -101,4 +103,11 @@ void		Script::_setArgvEnvp()
 	for (size_t i = 0; i < this->_environment.size(); i++)
 		this->_envp[i] = strdup(this->_environment[i].c_str());
 	this->_envp[this->_environment.size()] = NULL;
+}
+
+void	Script::_run()
+{
+	int file = open(CGI_OUTPUT_FILE, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (file == -1)
+		throw std::runtime_error(ERR_SCRIPT_OPEN);
 }
