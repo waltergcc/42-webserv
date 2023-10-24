@@ -265,16 +265,19 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 		return;
 	}
 
-	std::string path;
-	if (resource == SLASH_STR)
-		path = getPathWithSlashAtEnd(getCorrectPath(root, resource)) + this->_server.getIndex();
-	else
-		path = getCorrectPath(root, resource);
-
+	std::string path = this->_getPath(root, resource);
+	
 	if (directoryExists(path))
 		throw std::runtime_error(RS_403);
 
 	this->_writeResponseOnSocket(path);
+}
+
+std::string	ClientInfo::_getPath(std::string const &root, std::string const &resource)
+{
+	if (resource == SLASH_STR)
+		return (getPathWithSlashAtEnd(getCorrectPath(root, resource)) + this->_server.getIndex());
+	return (getCorrectPath(root, resource));
 }
 
 // ---> _createEnvironment auxiliars ------------------------------------------
