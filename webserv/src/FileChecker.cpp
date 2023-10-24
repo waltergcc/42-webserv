@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:56 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/11 16:17:00 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 11:50:18 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void FileChecker::_parseServerBlock()
 	if (this->_token.value != SERVER)
 		throw std::runtime_error(ERR_BLOCK_START(this->_token.value, intToString(this->_line)));
 	
+	this->_configs.clear();
 	while (true)
 	{
 		previous = this->_token.value;

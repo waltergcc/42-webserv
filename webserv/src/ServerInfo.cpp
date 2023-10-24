@@ -35,10 +35,10 @@ ServerInfo::~ServerInfo(){}
 
 void ServerInfo::_checkKeywords(stringMap &configs)
 {
-	std::string const mustHave[] = {SERVER_N, LISTEN, HOST, ROOT, INDEX, MAX_SIZE, ERROR_P};
+	std::string const mustHave[] = {LISTEN, HOST, ROOT, INDEX, MAX_SIZE, ERROR_P};
 	std::string const forbidden[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 6; i++)
 	{
 		if (configs.find(mustHave[i]) == configs.end())
 			throw std::runtime_error(ERR_KEYWORD_MISSING(mustHave[i]));
@@ -56,7 +56,7 @@ std::string ServerInfo::_getValidName(std::vector<ServerInfo> const &servers, st
 	std::vector<ServerInfo>::const_iterator previous = servers.begin();
 	for (; previous != servers.end(); previous++)
 	{
-		if (previous->_serverName == name)
+		if (previous->_serverName == name && !name.empty())
 			throw std::runtime_error(ERR_DUPLICATE_NAME(name));
 	}
 	return name;
