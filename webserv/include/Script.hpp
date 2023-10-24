@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScriptInfo.hpp                                     :+:      :+:    :+:   */
+/*   Script.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,7 +15,7 @@
 #include "defines.hpp"
 #include "utils.hpp"
 
-class ScriptInfo
+class Script
 {
 	private:
 		std::string		_extension;
@@ -28,9 +28,9 @@ class ScriptInfo
 		// Constructor auxiliars
 		std::string	_getValidPath();
 		std::string _getScriptName();
-		ScriptInfo();
+		Script();
 		
 	public:
-		ScriptInfo(std::string const &extension, std::string const &request, stringVector const &environment, size_t size, std::string const &uploadTo);
-		~ScriptInfo();
+		Script(std::string const &extension, std::string const &request, stringVector const &environment, size_t size, std::string const &uploadTo);
+		~Script();
 };

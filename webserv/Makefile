@@ -6,7 +6,7 @@
 #    By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/30 11:36:55 by wcorrea-          #+#    #+#              #
-#    Updated: 2023/10/24 12:11:16 by wcorrea-         ###   ########.fr        #
+#    Updated: 2023/10/24 15:13:15 by wcorrea-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRC = src/main.cpp \
 		src/FileChecker.cpp \
 		src/ServerInfo.cpp \
 		src/ClientInfo.cpp \
-		src/ScriptInfo.cpp \
+		src/Script.cpp \
 		src/utils.cpp
 
 OBJS = ${SRC:.cpp=.o}

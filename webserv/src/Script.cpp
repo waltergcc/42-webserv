@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScriptInfo.cpp                                     :+:      :+:    :+:   */
+/*   Script.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ScriptInfo.hpp"
+#include "Script.hpp"
 
 // ---> Constructors and Destructors -------------------------------------------------- //
 
-ScriptInfo::ScriptInfo(std::string const &extension, std::string const &request, stringVector const &environment, size_t size, std::string const &uploadTo)
+Script::Script(std::string const &extension, std::string const &request, stringVector const &environment, size_t size, std::string const &uploadTo)
 {
 	this->_extension = extension;
 	this->_request = request;
@@ -33,14 +33,14 @@ ScriptInfo::ScriptInfo(std::string const &extension, std::string const &request,
 	std::cout << "Path: " << this->_path << std::endl;
 }
 
-ScriptInfo::~ScriptInfo()
+Script::~Script()
 {
-	std::cout << "ScriptInfo destroyed" << std::endl;
+	std::cout << "Script destroyed" << std::endl;
 }
 
 // ---> Private Constructors auxiliars -------------------------------------------------- //
 
-std::string ScriptInfo::_getValidPath()
+std::string Script::_getValidPath()
 {
 	std::string path = this->_getScriptName();
 	size_t		dot;
@@ -62,7 +62,7 @@ std::string ScriptInfo::_getValidPath()
 	return path;
 }
 
-std::string ScriptInfo::_getScriptName()
+std::string Script::_getScriptName()
 {
 	stringVector::const_iterator it = this->_environment.begin();
 	for (; it != this->_environment.end(); it++)
