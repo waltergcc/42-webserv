@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 13:02:37 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:10:14 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,3 +189,4 @@ typedef std::vector<std::string>			stringVector;
 
 // ScriptInfo constructor & its auxiliar methods errors
 #define ERR_SCRIPT_NAME					"No SCRIPT_FILENAME found in environment"
+#define ERR_SCRIPT_NO_EXT(extension)	"No extension found. File must have the extension '" + extension + "'"

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 12:07:43 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 13:03:13 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:10:41 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,14 @@ ScriptInfo::~ScriptInfo()
 std::string ScriptInfo::_getValidPath()
 {
 	std::string path = this->_getScriptName();
+	size_t		dot;
 
 	if (path.empty())
 		throw std::runtime_error(ERR_SCRIPT_NAME);
+	
+	dot = path.find_last_of(".");
+	if (dot == std::string::npos)
+		throw std::runtime_error(ERR_SCRIPT_NO_EXT(this->_extension));
 
 	return path;
 }

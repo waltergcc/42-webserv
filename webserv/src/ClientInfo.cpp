@@ -260,6 +260,7 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 			response = generateResponseWithCustomHTML(RS_500, "Internal Server Error", "\t<h1>500 Internal Server Error</h1>\n");
 			write(this->_socket, response.c_str(), response.length());
 			printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_500, RED);
+			std::cerr << "           " << e.what() << std::endl;
 		}
 		return;
 	}
