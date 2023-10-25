@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 16:55:53 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:40:16 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 	if (loopCount > MAX_LOOP_COUNT)
 		throw std::runtime_error(RS_508);
 
-	locationMap::const_iterator location;
-	for (location = this->_server.getLocations().begin(); location != this->_server.getLocations().end(); location++)
+	locationMap::const_iterator location = this->_server.getLocations().begin();
+	for (; location != this->_server.getLocations().end(); location++)
 	{
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
@@ -81,7 +81,7 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 			return;
 		break;
 	}
-	if (this->_hasInvalidLocation(location))
+	if (this->_hasInvalidLocation(location, resource))
 		throw std::runtime_error(RS_403);
 	this->_updateResourceWhenHasCgiPath(resource, location);
 	this->_methodsManager(root, resource, location->second);
@@ -131,10 +131,16 @@ void	Client::_updateRootIfLocationHasIt(std::string &resource, std::string &root
 	root = locationRoot;
 }
 
-bool	Client::_hasInvalidLocation(locationMap::const_iterator &location)
+bool	Client::_hasInvalidLocation(locationMap::const_iterator &location, std::string const &resource)
 {
-	if (location == this->_server.getLocations().end() && (this->_method == DELETE || this->_method == POST))
-		return true;
+	if (location == this->_server.getLocations().end())
+	{
+		if (this->_method == DELETE || this->_method == POST)
+			return true;
+
+		if (this->_method == GET && isItSufix(resource, INTERROGATION_STR))
+			return true;
+	}
 	return false;
 }
 
