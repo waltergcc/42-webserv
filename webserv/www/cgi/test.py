@@ -1,4 +1,4 @@
-import os, sys, cgi
+import os, sys, cgi, datetime
 
 method = os.environ['REQUEST_METHOD']
 
@@ -8,8 +8,11 @@ if method == 'GET':
     print("<ul>")
 
     for k, v in os.environ.items():
-        print("<li style='text-align: left;'><b>%s:</b> %s</li>" % (k, v))
+        print("<p><b>%s:</b> %s</p>" % (k, v))
 
+    now = datetime.datetime.now()
+    formatted = now.strftime("%Y-%m-%d %H:%M:%S")
+    print("<br><p><b>Current Time:</b> %s</p>" % formatted)
 
     print("</ul>")
 
