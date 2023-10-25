@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 23:13:10 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:56:24 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,18 +185,38 @@ std::string generateResponseOK(std::string const &path)
 std::string generateResponseWithCustomHTML(std::string const &code, std::string const &title, std::string const &body)
 {
 	std::string customHTML =
-		"<!DOCTYPE html>\n"
-		"<html lang=\"en\">\n"
-		"<head>\n"
-		"    <meta charset=\"UTF-8\">\n"
-		"    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n"
-		"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
-		"    <title>" + title +	"</title>\n"
-		"</head>\n"
-		"<body>\n " +
-		body +
-		"</body>\n"
-		"</html>\n"; 
+        "<!DOCTYPE html>\n"
+        "<html lang=\"en\">\n"
+        "<head>\n"
+        "    <meta charset=\"UTF-8\">\n"
+        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+        "    <title>" + title + "</title>\n"
+        "    <style>\n"
+        "        body {\n"
+        "            font-family: Arial, sans-serif;\n"
+        "            background-color: #f4f4f4;\n"
+        "            text-align: center;\n"
+        "        }\n"
+        "        .container {\n"
+        "            margin: 100px auto;\n"
+        "            padding: 20px;\n"
+        "            background-color: #fff;\n"
+        "            border-radius: 5px;\n"
+        "            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\n"
+        "        }\n"
+        "        h1 {\n"
+        "            color: #333;\n"
+        "        }\n"
+        "        p {\n"
+        "            color: #666;\n"
+        "        }\n"
+        "    </style>\n"
+        "</head>\n"
+        "<body>\n"
+        "    <div class=\"container\">\n" + body +
+        "    </div>\n"
+        "</body>\n"
+        "</html>\n";
 	
 	std::string response = 
 		"HTTP/1.1 " + code + " " + title + "\n"
