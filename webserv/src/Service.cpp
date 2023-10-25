@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "Service.hpp"
-#include "FileChecker.hpp"
+#include "Parser.hpp"
 #include "utils.hpp"
 
 bool	g_shutdown = false;
@@ -25,7 +25,7 @@ Service::Service(int ac, char **av)
 	std::signal(SIGPIPE, SIG_IGN);
 	std::signal(SIGINT, signalHandler);
 
-	FileChecker	input(ac, av);
+	Parser	input(ac, av);
 	this->_servers = input.getServerConfigs();
 	this->_defaultServers = this->_countDefaultServers();
 }

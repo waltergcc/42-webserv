@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   FileChecker.hpp                                    :+:      :+:    :+:   */
+/*   Parser.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -31,7 +31,7 @@ struct Token
 
 typedef std::vector<Server> serverVector;
 
-class FileChecker
+class Parser
 {
 	private:
 		std::ifstream	_file;
@@ -66,11 +66,11 @@ class FileChecker
 		void _getLocationConfig(std::string const &keyword, std::string &content);
 		void _getCommonConfig(std::string const &keyword, std::string &content);
 		
-		FileChecker();
+		Parser();
 		
 	public:
-		FileChecker(int ac, char **av);
-		~FileChecker();
+		Parser(int ac, char **av);
+		~Parser();
 
 		serverVector getServerConfigs();
 };

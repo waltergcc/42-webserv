@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   FileChecker.cpp                                    :+:      :+:    :+:   */
+/*   Parser.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "FileChecker.hpp"
+#include "Parser.hpp"
 
 //	---> Constructor and destructor --------------------------------------------
 
-FileChecker::FileChecker(int ac, char **av)
+Parser::Parser(int ac, char **av)
 {
 	this->_checkArguments(ac, av);
 	this->_checkExtension();
@@ -30,14 +30,14 @@ FileChecker::FileChecker(int ac, char **av)
 	this->_token = this->getNextToken();
 }
 
-FileChecker::~FileChecker()
+Parser::~Parser()
 {
 	this->_file.close();
 }
 
 //	---> Public Methods --------------------------------------------------------
 
-serverVector FileChecker::getServerConfigs()
+serverVector Parser::getServerConfigs()
 {
 	while (this->_token.type != END)
 	{
@@ -49,7 +49,7 @@ serverVector FileChecker::getServerConfigs()
 
 //	---> Private getServerConfigs auxiliar methods -----------------------------
 
-void FileChecker::_parseServerBlock()
+void Parser::_parseServerBlock()
 {
 	std::string previous;
 	bool		hasLocation = false;
@@ -88,7 +88,7 @@ void FileChecker::_parseServerBlock()
 	}
 }
 
-void FileChecker::_parseLocationBlock(bool &hasLocation)
+void Parser::_parseLocationBlock(bool &hasLocation)
 {
 	std::string tmp = this->_configs[LOCATION];
 
@@ -108,7 +108,7 @@ void FileChecker::_parseLocationBlock(bool &hasLocation)
 	this->_configs.clear();
 }
 
-locationPair FileChecker::_getLocation()
+locationPair Parser::_getLocation()
 {
 	location_t	location;
 
@@ -144,19 +144,19 @@ locationPair FileChecker::_getLocation()
 	return std::make_pair<std::string, location_t>(this->_configs[LOCATION], location);			
 }
 
-bool FileChecker::_hasThis(std::string const &keyword)
+bool Parser::_hasThis(std::string const &keyword)
 {
 	return (this->_configs.find(keyword) != this->_configs.end());
 }
 
-std::string	FileChecker::_getValue(std::string const &keyword)
+std::string	Parser::_getValue(std::string const &keyword)
 {
 	return this->_configs.find(keyword)->second;
 }
 
 //	---> Private getNextToken & its auxiliar methods -----------------------------
 
-Token	FileChecker::getNextToken()
+Token	Parser::getNextToken()
 {
 	Token	token;
 	
@@ -187,7 +187,7 @@ Token	FileChecker::getNextToken()
 	return (token);
 }
 
-bool FileChecker::_isNewLineMoveFoward()
+bool Parser::_isNewLineMoveFoward()
 {
 	if (this->_c == NEWLINE)
 	{
@@ -198,7 +198,7 @@ bool FileChecker::_isNewLineMoveFoward()
 	return false;
 }
 
-bool FileChecker::_isSpaceMoveFoward()
+bool Parser::_isSpaceMoveFoward()
 {
 	if (std::isspace(this->_c))
 	{
@@ -213,7 +213,7 @@ bool FileChecker::_isSpaceMoveFoward()
 	return false;
 }
 
-bool FileChecker::_isCommentMoveFoward()
+bool Parser::_isCommentMoveFoward()
 {
 	if (this->_c == HASH)
 	{
@@ -224,7 +224,7 @@ bool FileChecker::_isCommentMoveFoward()
 	return false;
 }
 
-bool FileChecker::_isBracket(Token &token)
+bool Parser::_isBracket(Token &token)
 {
 	if (this->_c == OPEN_BRACKET_CHAR)
 	{
@@ -245,7 +245,7 @@ bool FileChecker::_isBracket(Token &token)
 	return false;
 }
 
-bool FileChecker::_isKeyword(Token &token)
+bool Parser::_isKeyword(Token &token)
 {
 	if (std::isalpha(this->_c))
 	{
@@ -271,7 +271,7 @@ bool FileChecker::_isKeyword(Token &token)
 	return false;
 }
 
-void FileChecker::_getConfigContent(std::string const &keyword)
+void Parser::_getConfigContent(std::string const &keyword)
 {
 	if (this->_isSpaceMoveFoward())
 	{
@@ -293,7 +293,7 @@ void FileChecker::_getConfigContent(std::string const &keyword)
 	this->_c = this->_file.get();
 }
 
-void FileChecker::_getLocationConfig(std::string const &keyword, std::string &content)
+void Parser::_getLocationConfig(std::string const &keyword, std::string &content)
 {
 	while (!this->_file.eof() && this->_c != OPEN_BRACKET_CHAR)
 	{
@@ -311,7 +311,7 @@ void FileChecker::_getLocationConfig(std::string const &keyword, std::string &co
 	}
 }
 
-void FileChecker::_getCommonConfig(std::string const &keyword, std::string &content)
+void Parser::_getCommonConfig(std::string const &keyword, std::string &content)
 {
 	this->_isSpaceMoveFoward();
 	while (!this->_file.eof() && this->_c != SEMICOLON)
@@ -328,7 +328,7 @@ void FileChecker::_getCommonConfig(std::string const &keyword, std::string &cont
 
 //	---> Private Check arguments and extensions methods ---------------------------------
 
-void FileChecker::_checkArguments(int ac, char **av)
+void Parser::_checkArguments(int ac, char **av)
 {
 	if (ac > 2)
 		throw std::runtime_error(ERR_ARG);
@@ -338,7 +338,7 @@ void FileChecker::_checkArguments(int ac, char **av)
 		this->_filePath = DEFAULT_CONF;
 }
 
-void FileChecker::_checkExtension()
+void Parser::_checkExtension()
 {
 	std::string filename; 
 	size_t 		slash = this->_filePath.find_last_of("/");
