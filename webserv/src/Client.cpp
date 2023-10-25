@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 10:14:18 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:33:28 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 	}
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
-	this->_updateResourceIfNecessary(resource, location->first);
+	// this->_updateResourceIfNecessary(resource, location->first);
 	this->_methodsManager(root, resource, location->second);
 }
 
@@ -164,14 +164,14 @@ void	Client::_writeResponseOnSocket(std::string const &filepath)
 	if (!file.is_open())
 	{
 		write(this->_socket, this->_server.getErrorResponse().c_str(), this->_server.getErrorResponse().length());
-		printInfo("socket[" + intToString(this->_socket) + "] " + filepath + " -> " + RS_404, RED);
+		printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + filepath + " -> " + RS_404, RED);
 		return;
 	}
 	file.close();
 
 	std::string response = generateResponseOK(filepath);
 	write(this->_socket, response.c_str(), response.length());
-	printInfo("socket[" + intToString(this->_socket) + "] " + filepath + " -> " + RS_200, GREEN);
+	printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + filepath + " -> " + RS_200, GREEN);
 }
 
 void	Client::_writeAutoIndexResponse(std::string const &path)
@@ -191,7 +191,7 @@ void	Client::_writeAutoIndexResponse(std::string const &path)
 
 	std::string response = generateResponseWithCustomHTML(RS_200, getPathWithoutSlashAtBegin(this->_resourceTarget), htmlInfo);
 	write(this->_socket, response.c_str(), response.length());
-	printInfo("socket[" + intToString(this->_socket) + "] " + path + " -> " + RS_200, GREEN);
+	printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + path + " -> " + RS_200, GREEN);
 	this->_request.clear();
 }
 
@@ -229,13 +229,13 @@ void	Client::_methodDelete(std::string const &root, std::string const &resource)
 	{
 		response = generateResponseWithCustomHTML(RS_200, "OK", "\t<h1>File deleted.</h1>\n");
 		write(this->_socket, response.c_str(), response.length());
-		printInfo("socket[" + intToString(this->_socket) + "] " + file + " -> " + RS_200, GREEN);
+		printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + file + " -> " + RS_200, GREEN);
 	}
 	else
 	{
 		response = this->_server.getErrorResponse();
 		write(this->_socket, response.c_str(), response.length());
-		printInfo("socket[" + intToString(this->_socket) + "] " + file + " -> " + RS_404, RED);
+		printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + file + " -> " + RS_404, RED);
 	}
 }
 
@@ -253,13 +253,13 @@ void	Client::_methodGet(std::string &root, std::string &resource, location_t con
 
 			response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
 			write(this->_socket, response.c_str(), response.length());
-			printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_200, GREEN);
+			printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + resource + " -> " + RS_200, GREEN);
 		}
 		catch(const std::exception& e)
 		{
 			response = generateResponseWithCustomHTML(RS_500, "Internal Server Error", "\t<h1>500 Internal Server Error</h1>\n");
 			write(this->_socket, response.c_str(), response.length());
-			printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_500, RED);
+			printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + resource + " -> " + RS_500, RED);
 			std::cerr << "           " << e.what() << std::endl;
 		}
 		return;
@@ -289,13 +289,13 @@ void	Client::_methodPost(std::string &resource, location_t const &location)
 
 		response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
 		write(this->_socket, response.c_str(), response.length());
-		printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_200, GREEN);
+		printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + resource + " -> " + RS_200, GREEN);
 	}
 	catch(const std::exception& e)
 	{
 		response = generateResponseWithCustomHTML(RS_500, "Internal Server Error", "\t<h1>500 Internal Server Error</h1>\n");
 		write(this->_socket, response.c_str(), response.length());
-		printInfo("socket[" + intToString(this->_socket) + "] " + resource + " -> " + RS_500, RED);
+		printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + resource + " -> " + RS_500, RED);
 		std::cerr << "           " << e.what() << std::endl;
 	}
 }
