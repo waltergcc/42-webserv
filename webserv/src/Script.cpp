@@ -92,9 +92,11 @@ std::string Script::_getScriptName()
 
 std::string Script::_getValidUploadTo(std::string const &uploadTo)
 {
-	if (!directoryExists(uploadTo))
-		throw std::runtime_error(ERR_INVALID_UPLOAD(uploadTo));
-
+	if (!uploadTo.empty())
+	{
+		if (!directoryExists(uploadTo))
+			throw std::runtime_error(ERR_INVALID_UPLOAD(uploadTo));
+	}
 	return uploadTo;
 }
 

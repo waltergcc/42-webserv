@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 17:40:16 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:32:18 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ void	Client::_methodGet(std::string &root, std::string &resource, location_t con
 			stringVector enviromnent = this->_createEnvironment(resource, location);
 			Script cgi(location.cgiExtension, this->_request, enviromnent, 0, "");
 
-			response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
+			response = generateResponseWithCustomHTML(RS_200, "Script Result", getFileContent(CGI_OUTPUT_FILE));
 			write(this->_socket, response.c_str(), response.length());
 			printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + this->_method + " " + this->_resource + " -> " + RS_200, GREEN);
 		}
