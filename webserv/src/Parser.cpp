@@ -129,11 +129,14 @@ locationPair Parser::_getLocation()
 	if (this->_hasThis(TRY))
 		location.tryFile = this->_getValue(TRY);
 		
-	if (this->_hasThis(CGI_P) && this->_hasThis(CGI_E))
-	{
-		location.hasCGI = true;
+	if (this->_hasThis(CGI_P))
 		location.cgiPath = getPathWithSlashAtEnd(this->_getValue(CGI_P));
-	}
+
+	if (this->_hasThis(CGI_E))
+		location.cgiExtension = this->_getValue(CGI_E);
+
+	if (!location.cgiPath.empty() && !location.cgiExtension.empty())
+		location.hasCGI = true;
 	else
 		location.hasCGI = false;
 		

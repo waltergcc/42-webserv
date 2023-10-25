@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 10:33:28 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:20:48 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 	}
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
-	// this->_updateResourceIfNecessary(resource, location->first);
+	this->_updateResourceWhenHasCgiPath(resource, location->second.cgiPath);
 	this->_methodsManager(root, resource, location->second);
 }
 
@@ -195,13 +195,15 @@ void	Client::_writeAutoIndexResponse(std::string const &path)
 	this->_request.clear();
 }
 
-void	Client::_updateResourceIfNecessary(std::string &resource, std::string const &location)
+void	Client::_updateResourceWhenHasCgiPath(std::string &resource, std::string const &cgiPath)
 {
-	size_t pos;
-	std::string toFind = getPathWithoutSlashAtBegin(location);
-	if (this->_method == POST /* || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)) */)
+	if (cgiPath.empty())
+		return;
+
+	std::string toFind = getPathWithoutSlashAtBegin(cgiPath);
+	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
 	{
-		pos = resource.find(toFind);
+		size_t pos = resource.find(toFind);
 		if (pos != std::string::npos)
 			resource.erase(pos, toFind.length());
 	}
