@@ -14,7 +14,7 @@
 
 #include "defines.hpp"
 #include "FileChecker.hpp"
-#include "ClientInfo.hpp"
+#include "Client.hpp"
 
 struct serviceInfo
 {
@@ -32,7 +32,7 @@ struct serviceInfo
 };
 
 typedef std::vector<pollfd>	pollfdVector;
-typedef std::vector<ClientInfo>	clientVector;
+typedef std::vector<Client>	clientVector;
 
 class Service
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClientInfo.hpp                                         :+:      :+:    :+:   */
+/*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 16:09:38 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:08:00 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "ServerInfo.hpp"
 #include "utils.hpp"
 #include "Script.hpp"
-class ClientInfo
+class Client
 {
 	private:
 		ServerInfo	_server;
@@ -66,11 +66,11 @@ class ClientInfo
 		// void	_cleanRequest();
 		void	_writeErrorResponse(std::string const &error);
 
-		ClientInfo();
+		Client();
 
 	public:
-		ClientInfo(ServerInfo server, int socket);
-		~ClientInfo();
+		Client(ServerInfo server, int socket);
+		~Client();
 
 		void	appendRequest(char const *buffer, size_t size);
 		bool	isTimeout() const;

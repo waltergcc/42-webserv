@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClientInfo.cpp                                         :+:      :+:    :+:   */
+/*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 16:12:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:09:16 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ClientInfo.hpp"
+#include "Client.hpp"
 
 // ---> Constructor and destructor --------------------------------------------
 
-ClientInfo::ClientInfo(ServerInfo server, int socket) : _server(server), _socket(socket), _sentRequest(false){}
-ClientInfo::~ClientInfo(){}
+Client::Client(ServerInfo server, int socket) : _server(server), _socket(socket), _sentRequest(false){}
+Client::~Client(){}
 
 // ---> Public member functions ----------------------------------------------
 
-void	ClientInfo::appendRequest(char const *buffer, size_t size)
+void	Client::appendRequest(char const *buffer, size_t size)
 {
 	this->_lastRequest = std::time(NULL); 
 	this->_sentRequest = false;
 	this->_request.append(buffer, size);
 }
 
-bool	ClientInfo::isTimeout() const
+bool	Client::isTimeout() const
 {
 	return (std::time(NULL) - this->_lastRequest > SENT_TIMEOUT);
 }
 
-bool	ClientInfo::isReadyToSend() const
+bool	Client::isReadyToSend() const
 {
 	return (this->_sentRequest == true || this->_request.find(REQUEST_END) != std::string::npos);
 }
 
-void	ClientInfo::sendResponse()
+void	Client::sendResponse()
 {
 	this->_sentRequest = true;
 	this->_lastRequest = std::time(NULL);
@@ -60,7 +60,7 @@ void	ClientInfo::sendResponse()
 
 // ---> _checkLocation auxiliars ---------------------------------------------
 
-void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
+void	Client::_checkLocation(std::string &root, std::string &resource, size_t loopCount)
 {
 	if (loopCount > MAX_LOOP_COUNT)
 		throw std::runtime_error(RS_508);
@@ -87,17 +87,17 @@ void	ClientInfo::_checkLocation(std::string &root, std::string &resource, size_t
 	this->_methodsManager(root, resource, location->second);
 }
 
-bool	ClientInfo::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
+bool	Client::_locationIsRootAndResourceNot(std::string const &location, std::string &resource)
 {
 	return (location == SLASH_STR && resource != SLASH_STR);
 }
 
-bool	ClientInfo::_resourceHasLocation(std::string const &location, std::string &resource)
+bool	Client::_resourceHasLocation(std::string const &location, std::string &resource)
 {
 	return (resource.find(location) != std::string::npos && isItSufix(resource, location));
 }
 
-bool	ClientInfo::_methodMatches(stringVector const &methods)
+bool	Client::_methodMatches(stringVector const &methods)
 {
 	stringVector::const_iterator method;
 	for (method = methods.begin(); method != methods.end(); method++)
@@ -108,7 +108,7 @@ bool	ClientInfo::_methodMatches(stringVector const &methods)
 	return false;
 }
 
-bool	ClientInfo::_hasRedirection(std::string &resource, std::string &root, size_t loopCount, std::string const &redirect, std::string const &location)
+bool	Client::_hasRedirection(std::string &resource, std::string &root, size_t loopCount, std::string const &redirect, std::string const &location)
 {
 	if (redirect.length() == 0)
 		return false;
@@ -121,7 +121,7 @@ bool	ClientInfo::_hasRedirection(std::string &resource, std::string &root, size_
 	return true;
 }
 
-void	ClientInfo::_updateRootIfLocationHasIt(std::string &resource, std::string &root, std::string const &location, std::string const &locationRoot)
+void	Client::_updateRootIfLocationHasIt(std::string &resource, std::string &root, std::string const &location, std::string const &locationRoot)
 {
 	if (locationRoot.length() == 0)
 		return;
@@ -131,14 +131,14 @@ void	ClientInfo::_updateRootIfLocationHasIt(std::string &resource, std::string &
 	root = locationRoot;
 }
 
-bool	ClientInfo::_hasInvalidLocation(locationMap::const_iterator &location)
+bool	Client::_hasInvalidLocation(locationMap::const_iterator &location)
 {
 	if (location == this->_server.getLocations().end() && (this->_method == GET || this->_method == POST))
 		return true;
 	return false;
 }
 
-bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &root, location_t const &location)
+bool	Client::_hasValidPath(std::string const &resource, std::string const &root, location_t const &location)
 {
 	std::string path = getPathWithSlashAtEnd(getCorrectPath(root, resource));
 
@@ -157,7 +157,7 @@ bool	ClientInfo::_hasValidPath(std::string const &resource, std::string const &r
 	return false;
 }
 
-void	ClientInfo::_writeResponseOnSocket(std::string const &filepath)
+void	Client::_writeResponseOnSocket(std::string const &filepath)
 {
 	std::ifstream file(filepath.c_str(), std::ios::binary | std::ios::in);
 
@@ -174,7 +174,7 @@ void	ClientInfo::_writeResponseOnSocket(std::string const &filepath)
 	printInfo("socket[" + intToString(this->_socket) + "] " + filepath + " -> " + RS_200, GREEN);
 }
 
-void	ClientInfo::_writeAutoIndexResponse(std::string const &path)
+void	Client::_writeAutoIndexResponse(std::string const &path)
 {
 	std::string htmlInfo;
 	DIR *root;
@@ -195,7 +195,7 @@ void	ClientInfo::_writeAutoIndexResponse(std::string const &path)
 	this->_request.clear();
 }
 
-void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string const &location)
+void	Client::_updateResourceIfNecessary(std::string &resource, std::string const &location)
 {
 	size_t pos;
 	std::string toFind = getPathWithoutSlashAtBegin(location);
@@ -209,7 +209,7 @@ void	ClientInfo::_updateResourceIfNecessary(std::string &resource, std::string c
 
 // ---> _methodsManager auxiliars --------------------------------------------
 
-void	ClientInfo::_methodsManager(std::string &root, std::string &resource, location_t const &location)
+void	Client::_methodsManager(std::string &root, std::string &resource, location_t const &location)
 {
 	(void)location;
 	if (this->_method == GET)
@@ -220,7 +220,7 @@ void	ClientInfo::_methodsManager(std::string &root, std::string &resource, locat
 		this->_methodDelete(root, resource);
 }
 
-void	ClientInfo::_methodDelete(std::string const &root, std::string const &resource)
+void	Client::_methodDelete(std::string const &root, std::string const &resource)
 {
 	std::string file = getCorrectPath(root, resource);
 	std::string response;
@@ -239,7 +239,7 @@ void	ClientInfo::_methodDelete(std::string const &root, std::string const &resou
 	}
 }
 
-void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t const &location)
+void	Client::_methodGet(std::string &root, std::string &resource, location_t const &location)
 {
 	if (isItSufix(resource, INTERROGATION_STR))
 	{
@@ -273,7 +273,7 @@ void	ClientInfo::_methodGet(std::string &root, std::string &resource, location_t
 	this->_writeResponseOnSocket(path);
 }
 
-void	ClientInfo::_methodPost(std::string &resource, location_t const &location)
+void	Client::_methodPost(std::string &resource, location_t const &location)
 {
 	std::string response;
 	std::string uploadPath;
@@ -300,7 +300,7 @@ void	ClientInfo::_methodPost(std::string &resource, location_t const &location)
 	}
 }
 
-std::string	ClientInfo::_getPath(std::string const &root, std::string const &resource)
+std::string	Client::_getPath(std::string const &root, std::string const &resource)
 {
 	if (resource == SLASH_STR)
 		return (getPathWithSlashAtEnd(getCorrectPath(root, resource)) + this->_server.getIndex());
@@ -309,7 +309,7 @@ std::string	ClientInfo::_getPath(std::string const &root, std::string const &res
 
 // ---> _createEnvironment auxiliars ------------------------------------------
 
-stringVector	ClientInfo::_createEnvironment(std::string &resource, location_t const &location)
+stringVector	Client::_createEnvironment(std::string &resource, location_t const &location)
 {
 	stringVector environment;
 	std::string root = this->_getAvaliableRoot(location);
@@ -328,14 +328,14 @@ stringVector	ClientInfo::_createEnvironment(std::string &resource, location_t co
 	return environment;		
 }
 
-std::string		ClientInfo::_getAvaliableRoot(location_t const &location)
+std::string		Client::_getAvaliableRoot(location_t const &location)
 {
 	if (location.root.length() > 0)
 		return location.root;
 	return this->_server.getRoot();
 }
 
-std::string		ClientInfo::_getFullPath(location_t const &location, std::string const &root, std::string const &resource)
+std::string		Client::_getFullPath(location_t const &location, std::string const &root, std::string const &resource)
 {
 	std::string cgi = location.cgiPath;
 	if (cgi.empty())
@@ -347,7 +347,7 @@ std::string		ClientInfo::_getFullPath(location_t const &location, std::string co
 
 // ---> _checkRequest auxiliars ------------------------------------------------
 
-void	ClientInfo::_checkRequest()
+void	Client::_checkRequest()
 {
 	std::stringstream	ss(this->_request);
 
@@ -358,7 +358,7 @@ void	ClientInfo::_checkRequest()
 	this->_checkAndGetPayload(ss);
 }
 
-void	ClientInfo::_checkFirstLine(std::stringstream &ss)
+void	Client::_checkFirstLine(std::stringstream &ss)
 {
 	std::string		line;
 	std::getline(ss, line);
@@ -385,7 +385,7 @@ void	ClientInfo::_checkFirstLine(std::stringstream &ss)
 		throw std::runtime_error(RS_400);
 }
 
-void	ClientInfo::_checkAndGetHeaders(std::stringstream &ss)
+void	Client::_checkAndGetHeaders(std::stringstream &ss)
 {
 	std::string line;
 	while (std::getline(ss, line))
@@ -408,7 +408,7 @@ void	ClientInfo::_checkAndGetHeaders(std::stringstream &ss)
 	}
 }
 
-void	ClientInfo::_checkAndGetPayload(std::stringstream &ss)
+void	Client::_checkAndGetPayload(std::stringstream &ss)
 {
 	if (this->_method == GET || this->_method == DELETE)
 		return;
@@ -424,7 +424,7 @@ void	ClientInfo::_checkAndGetPayload(std::stringstream &ss)
 	binarySs.read(&this->_requestPayload[0], this->_contentLength);
 }
 
-size_t	ClientInfo::_getValidContentLength(std::string const &length)
+size_t	Client::_getValidContentLength(std::string const &length)
 {
 	size_t tmp = std::atoi(length.c_str());
 
@@ -439,7 +439,7 @@ size_t	ClientInfo::_getValidContentLength(std::string const &length)
 
 // ---> Common auxiliars -------------------------------------------------------
 
-void	ClientInfo::_writeErrorResponse(std::string const &error)
+void	Client::_writeErrorResponse(std::string const &error)
 {
 	std::string body = 
 		"    <div class=\"error-container\">\n"
@@ -458,6 +458,6 @@ void	ClientInfo::_writeErrorResponse(std::string const &error)
 
 // ---> Getters and setters ---------------------------------------------------
 
-std::string const	&ClientInfo::getRequest() const{return (this->_request);}
-ServerInfo const	&ClientInfo::getServer() const{return (this->_server);}
-void				ClientInfo::changeServer(ServerInfo server){this->_server = server;}
+std::string const	&Client::getRequest() const{return (this->_request);}
+ServerInfo const	&Client::getServer() const{return (this->_server);}
+void				Client::changeServer(ServerInfo server){this->_server = server;}

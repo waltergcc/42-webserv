@@ -153,7 +153,7 @@ void Service::_acceptConnection()
 		throw std::runtime_error(ERR_ACCEPT_SOCKET);
 	
 	fcntl(this->_tmp.connectionSocket, F_SETFL, O_NONBLOCK);	// set socket to non-blocking
-	this->_clients.push_back(ClientInfo(this->_servers.at(this->_tmp.id), this->_tmp.connectionSocket));
+	this->_clients.push_back(Client(this->_servers.at(this->_tmp.id), this->_tmp.connectionSocket));
 
 	this->_addSocketInPollingRequests();
 }
