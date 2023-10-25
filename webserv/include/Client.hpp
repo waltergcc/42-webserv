@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 11:20:19 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:19:16 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ class Client
 		bool	_hasValidPath(std::string const &resource, std::string const &root, location_t const &location);
 		void	_writeResponseOnSocket(std::string const &filepath);
 		void	_writeAutoIndexResponse(std::string const &path);
-		void	_updateResourceWhenHasCgiPath(std::string &resource, std::string const &cgiPath);
+		void	_updateResourceWhenHasCgiPath(std::string &resource, locationMap::const_iterator &location);
 
 		// _methodsManager auxiliars
 		void		_methodsManager(std::string &root, std::string &resource, location_t const &location);

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 15:11:51 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:24:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 	}
 	if (this->_hasInvalidLocation(location))
 		throw std::runtime_error(RS_403);
-	this->_updateResourceWhenHasCgiPath(resource, location->second.cgiPath);
+	this->_updateResourceWhenHasCgiPath(resource, location);
 	this->_methodsManager(root, resource, location->second);
 }
 
@@ -133,7 +133,7 @@ void	Client::_updateRootIfLocationHasIt(std::string &resource, std::string &root
 
 bool	Client::_hasInvalidLocation(locationMap::const_iterator &location)
 {
-	if (location == this->_server.getLocations().end() && (this->_method == GET || this->_method == POST))
+	if (location == this->_server.getLocations().end() && (this->_method == DELETE || this->_method == POST))
 		return true;
 	return false;
 }
@@ -195,12 +195,15 @@ void	Client::_writeAutoIndexResponse(std::string const &path)
 	this->_request.clear();
 }
 
-void	Client::_updateResourceWhenHasCgiPath(std::string &resource, std::string const &cgiPath)
+void	Client::_updateResourceWhenHasCgiPath(std::string &resource, locationMap::const_iterator &location)
 {
-	if (cgiPath.empty())
+	if (location == this->_server.getLocations().end())
+		return;
+	
+	if (location->second.cgiPath.empty())
 		return;
 
-	std::string toFind = getPathWithoutSlashAtBegin(cgiPath);
+	std::string toFind = getPathWithoutSlashAtBegin(location->second.cgiPath);
 	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
 	{
 		size_t pos = resource.find(toFind);
