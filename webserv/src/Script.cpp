@@ -20,8 +20,8 @@ Script::Script(std::string const &extension, std::string const &request, stringV
 	this->_request = request;
 	this->_environment = environment;
 	this->_size = size;
-	this->_uploadTo = uploadTo;
-	this->_path = this->_getValidPath();
+	this->_uploadTo = this->_getValidUploadTo(uploadTo);
+	this->_path = this->_getValidScriptPath();
 	this->_setArgvEnvp();
 	this->_run();
 }
@@ -57,7 +57,7 @@ std::string Script::_getValidExtension(std::string const &extension)
 	return extension;
 }
 
-std::string Script::_getValidPath()
+std::string Script::_getValidScriptPath()
 {
 	std::string path = this->_getScriptName();
 	size_t		dot;
@@ -88,6 +88,14 @@ std::string Script::_getScriptName()
 			return it->substr(it->find("=") + 1);
 	}
 	return "";
+}
+
+std::string Script::_getValidUploadTo(std::string const &uploadTo)
+{
+	if (!directoryExists(uploadTo))
+		throw std::runtime_error(ERR_INVALID_UPLOAD(uploadTo));
+
+	return uploadTo;
 }
 
 void		Script::_setArgvEnvp()

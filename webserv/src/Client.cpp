@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 11:32:33 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:24:03 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ void	Client::_methodPost(std::string &resource, location_t const &location)
 	std::string response;
 	std::string uploadPath;
 
-	if (location.uploadTo.empty() && location.hasCGI == false)
+	if (location.uploadTo.empty() || location.hasCGI == false)
 		throw std::runtime_error(RS_405);
 	
 	try

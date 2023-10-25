@@ -30,8 +30,9 @@ class Script
 
 		// Constructor auxiliars
 		std::string	_getValidExtension(std::string const &extension);
-		std::string	_getValidPath();
+		std::string	_getValidScriptPath();
 		std::string _getScriptName();
+		std::string	_getValidUploadTo(std::string const &uploadTo);
 		void		_setArgvEnvp();
 		void		_run();
 		void		_setPipeAndFile(int &file, int (&fd)[2]);

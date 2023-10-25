@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 11:43:26 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:20:09 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_SCRIPT_NO_EXT(extension)	"No extension found. File must have the extension '" + extension + "'"
 #define ERR_SCRIPT_EXT(extension, tmp)	"Invalid extension. File must have the extension '" + extension + "' and not '" + tmp + "'"
 #define ERR_SCRIPT_INV(script)			"Couldn't open script '" + script + "'"
+#define ERR_INVALID_UPLOAD(uploadTo)	"'" + uploadTo + "' is not a valid directory"				
 
 // Script run errors
 #define ERR_SCRIPT_OPEN					"open() failed:"
