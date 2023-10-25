@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ServerInfo.cpp                                         :+:      :+:    :+:   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 16:12:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:14:52 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ServerInfo.hpp"
+#include "Server.hpp"
 
 // ---> Constructor and destructor --------------------------------------------
 
-ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &servers)
+Server::Server(stringMap &configs, std::vector<Server> const &servers)
 {
 	this->_checkKeywords(configs);
 
@@ -29,11 +29,11 @@ ServerInfo::ServerInfo(stringMap &configs, std::vector<ServerInfo> const &server
 	this->_isDefault = this->_checkDefaultServer(servers);
 	this->_socket = 0;
 }
-ServerInfo::~ServerInfo(){}
+Server::~Server(){}
 
 // ---> Private functions -----------------------------------------------------
 
-void ServerInfo::_checkKeywords(stringMap &configs)
+void Server::_checkKeywords(stringMap &configs)
 {
 	std::string const mustHave[] = {LISTEN, HOST, ROOT, INDEX, MAX_SIZE, ERROR_P};
 	std::string const forbidden[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
@@ -51,9 +51,9 @@ void ServerInfo::_checkKeywords(stringMap &configs)
 	}
 }
 
-std::string ServerInfo::_getValidName(std::vector<ServerInfo> const &servers, std::string const &name)
+std::string Server::_getValidName(std::vector<Server> const &servers, std::string const &name)
 {
-	std::vector<ServerInfo>::const_iterator previous = servers.begin();
+	std::vector<Server>::const_iterator previous = servers.begin();
 	for (; previous != servers.end(); previous++)
 	{
 		if (previous->_serverName == name && !name.empty())
@@ -62,7 +62,7 @@ std::string ServerInfo::_getValidName(std::vector<ServerInfo> const &servers, st
 	return name;
 }
 
-std::string ServerInfo::_getValidRoot(std::string const &root)
+std::string Server::_getValidRoot(std::string const &root)
 {
 	std::string path = getPathWithSlashAtEnd(root);
 
@@ -72,7 +72,7 @@ std::string ServerInfo::_getValidRoot(std::string const &root)
 	return (path);
 }
 
-std::string ServerInfo::_getValidPort(std::string const &port)
+std::string Server::_getValidPort(std::string const &port)
 {
 	int tmp = std::atoi(port.c_str());
 
@@ -81,7 +81,7 @@ std::string ServerInfo::_getValidPort(std::string const &port)
 	return (port);
 }
 
-size_t ServerInfo::_getConvertedMaxSize(std::string const &size)
+size_t Server::_getConvertedMaxSize(std::string const &size)
 {
 	std::string	c;
 	std::string	sub;
@@ -115,7 +115,7 @@ size_t ServerInfo::_getConvertedMaxSize(std::string const &size)
 	return static_cast<size_t>(tmp);
 }
 
-std::string ServerInfo::_checkAndGetPage(std::string const &page)
+std::string Server::_checkAndGetPage(std::string const &page)
 {
 	if (!hasThisExtension(page, EXT_HTML))
 		throw std::runtime_error(ERR_PAGE_EXT(page));
@@ -127,7 +127,7 @@ std::string ServerInfo::_checkAndGetPage(std::string const &page)
 	return (page);
 }
 
-std::string ServerInfo::_generateErrorResponse()
+std::string Server::_generateErrorResponse()
 {
 	std::string path = this->_root + this->_errorPage;
 	std::string response = 
@@ -140,9 +140,9 @@ std::string ServerInfo::_generateErrorResponse()
 	return (response + getFileContent(path));
 }
 
-bool ServerInfo::_checkDefaultServer(std::vector<ServerInfo> const &servers)
+bool Server::_checkDefaultServer(std::vector<Server> const &servers)
 {
-	std::vector<ServerInfo>::const_iterator previous = servers.begin();
+	std::vector<Server>::const_iterator previous = servers.begin();
 	for (; previous != servers.end(); previous++)
 	{
 		if (previous->_host == this->_host && previous->_port == this->_port)
@@ -153,12 +153,12 @@ bool ServerInfo::_checkDefaultServer(std::vector<ServerInfo> const &servers)
 
 // ---> Public functions ------------------------------------------------------
 
-void ServerInfo::addLocation(locationPair location)
+void Server::addLocation(locationPair location)
 {
 	this->_locations.insert(location);
 }
 
-void ServerInfo::createSocket()
+void Server::createSocket()
 {
 	if (!this->_socket)
 	{
@@ -171,21 +171,21 @@ void ServerInfo::createSocket()
 
 // ---> Getters ---------------------------------------------------------------
 
-std::string const	&ServerInfo::getServerName() const{return this->_serverName;}
-std::string const	&ServerInfo::getHost() const{return this->_host;}
-std::string const	&ServerInfo::getPort() const{return this->_port;}
-std::string const	&ServerInfo::getRoot() const{return this->_root;}
-std::string const	&ServerInfo::getIndex() const{return this->_index;}
-std::string const	&ServerInfo::getErrorPage() const{return this->_errorPage;}
-std::string const	&ServerInfo::getErrorResponse() const{return this->_errorResponse;}
-size_t				ServerInfo::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
-bool				ServerInfo::getIsDefault() const{return this->_isDefault;}
-int					ServerInfo::getSocket() const{return this->_socket;}
-locationMap const	&ServerInfo::getLocations() const{return this->_locations;}
+std::string const	&Server::getServerName() const{return this->_serverName;}
+std::string const	&Server::getHost() const{return this->_host;}
+std::string const	&Server::getPort() const{return this->_port;}
+std::string const	&Server::getRoot() const{return this->_root;}
+std::string const	&Server::getIndex() const{return this->_index;}
+std::string const	&Server::getErrorPage() const{return this->_errorPage;}
+std::string const	&Server::getErrorResponse() const{return this->_errorResponse;}
+size_t				Server::getClientMaxBodySize() const{return this->_clientMaxBodySize;}
+bool				Server::getIsDefault() const{return this->_isDefault;}
+int					Server::getSocket() const{return this->_socket;}
+locationMap const	&Server::getLocations() const{return this->_locations;}
 
 // ---> output operator -------------------------------------------------------
 
-std::ostream &operator<<(std::ostream &out, ServerInfo const &server)
+std::ostream &operator<<(std::ostream &out, Server const &server)
 {
 	out << "ServerName: " << server.getServerName() << std::endl;
 	out << "Port: " << server.getPort() << std::endl;

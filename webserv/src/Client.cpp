@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 10:09:16 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:14:18 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // ---> Constructor and destructor --------------------------------------------
 
-Client::Client(ServerInfo server, int socket) : _server(server), _socket(socket), _sentRequest(false){}
+Client::Client(Server server, int socket) : _server(server), _socket(socket), _sentRequest(false){}
 Client::~Client(){}
 
 // ---> Public member functions ----------------------------------------------
@@ -459,5 +459,5 @@ void	Client::_writeErrorResponse(std::string const &error)
 // ---> Getters and setters ---------------------------------------------------
 
 std::string const	&Client::getRequest() const{return (this->_request);}
-ServerInfo const	&Client::getServer() const{return (this->_server);}
-void				Client::changeServer(ServerInfo server){this->_server = server;}
+Server const		&Client::getServer() const{return (this->_server);}
+void				Client::changeServer(Server server){this->_server = server;}

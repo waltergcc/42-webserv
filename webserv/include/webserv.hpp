@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/07 20:06:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:13:59 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,4 +14,4 @@
 
 #include "Service.hpp"
 #include "FileChecker.hpp"
-#include "ServerInfo.hpp"
+#include "Server.hpp"

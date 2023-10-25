@@ -6,14 +6,14 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 23:15:14 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/12 09:05:34 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:13:29 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "defines.hpp"
-#include "ServerInfo.hpp"
+#include "Server.hpp"
 #include "utils.hpp"
 
 enum eToken
@@ -29,7 +29,7 @@ struct Token
 	std::string	value;
 };
 
-typedef std::vector<ServerInfo> serverVector;
+typedef std::vector<Server> serverVector;
 
 class FileChecker
 {

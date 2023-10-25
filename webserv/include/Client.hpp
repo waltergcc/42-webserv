@@ -6,20 +6,20 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 10:08:00 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:12:51 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "defines.hpp"
-#include "ServerInfo.hpp"
+#include "Server.hpp"
 #include "utils.hpp"
 #include "Script.hpp"
 class Client
 {
 	private:
-		ServerInfo	_server;
+		Server	_server;
 		int			_socket;
 		bool		_sentRequest;
 		std::string	_request;
@@ -69,7 +69,7 @@ class Client
 		Client();
 
 	public:
-		Client(ServerInfo server, int socket);
+		Client(Server server, int socket);
 		~Client();
 
 		void	appendRequest(char const *buffer, size_t size);
@@ -79,6 +79,6 @@ class Client
 
 		// Getters and setters
 		std::string const	&getRequest() const;
-		ServerInfo const	&getServer() const;
-		void				changeServer(ServerInfo server);
+		Server const	&getServer() const;
+		void				changeServer(Server server);
 };

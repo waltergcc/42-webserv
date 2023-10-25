@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/24 23:06:49 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:13:12 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_BLOCK_START(token, line)	"Invalid block start with '" + token + "' at line " + line + ". Expected 'server' keyword"
 #define ERR_SERVER_BLOCK				"Missing '{' after 'server' keyword"
 
-// ServerInfo constructor & its auxiliar methods errors
+// Server constructor & its auxiliar methods errors
 #define ERR_KEYWORD_MISSING(keyword)	"Missing keyword '" + keyword + "' in server block"
 #define ERR_FORBIDDEN_KEYWORD(keyword)	"Keyword '" + keyword + "' is not allowed in server block"
 #define ERR_DUPLICATE_NAME(name)		"Duplicate server name '" + name + "'. Server names must be unique"

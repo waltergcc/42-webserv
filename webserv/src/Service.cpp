@@ -238,7 +238,7 @@ void Service::_checkRequestedServer()
 	else
 		return;
 
-	ServerInfo	defaultServer = this->_clients.at(this->_tmp.clientID).getServer();
+	Server	defaultServer = this->_clients.at(this->_tmp.clientID).getServer();
 	serverVector::iterator server = this->_servers.begin();
 
 	for (; server != this->_servers.end(); server++)

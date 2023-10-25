@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ServerInfo.hpp                                         :+:      :+:    :+:   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/01 16:09:38 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 10:13:40 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct location_s
 typedef std::map<std::string, location_t> locationMap;
 typedef	std::pair<std::string, location_t> locationPair;
 
-class ServerInfo
+class Server
 {
 	private:
 		std::string _serverName;
@@ -47,19 +47,19 @@ class ServerInfo
 		int			_socket;
 
 		void		_checkKeywords(stringMap &configs);
-		std::string _getValidName(std::vector<ServerInfo> const &servers, std::string const &name);
+		std::string _getValidName(std::vector<Server> const &servers, std::string const &name);
 		std::string	_getValidPort(std::string const &port);
 		std::string _getValidRoot(std::string const &root);
 		std::string	_checkAndGetPage(std::string const &page);
 		size_t		_getConvertedMaxSize(std::string const &size);
 		std::string _generateErrorResponse();
-		bool		_checkDefaultServer(std::vector<ServerInfo> const &servers);
+		bool		_checkDefaultServer(std::vector<Server> const &servers);
 
-		ServerInfo();
+		Server();
 
 	public:
-		ServerInfo(stringMap &configs, std::vector<ServerInfo> const &servers);
-		~ServerInfo();
+		Server(stringMap &configs, std::vector<Server> const &servers);
+		~Server();
 
 		void addLocation(locationPair location);
 		void createSocket();
@@ -78,4 +78,4 @@ class ServerInfo
 		locationMap const	&getLocations() const;
 };
 
-std::ostream &operator<<(std::ostream &out, ServerInfo const &server);
+std::ostream &operator<<(std::ostream &out, Server const &server);
