@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 16:19:16 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 16:57:56 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 class Client
 {
 	private:
-		Server	_server;
+		Server		_server;
 		int			_socket;
 		bool		_sentRequest;
 		std::string	_request;
 		time_t		_lastRequest;
 		std::string	_requestPayload;
 		std::string	_method;
-		std::string _resourceTarget;
+		std::string _resource;
 		stringMap	_headers;
 		size_t		_contentLength;
 
@@ -63,7 +63,6 @@ class Client
 		std::string		_getFullPath(location_t const &location, std::string const &root, std::string const &resource);
 
 		// Common auxiliars
-		// void	_cleanRequest();
 		void	_writeErrorResponse(std::string const &error);
 
 		Client();
