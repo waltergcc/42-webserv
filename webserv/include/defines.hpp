@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 10:19:52 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:43:26 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,8 @@ typedef std::vector<std::string>			stringVector;
 #define ERR_ACCEPT_SOCKET				"accept() failed"
 
 // Script constructor & its auxiliar methods errors
+#define ERR_NO_CGI_EXT					".conf file must have a 'cgi_ext' keyword"
+#define ERR_CGI_NO_PYTHON(extension)	"This server doesn't support '" + extension + "' scripts. Only '.py' scripts are supported"
 #define ERR_SCRIPT_NAME					"No SCRIPT_FILENAME found in environment"
 #define ERR_SCRIPT_NO_EXT(extension)	"No extension found. File must have the extension '" + extension + "'"
 #define ERR_SCRIPT_EXT(extension, tmp)	"Invalid extension. File must have the extension '" + extension + "' and not '" + tmp + "'"

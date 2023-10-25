@@ -29,6 +29,7 @@ class Script
 		std::string		_executable;
 
 		// Constructor auxiliars
+		std::string	_getValidExtension(std::string const &extension);
 		std::string	_getValidPath();
 		std::string _getScriptName();
 		void		_setArgvEnvp();

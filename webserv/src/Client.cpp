@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 11:20:48 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 11:32:33 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ void	Client::_methodGet(std::string &root, std::string &resource, location_t con
 		try
 		{
 			stringVector enviromnent = this->_createEnvironment(resource, location);
-			Script cgi(PYTHON_EXT, this->_request, enviromnent, 0, "");
+			Script cgi(location.cgiExtension, this->_request, enviromnent, 0, "");
 
 			response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
 			write(this->_socket, response.c_str(), response.length());
@@ -287,7 +287,7 @@ void	Client::_methodPost(std::string &resource, location_t const &location)
 	{
 		uploadPath = getCorrectPath(this->_getAvaliableRoot(location), location.uploadTo);
 		stringVector environment = this->_createEnvironment(resource, location);
-		Script cgi(PYTHON_EXT, this->_request, environment, this->_contentLength, uploadPath);
+		Script cgi(location.cgiExtension, this->_request, environment, this->_contentLength, uploadPath);
 
 		response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
 		write(this->_socket, response.c_str(), response.length());

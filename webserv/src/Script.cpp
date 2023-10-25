@@ -16,7 +16,7 @@
 
 Script::Script(std::string const &extension, std::string const &request, stringVector const &environment, size_t size, std::string const &uploadTo)
 {
-	this->_extension = extension;
+	this->_extension = this->_getValidExtension(extension);
 	this->_request = request;
 	this->_environment = environment;
 	this->_size = size;
@@ -45,6 +45,17 @@ Script::~Script()
 }
 
 // ---> Private Constructors auxiliars -------------------------------------------------- //
+
+std::string Script::_getValidExtension(std::string const &extension)
+{
+	if (extension.empty())
+		throw std::runtime_error(ERR_NO_CGI_EXT);
+
+	if (extension != PYTHON_EXT)
+		throw std::runtime_error(ERR_CGI_NO_PYTHON(extension));
+
+	return extension;
+}
 
 std::string Script::_getValidPath()
 {
