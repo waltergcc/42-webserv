@@ -1,3 +1,5 @@
 *.o
 webserv/webserv
 .cgi_output
+out/
+webserv/out

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 12:20:09 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:04:42 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ extern bool	g_shutdown;
 #define LITERAL_BACK		".."
 #define CARRIAGE_RETURN		'\r'
 #define STR_NEWLINE			"\n"
-#define REQUEST_END			"\n\n\n"
+#define REQUEST_END			"\r\n\r\n"
 #define REQUEST_HOST		"Host: "
 
 // Common typedefs
@@ -118,8 +118,8 @@ typedef std::vector<std::string>			stringVector;
 #define GET				"GET"
 #define DELETE			"DELETE"
 #define POST			"POST"
-#define HTTP_1_0		"HTTP/1.0"
-#define HTTP_1_1		"HTTP/1.1"
+#define HTTP_1_0		"HTTP/1.0\r"
+#define HTTP_1_1		"HTTP/1.1\r"
 #define CONTENT_LENGTH	"Content-Length"
 #define CONTENT_TYPE	"Content-Type"
 #define SCRIPT_NAME		"SCRIPT_FILENAME="
