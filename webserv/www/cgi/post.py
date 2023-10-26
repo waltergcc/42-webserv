@@ -1,21 +1,21 @@
-import os, sys, cgi, datetime
+import os, sys, cgi, cgitb
 
-method = os.environ['REQUEST_METHOD']
+cgitb.enable()
 
-if method == 'POST':
-    print("<h1>Post Page</h1>")
-    print("<p>This page is the Get page.</p>")
-    print("<a href=\"index.html\">Back to Home</a>")
-    print("<h2 align=\"left\">Print Environment:</h2>")
-    print("<ul>")
+form = cgi.FieldStorage()
+method = os.environ["REQUEST_METHOD"]
+upload_dir = os.environ["UPLOAD_PATH"]
 
-    for k, v in os.environ.items():
-        print("<p align=\"left\"><b>%s:</b> %s</p>" % (k, v))
-
-    now = datetime.datetime.now()
-    formatted = now.strftime("%Y-%m-%d %H:%M:%S")
-    print("<br><p><b>Current Time:</b> %s</p>" % formatted)
-
-    print("</ul>")
-
-sys.exit(0)
+if method == "POST":
+    if "file" in form:
+        file_item = form["file"]
+        
+        if file_item.file:
+            filename = os.path.basename(file_item.filename)
+            with open(os.path.join(upload_dir, filename), "wb") as f:
+                f.write(file_item.file.read())
+            print(f"File {filename} uploaded successfully.")
+        else:
+            print("Failed to upload file.")
+    else:
+        print("No file was uploaded.")

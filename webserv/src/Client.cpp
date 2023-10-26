@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 17:00:36 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:25:18 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,6 +336,8 @@ stringVector	Client::_createEnvironment(std::string &resource, location_t const 
 		environment.push_back("CONTENT_LENGTH=" + this->_headers[CONTENT_LENGTH]);
 	if (this->_headers.count(CONTENT_TYPE) > 0)
 		environment.push_back("CONTENT_TYPE=" + this->_headers[CONTENT_TYPE]);
+	if (location.uploadTo.length() > 0)
+		environment.push_back("UPLOAD_PATH=" + getCorrectPath(root, location.uploadTo));
 	environment.push_back("GATEWAY_INTERFACE=CGI/1.1");
 	environment.push_back("REQUEST_METHOD=" + this->_method);
 	environment.push_back("SERVER_PROTOCOL=HTTP/1.1");
