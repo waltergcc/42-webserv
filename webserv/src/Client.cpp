@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 09:58:52 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 11:06:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,6 +336,7 @@ stringVector	Client::_createEnvironment(std::string &resource, location_t const 
 	environment.push_back("REQUEST_METHOD=" + this->_method);
 	environment.push_back("SERVER_PROTOCOL=HTTP/1.1");
 	environment.push_back("SERVER_SOFTWARE=Webserv/1.0");
+	environment.push_back("ROOT_FOLDER=" + root);
 
 	return environment;		
 }
