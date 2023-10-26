@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 19:51:01 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 09:58:52 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void	Client::_writeAutoIndexResponse(std::string const &path)
 	dirent *current;
 
 	root = opendir(path.c_str());
+	htmlInfo.append("\t<h1>Index of " + this->_resource + "</h1>\n");
 	while ((current = readdir(root)) != NULL)
 	{
 		if (current->d_name == std::string(".") || current->d_name == std::string(".."))
