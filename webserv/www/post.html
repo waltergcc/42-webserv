@@ -36,17 +36,18 @@
 <body>
     <div class="container">
         <h1>Post Page</h1>
-        <p>This is the Post page.</p>
 		
-        <p>Go to: 
-			<a href="index.html">Back to Home</a>
-		</p>
-
 		<form action="/post.py" method="post" enctype="multipart/form-data">
-            <label for="file">Select a file to upload:</label>
+			<label for="file">Select a file to upload:</label>
             <input type="file" id="file" name="file">
             <input type="submit" value="Upload">
         </form>
+
+		<p>Go to: 
+			<a href="index.html">Index</a>
+			<a href="get.py?">Get</a>
+			<a href="delete.py?">Delete</a>
+		</p>
 		
     </div>
 </body>

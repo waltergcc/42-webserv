@@ -4,23 +4,33 @@ method = os.environ['REQUEST_METHOD']
 
 if method == 'GET':
     print("<h1>Delete Page</h1>")
-    print("<p>This page is the delete page.</p>")
-    print("<a href=\"index.html\">Back to Home</a>")
 
 root_folder = os.environ['ROOT_FOLDER']
 folder = os.path.join(root_folder, 'upload')
 files = os.listdir(folder)
 
 if files:
-    print("<h2>Files</h2>")
+    print("<h2>Uploaded Files</h2>")
     print("<ul>")
     for file in files:
         print(f"<p>{file} <a href=\"#\" data-file=\"{file}\">Remove</a></p>")
+    
+    print("<p> Go to:")
+    print("<a href=\"index.html\">Index</a>")
+    print("<a href=\"get.py?\">Get</a>")
+    print("<a href=\"post.html\">Post</a>")
+    print("</p>")
+
     print("</ul>")
 else:
-    print("<p>No files in 'upload' folder.</p>")
+    print("<p>Server hasn't files uploaded yet.</p>")
 
-# JavaScript para lidar com a ação de remoção
+    print("<p> Go to:")
+    print("<a href=\"index.html\">Index</a>")
+    print("<a href=\"get.py?\">Get</a>")
+    print("<a href=\"post.html\">Post</a>")
+    print("</p>")
+
 print("""
 <script>
     const removeLinks = document.querySelectorAll("a[data-file]");

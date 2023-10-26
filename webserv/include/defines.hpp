@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 16:56:36 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 18:05:35 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ typedef std::vector<std::string>			stringVector;
 #define RS_405	"405 Method Not Allowed"
 #define RS_409	"409 Conflict"
 #define RS_411	"411 Length Required"
-#define RS_413	"413 Payload Too Large"
+#define RS_413	"413 File Too Large"
 #define RS_414	"414 URI Too Long"
 #define RS_500	"500 Internal Server Error"
 #define RS_501	"501 Not Implemented"

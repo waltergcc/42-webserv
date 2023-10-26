@@ -7,6 +7,8 @@ method = os.environ["REQUEST_METHOD"]
 upload_dir = os.environ["UPLOAD_PATH"]
 
 if method == "POST":
+    print("<h1>Post Page</h1>")
+    print("<ul>")
     if "file" in form:
         file_item = form["file"]
         
@@ -14,8 +16,18 @@ if method == "POST":
             filename = os.path.basename(file_item.filename)
             with open(os.path.join(upload_dir, filename), "wb") as f:
                 f.write(file_item.file.read())
-            print(f"File {filename} uploaded successfully.")
+            print(f"<p>File '<b>{filename}</b>' uploaded successfully.</p>")
         else:
-            print("Failed to upload file.")
+            print("<p>Failed to upload file.</p>")
     else:
-        print("No file was uploaded.")
+        print("<p>No file was uploaded.</p>")
+
+    print("<p> Upload another file? <a href=\"post.html\">Post</a></p>")
+
+    print("<p> Go to:")
+    print("<a href=\"index.html\">Index</a>")
+    print("<a href=\"get.py?\">Get</a>")
+    print("<a href=\"delete.py?\">Delete</a>")
+    print("</p>")
+
+    print("</ul>")
