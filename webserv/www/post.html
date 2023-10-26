@@ -24,6 +24,10 @@
         p {
             color: #666;
         }
+		a {
+			color: #333;
+		}
+		
     </style>
 </head>
 <body>
@@ -34,6 +38,12 @@
         <p>Go to: 
 			<a href="index.html">Back to Home</a>
 		</p>
+
+		<form action="/upload_endpoint" method="post" enctype="multipart/form-data">
+            <label for="file">Select a file to upload:</label>
+            <input type="file" id="file" name="file">
+            <input type="submit" value="Upload">
+        </form>
 		
     </div>
 </body>

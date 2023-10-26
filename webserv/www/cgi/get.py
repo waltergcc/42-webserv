@@ -3,12 +3,14 @@ import os, sys, cgi, datetime
 method = os.environ['REQUEST_METHOD']
 
 if method == 'GET':
-    print("<h1>GET Method Script</h1>")
-    print("<h2>Environment Variables</h2>")
+    print("<h1>Get Page</h1>")
+    print("<p>This page is the Get page.</p>")
+    print("<a href=\"index.html\">Back to Home</a>")
+    print("<h2 align=\"left\">Print Environment:</h2>")
     print("<ul>")
 
     for k, v in os.environ.items():
-        print("<p><b>%s:</b> %s</p>" % (k, v))
+        print("<p align=\"left\"><b>%s:</b> %s</p>" % (k, v))
 
     now = datetime.datetime.now()
     formatted = now.strftime("%Y-%m-%d %H:%M:%S")

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 12:20:11 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:24:20 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,9 @@ std::string generateResponseWithCustomHTML(std::string const &code, std::string 
         "        p {\n"
         "            color: #666;\n"
         "        }\n"
+		"		a {\n"
+		"			color: #333;\n"
+		"		}\n"
         "    </style>\n"
         "</head>\n"
         "<body>\n"
