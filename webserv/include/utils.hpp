@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:24 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/23 17:25:50 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:11:47 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ std::string		getPathWithSlashAtEnd(std::string const &path);
 std::string		getPathWithoutSlashAtBegin(std::string const &path);
 std::string		getCorrectPath(std::string const &root, std::string const &resource);
 bool			isItSufix(std::string const &s, std::string const &sufix);
+std::string		convertScriptNameToTitle(std::string const &scriptName);
 
 // ---> Time Utils ----------------------------------------------------------
 

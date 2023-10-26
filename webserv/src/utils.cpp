@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 18:56:24 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:20:11 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,26 @@ bool	isItSufix(std::string const &s, std::string const &sufix)
 	if (s.length() < sufix.length())
 		return false;
 	return (s.substr(s.length() - sufix.length()) == sufix);
+}
+
+std::string convertScriptNameToTitle(std::string const &scriptName)
+{
+	std::string title = scriptName;
+
+	if (title.find_last_of("/") != std::string::npos)
+		title = title.substr(title.find_last_of("/") + 1);
+	if (title.find_last_of(".") != std::string::npos)
+		title = title.substr(0, title.find_last_of("."));
+	
+	for (size_t i = 0; i < title.length(); i++)
+	{
+		if (i == 0)
+			title[i] = toupper(title[i]);
+		else
+			title[i] = tolower(title[i]);
+	}
+	
+	return title + " page";
 }
 
 // ---> Time Utils -----------------------------------------------------------
@@ -191,6 +211,7 @@ std::string generateResponseWithCustomHTML(std::string const &code, std::string 
         "    <meta charset=\"UTF-8\">\n"
         "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
         "    <title>" + title + "</title>\n"
+		"    <link rel=\"icon\" href=\"favicon.ico\" type=\"image/x-icon\">\n"
         "    <style>\n"
         "        body {\n"
         "            font-family: Arial, sans-serif;\n"
