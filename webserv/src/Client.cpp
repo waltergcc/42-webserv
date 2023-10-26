@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 15:51:13 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:11:55 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ bool	Client::_hasValidPath(std::string const &resource, std::string const &root,
 {
 	std::string path = getPathWithSlashAtEnd(getCorrectPath(root, resource));
 
-	if (directoryExists(path))
+	if (directoryExists(path) && this->_method == GET)
 	{
 		if (location.tryFile.size())
 			this->_writeResponseOnSocket(path + location.tryFile);
@@ -187,7 +187,7 @@ void	Client::_writeAutoIndexResponse(std::string const &path)
 	dirent *current;
 
 	root = opendir(path.c_str());
-	htmlInfo.append("\t<h1>Index of " + this->_resource + "</h1>\n");
+	htmlInfo.append("\t<h1>Autoindex of " + this->_resource + "</h1>\n");
 	while ((current = readdir(root)) != NULL)
 	{
 		if (current->d_name == std::string(".") || current->d_name == std::string(".."))
@@ -195,6 +195,9 @@ void	Client::_writeAutoIndexResponse(std::string const &path)
 		htmlInfo.append("\t<a href=\"" + getPathWithoutSlashAtBegin(this->_resource) + "/" + current->d_name + "\">" + current->d_name + "</a><br>\n");
 	}
 	closedir(root);
+	htmlInfo.append("\t<p>Go to:\n");
+	htmlInfo.append("\t\t<a href=\"index.html\">Back to Home</a>\n");
+	htmlInfo.append("\t</p>\n");
 
 	std::string response = generateResponseWithCustomHTML(RS_200, getPathWithoutSlashAtBegin(this->_resource), htmlInfo);
 	write(this->_socket, response.c_str(), response.length());
