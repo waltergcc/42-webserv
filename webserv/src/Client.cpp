@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 12:10:07 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:51:13 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -459,6 +459,8 @@ void	Client::_writeErrorResponse(std::string const &error)
 		"    <div class=\"error-container\">\n"
 		"        <h1 class=\"error-heading\">Erro " + error + "</h1>\n"
 		"        <p class=\"error-message\">Sorry, an error occurred during the processing of your request.</p>\n"
+		"	 	 <p>Go to:\n"
+		"			 <a href=\"index.html\">Back to Home</a>\n"
 		"    </div>\n";
 
 	std::string response = generateResponseWithCustomHTML(error, "Error", body);
