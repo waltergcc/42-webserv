@@ -37,11 +37,11 @@ print("""
     });
 
     function deleteFile(file) {
-        fetch(`/home/wcorrea-/workplace/common_core/webserv/webserv/www/upload/${file}`, { method: "DELETE" })
+        fetch(`/upload/${file}`, { method: "DELETE" })
             .then(response => {
                 if (response.status === 200) {
                     alert(`File ${file} has been deleted.`);
-                    // Atualize a página ou faça outras ações necessárias
+                    location.reload();
                 } else {
                     alert(`Failed to delete file ${file}.`);
                 }

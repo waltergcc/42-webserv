@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 11:06:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:00:39 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ bool	Client::_hasInvalidLocation(locationMap::const_iterator &location, std::str
 {
 	if (location == this->_server.getLocations().end())
 	{
-		if (this->_method == DELETE || this->_method == POST)
+		if (this->_method == POST)
 			return true;
 
 		if (this->_method == GET && isItSufix(resource, INTERROGATION_STR))
