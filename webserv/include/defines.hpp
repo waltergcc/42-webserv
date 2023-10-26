@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 15:04:42 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:56:36 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ extern bool	g_shutdown;
 #define CARRIAGE_RETURN		'\r'
 #define STR_NEWLINE			"\n"
 #define REQUEST_END			"\r\n\r\n"
+#define CARRIAGE_RETURN_STR	"\r"
 #define REQUEST_HOST		"Host: "
 
 // Common typedefs

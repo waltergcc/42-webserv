@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 16:11:55 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:00:36 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,7 +407,7 @@ void	Client::_checkAndGetHeaders(std::stringstream &ss)
 	std::string line;
 	while (std::getline(ss, line))
 	{
-		if (line.length() == 0)
+		if (line == CARRIAGE_RETURN_STR)
 			break;
 		
 		if (line.find(COLON) != std::string::npos)
