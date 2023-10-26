@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 17:25:18 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/26 21:55:15 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,7 @@ void	Client::_methodPost(std::string &resource, location_t const &location)
 		stringVector environment = this->_createEnvironment(resource, location);
 		Script cgi(location.cgiExtension, this->_request, environment, this->_contentLength, uploadPath);
 
-		response = generateResponseWithCustomHTML(RS_200, "OK", getFileContent(CGI_OUTPUT_FILE));
+		response = generateResponseWithCustomHTML(RS_200, "Post Page", getFileContent(CGI_OUTPUT_FILE));
 		write(this->_socket, response.c_str(), response.length());
 		printInfo(this->_server.getHost() + ":" + this->_server.getPort() + " " + this->_method + " " + this->_resource + " -> " + RS_200, GREEN);
 	}
