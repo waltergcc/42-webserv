@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 21:55:15 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/28 11:46:04 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // ---> Constructor and destructor --------------------------------------------
 
-Client::Client(Server server, int socket) : _server(server), _socket(socket), _sentRequest(false), _lastRequest(0){}
+Client::Client(Server server, int socket) : _server(server), _socket(socket), _sentRequest(false), _lastRequest(std::time(NULL)){}
 Client::~Client(){}
 
 // ---> Public member functions ----------------------------------------------
