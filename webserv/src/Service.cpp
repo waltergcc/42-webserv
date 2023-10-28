@@ -167,8 +167,6 @@ void Service::_readData()
 		this->_clients.at(this->_tmp.clientID).appendRequest(buffer, bytes);
 	else
 		this->_closeConnection(CLOSE_MSG);
-	// int file = open("out", O_WRONLY | O_APPEND | O_CREAT, 0644);
-	// write(file, buffer, bytes);
 }
 
 void Service::_closeConnection(std::string const &msg)

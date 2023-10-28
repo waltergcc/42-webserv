@@ -1,12 +1,28 @@
 import os, sys, cgi, datetime
 
+def print_links():
+    print("<p> Go to:")
+    print("<a href=\"index.html\">Index</a>")
+    print("<a href=\"get.py?\">Get</a>")
+    print("<a href=\"post.html\">Post</a>")
+    print("</p>")
+
 method = os.environ['REQUEST_METHOD']
 
 if method == 'GET':
     print("<h1>Delete Page</h1>")
 
-root_folder = os.environ['ROOT_FOLDER']
-folder = os.path.join(root_folder, 'upload')
+if 'UPLOAD_PATH' in os.environ:
+    folder = os.environ['UPLOAD_PATH']
+else:
+    root_folder = os.environ['ROOT_FOLDER']
+    folder = os.path.join(root_folder, 'upload')
+
+if not os.path.exists(folder):
+    print(f"<p>Upload folder is not set or not match.</p>")
+    print_links()
+    sys.exit(0)
+
 files = os.listdir(folder)
 
 if files:
@@ -15,21 +31,11 @@ if files:
     for file in files:
         print(f"<p>{file} <a href=\"#\" data-file=\"{file}\">Remove</a></p>")
     
-    print("<p> Go to:")
-    print("<a href=\"index.html\">Index</a>")
-    print("<a href=\"get.py?\">Get</a>")
-    print("<a href=\"post.html\">Post</a>")
-    print("</p>")
-
+    print_links()
     print("</ul>")
 else:
-    print("<p>Server hasn't files uploaded yet.</p>")
-
-    print("<p> Go to:")
-    print("<a href=\"index.html\">Index</a>")
-    print("<a href=\"get.py?\">Get</a>")
-    print("<a href=\"post.html\">Post</a>")
-    print("</p>")
+    print("<p>Upload folder is empty.</p>")
+    print_links()
 
 print("""
 <script>
