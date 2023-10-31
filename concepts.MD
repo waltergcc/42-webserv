@@ -121,11 +121,21 @@ void Service::_readData()
 ## 2. Check the Config File
 [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
-**PS:** Para definir mais hosts além do localhost, é necessário adicionar o ip do host no arquivo `/etc/hosts` do sistema operacional usando o sudo.
+**Add more hosts:** Para definir mais hosts além do localhost, é necessário adicionar o ip do host no arquivo `/etc/hosts` do sistema operacional usando o sudo.
+
+**Check Client body size:** Para verificar o tamanho do corpo do cliente, use o seguinte comando:
+
+Set the .conf `client_max_body_size` to 9 and location `/` to allow_methods `POST` and `GET`:
+
+```bash
+curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/
+```
+Nesse caso, o servidor deve retornar o erro 413 Request Entity Too Large, mas se remove o `0` do final do corpo, o body terá 9 bytes, então não dará o erro 413.
 
 
-- Limite o corpo do cliente (use curl -X POST -H "Content-Type: plain/text" --data "BODY IS HERE escreva algo mais curto
-ou mais longo que o limite do corpo")
+curl -X POST -H "Host: localhost:8080" -H "Content-Type: plain/text" --data "BODY IS HERE escreva algo mais curto ou mais longo que o limite do corpo" localhost:8080
+
+- Limite o corpo do cliente (use curl -X POST -H "Content-Type: plain/text" --data "BODY IS HERE escreva algo mais curto ou mais longo que o limite do corpo")
 - Configure rotas em um servidor para diretórios diferentes
 - Configure um arquivo padrão para procurar se você solicitar um diretório
 - Configure uma lista de métodos aceitos para uma determinada rota (por exemplo, tente excluir algo com e sem permissão)
