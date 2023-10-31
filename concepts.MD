@@ -118,20 +118,12 @@ void Service::_readData()
 		this->_closeConnection(CLOSE_MSG);
 }
 ```
+## 2. Check the Config File
+[List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
+
+**PS:** Para definir mais hosts além do localhost, é necessário adicionar o ip do host no arquivo `/etc/hosts` do sistema operacional usando o sudo.
 
 
-
-
-
-Configuração
-No arquivo de configuração, verifique se é possível fazer o seguinte e teste o resultado:
-- Procure a lista de códigos de status de resposta HTTP na internet e durante esta avaliação.
-se algum código de status estiver errado, não atribua pontos relacionados.
-- Configure vários servidores com portas diferentes
--
-- Configure vários servidores com hostnames diferentes (use algo como: curl --resolve example.com:80:127.0.0.1
-http://example.com/)
-- Configure uma página de erro padrão (tente alterar o erro 404)
 - Limite o corpo do cliente (use curl -X POST -H "Content-Type: plain/text" --data "BODY IS HERE escreva algo mais curto
 ou mais longo que o limite do corpo")
 - Configure rotas em um servidor para diretórios diferentes

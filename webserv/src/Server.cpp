@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/25 10:14:52 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:36:14 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ Server::~Server(){}
 
 void Server::_checkKeywords(stringMap &configs)
 {
-	std::string const mustHave[] = {LISTEN, HOST, ROOT, INDEX, MAX_SIZE, ERROR_P};
+	std::string const mustHave[] = {LISTEN, HOST, ROOT, INDEX, MAX_SIZE};
 	std::string const forbidden[] = {ALLOW_M, AUTOID, CGI_E, CGI_P, TRY, UPLOAD};
 
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		if (configs.find(mustHave[i]) == configs.end())
 			throw std::runtime_error(ERR_KEYWORD_MISSING(mustHave[i]));
@@ -117,6 +117,9 @@ size_t Server::_getConvertedMaxSize(std::string const &size)
 
 std::string Server::_checkAndGetPage(std::string const &page)
 {
+	if (page.empty())
+		return (page);
+
 	if (!hasThisExtension(page, EXT_HTML))
 		throw std::runtime_error(ERR_PAGE_EXT(page));
 
@@ -129,6 +132,15 @@ std::string Server::_checkAndGetPage(std::string const &page)
 
 std::string Server::_generateErrorResponse()
 {
+	if (this->_errorPage.empty())
+	{
+		std::string body = 
+		"        <h1>404 Not Found</h1>\n"
+		"        <p> The requested URL was not found on this server.</p>\n"
+		"        <a href=\"" + this->_index + "\">Back to Home</a>\n";
+		return generateResponseWithCustomHTML(RS_404, "Page not found", body);
+	}
+	
 	std::string path = this->_root + this->_errorPage;
 	std::string response = 
 		"HTTP/1.1 404 Not Found\n"
