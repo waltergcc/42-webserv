@@ -3,14 +3,13 @@
 ## 1. Check code and Questions
 
 ### 1.1. How it Works
-Um servidor http nada mais é que leitor de entrada e saida que usa file descriptors para ler e escrever em um socket. O servidor fica em loop infinito esperando por uma requisição de um cliente, quando recebe a requisição ele faz o parse da requisição e envia a resposta para o cliente. 
-Explique os conceitos básicos de um servidor HTTP.
+An http server is nothing more than input and output reader that uses file descriptors to read and write on a socket. The server is in an infinite loop waiting for a Client's request, when it receives the request it makes the request parse and sends the response to the Client.
 
 ### 1.2. Which Multiplexing I/O
-A função que faz essa tipo de multiplexação escolhida foi a `poll`, que é uma versão mais moderna do que faz a função select.
+The function that makes this type of multiplexing chosen was `poll`, which is a more modern version of what the `select` function does.
 
 ### 1.3. How the poll is working
-É utilizado apenas um poll vector para guardar todas as informações dos servidores e clientes. Ele é declarado na classe [Service](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/include/Service.hpp#L42)
+Only one vector poll is used to store all information from servers and clients. It is declared in the class [Service](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/include/Service.hpp#L42)
 
 ```c++
 class Service
@@ -19,7 +18,7 @@ class Service
 		pollfdVector	_pollingRequests;
 ```
 
-E a função `poll()` é chamada a cada passagem no loop principal da função [Service::launch](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L67) recebendo o mesmo vector de polls `_pollingRequests`, para então fazer a verificação de todos os sockets. Ela é chamada todas as vezes dentro do while, pois a cada verificação dos requests, clientes podem ser adicionados os removidos. A função poll é chamada na função [_initPollingRequests](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L89)
+And the function `poll()` is called each on time in the main loop of the function [Service::launch](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L67) receiving the same vector of Polls `_pollingRquests`, then check all sockets. It's called every time on while because Clients can be added or removed on each time. The poll function is called in the function [_initPollingRequests](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L89)
 
 ```c++
 void Service::_initPollingRequests()
@@ -29,7 +28,7 @@ void Service::_initPollingRequests()
 }
 ```
 
-Os primeiros sockets do poll são preenchidos com a informação dos servidores na função [Service::Setup](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L42), onde ao final de cada servidor, é chamada a função [_addSocketInPollingRequests](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L314) que adiciona o socket do servidor no poll.
+The first sockets of poll are filled with the information of the servers in the function [Service::Setup](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L42), where at the end of each server, the function is called[_addSocketInPollingRequests](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L314) which adds the server socket to poll.
 
 ```c++
 void Service::_addSocketInPollingRequests()
@@ -51,7 +50,7 @@ void Service::_addSocketInPollingRequests()
 }
 ```
 
-Já para aceitar os clientes, após o setup de todos os servidores, dentro da função [Service::launch](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L67), quando o cliente tem um Polling Request de [envio de dados](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L124), é chamada a função [_acceptClient](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L148) que aceita o cliente e adiciona o socket do cliente no poll.
+To accept Clients, after the setup of all servers, within the function [Service::launch](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L67), When the Client has a request of [read data](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L124), The function is called [_acceptClient](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L148) that accepts the client connection and adds the Client's socket in Poll.
 
 ```c++
 void Service::_acceptConnection()
@@ -69,7 +68,7 @@ void Service::_acceptConnection()
 ```
 
 ### 1.4. How is checked the Client read and write
-A cada iteração do loop na função [Service::launch](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L67), é chamada a função [_pollingManager](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L95) que verifica o tipo de polling request.
+On each iteration of the loop in the function [Service::launch](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L67), é chamada a função [_pollingManager](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L95) that checks the type of polling request.
 
 ```c++
 void Service::_pollingManager()
@@ -93,7 +92,7 @@ void Service::_pollingManager()
 ```
 
 ### 1.5. Polling Requests Error Handling
-Nas funções internas de [_pollingManager](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L95), é feito o tratamento de erros de cada tipo de polling request e então chamada a função [_closeConnection](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L172) que fecha a conexão e em seguida deleta aquele cliente.
+In the internal functions of [_pollingManager](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L95), is made the error treatment of each type of polling request and then called the function [_closeConnection](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L172) that closes the connection and then deletes that client.
 
 ```c++
 void Service::_closeConnection(std::string const &msg)
@@ -104,7 +103,7 @@ void Service::_closeConnection(std::string const &msg)
 	printInfo(msg, RED);
 }
 ```
-A função `_closeConnection` é chamada nas funções [_readData](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L161), [_hasBadRequest](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L180) and [_hasDataToSend](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L205). Escificamente na função [_readData](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L161), o erro é lançado quando a função `recv` retorna um valor menor que 1. Ou seja, 0 e -1 são tratados como um fator para fechar a conexão.
+The function `_closeConnection` is called in functions [_readData](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L161), [_hasBadRequest](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L180) and [_hasDataToSend](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L205). Specifically in the function [_readData](https://github.com/waltergcc/42-webserv/blob/0201fbccef7be28ef80c92b7ebda00fe832c464f/webserv/src/Service.cpp#L161), The error is throw when the `recv` function returns a value less than 1. that 0 and -1 are treated as a factor to close the connection.
 
 ```c++
 void Service::_readData()
@@ -122,30 +121,28 @@ void Service::_readData()
 [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 ### 2.1. Add diferent hosts
-Para definir mais hosts além do localhost, é necessário adicionar o ip do host no arquivo `/etc/hosts` do sistema operacional usando o sudo. **Até o momento não sei o que fazer quanto a isso.**
+To define more hosts besides localhost, you need to add the host IP to the `/etc/hosts' file from the operating system using sudo. **So far I don't know what to do about it.**
 
 ### 2.2. Simple server response test
-Para verificar a resposta do servidor, use o seguinte comando:
+To check the server response, use the following command:
 
 ```bash
 curl --resolve localhost:8080:127.0.0.1 localhost:8080
 ```
 
 ### 2.3. Simple Check max body size test
-Para verificar o tamanho do corpo do cliente, use o seguinte comando:
+To check if the client's body size limiter is working , use the following command:
 
-Set the .conf `client_max_body_size` to 9 and location `/` to allow_methods `POST` and `GET`:
+Set the .conf `client_max_body_size` to 9 and location`/`to allow_methods` post` and `get`:
 
 ```bash
 curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/
 ```
-Nesse caso, o servidor deve retornar o erro 413 Request Entity Too Large, mas se remove o `0` do final do corpo, o body terá 9 bytes, então não dará o erro 413.
+In this case, the server must return error `413 Payload is too large`, but if it removes the `0` from the body end, the body will have 9 bytes, then it will not give error 413.
 
-<!-- - Configure rotas em um servidor para diretórios diferentes
-
-Verificações Básicas
+<!-- Verificações Básicas
 Usando telnet, curl, arquivos preparados, demonstre que as seguintes funcionalidades funcionam corretamente:
 - Solicitações GET -> devem funcionar
 - Solicitações POST -> devem funcionar
 - Solicitações DELETE -> devem funcionar
-- Solicitações DESCONHECIDAS -> não devem produzir nenhum travamento -->
+- Solicitações DESCONHECIDAS -> não devem produzir nenhum travamento  -->
