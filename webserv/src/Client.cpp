@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 00:28:57 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 00:31:11 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ void	Client::_updateRootIfLocationHasIt(std::string &root, std::string const &lo
 {
 	if (locationRoot.length() == 0)
 		return;
-	
 	root = locationRoot;
 }
 
