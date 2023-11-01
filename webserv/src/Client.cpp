@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/28 11:46:04 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 00:28:57 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 	{
 		if (this->_locationIsRootAndResourceNot(location->first, resource))
 			continue;
-		if (!this->_resourceHasLocation(location->first, resource))
+		if (!this->_resourceHasLocation(location->first, resource) && this->_method != DELETE)
 			continue;
 		if (!this->_methodMatches(location->second.methods))
 			throw std::runtime_error(RS_405);
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
-		this->_updateRootIfLocationHasIt(resource, root, location->first, location->second.root);
+		this->_updateRootIfLocationHasIt(root, location->second.root);
 		if (this->_hasValidPath(resource, root, location->second))
 			return;
 		break;
@@ -121,13 +121,11 @@ bool	Client::_hasRedirection(std::string &resource, std::string &root, size_t lo
 	return true;
 }
 
-void	Client::_updateRootIfLocationHasIt(std::string &resource, std::string &root, std::string const &location, std::string const &locationRoot)
+void	Client::_updateRootIfLocationHasIt(std::string &root, std::string const &locationRoot)
 {
 	if (locationRoot.length() == 0)
 		return;
 	
-	size_t pos = resource.find(location);
-	resource.erase(pos, location.length());
 	root = locationRoot;
 }
 
