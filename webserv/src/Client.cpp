@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 12:43:08 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 23:09:34 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,7 +426,7 @@ void	Client::_checkFirstLine(std::stringstream &ss)
 	
 	if (parameters.at(1).find(RELATIVE_BACK) != std::string::npos || parameters.at(1) == LITERAL_BACK)
 		throw std::runtime_error(RS_400);
-	this->_resource = parameters.at(1);
+	this->_resource = urlDecode(parameters.at(1));
 
 	if (parameters.at(2) == HTTP_1_0)
 		throw std::runtime_error(RS_505);

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 12:38:40 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 23:07:25 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,16 @@ std::string getPathWithoutFilename(std::string const &path)
 	if (slash != std::string::npos)
 		return tmp.substr(0, slash);
 	return "/";
+}
+
+std::string urlDecode(const std::string &input)
+{
+	std::string tmp = input;
+	size_t pos;
+
+	while ((pos = tmp.find("%20")) != std::string::npos)
+		tmp.replace(pos, 3, " ");
+    return tmp;
 }
 
 // ---> Time Utils -----------------------------------------------------------
