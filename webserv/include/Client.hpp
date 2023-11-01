@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 00:28:18 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:36:37 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class Client
 		bool	_locationIsRootAndResourceNot(std::string const &location, std::string &resource);
 		bool	_resourceHasLocation(std::string const &location, std::string &resource);
 		bool	_methodMatches(stringVector const &methods);
+		bool	_hasValidDelete(std::string const &resource);
 		bool	_hasRedirection(std::string &resource, std::string &root, size_t loopCount, std::string const &redirect, std::string const &location);
 		void	_updateRootIfLocationHasIt(std::string &root, std::string const &locationRoot);
 		bool	_hasInvalidLocation(locationMap::const_iterator &location, std::string const &resource);

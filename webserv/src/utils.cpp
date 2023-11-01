@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/26 15:24:20 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:38:40 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,16 @@ std::string convertScriptNameToTitle(std::string const &scriptName)
 	}
 	
 	return title + " page";
+}
+
+std::string getPathWithoutFilename(std::string const &path)
+{
+	std::string tmp = path;
+	size_t slash = tmp.find_last_of("/");
+
+	if (slash != std::string::npos)
+		return tmp.substr(0, slash);
+	return "/";
 }
 
 // ---> Time Utils -----------------------------------------------------------

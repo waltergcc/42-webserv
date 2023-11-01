@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 11:03:18 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:43:08 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 		if (!this->_resourceHasLocation(location->first, resource) && this->_method != DELETE)
 			continue;
 		if (!this->_methodMatches(location->second.methods))
-			throw std::runtime_error(RS_405);
+		{
+			if (!this->_hasValidDelete(resource))	
+				throw std::runtime_error(RS_405);
+		}
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
 			return;
 		this->_updateRootIfLocationHasIt(root, location->second.root);
@@ -104,6 +107,27 @@ bool	Client::_methodMatches(stringVector const &methods)
 	{
 		if (*method == this->_method)
 			return true;
+	}
+	return false;
+}
+
+bool	Client::_hasValidDelete(std::string const &resource)
+{
+	if (this->_method == DELETE)
+	{
+		std::string path = getPathWithoutFilename(resource);
+		locationMap::const_iterator location = this->_server.getLocations().begin();
+		for (; location != this->_server.getLocations().end(); location++)
+		{
+			if (this->_resourceHasLocation(location->first, path))
+			{
+				if (this->_methodMatches(location->second.methods))
+					return true;
+				else
+					return false;
+			}
+		}
+		return false;
 	}
 	return false;
 }
