@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/31 18:59:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 10:33:00 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef std::vector<std::string>			stringVector;
 #define CONTENT_LENGTH	"Content-Length"
 #define CONTENT_TYPE	"Content-Type"
 #define SCRIPT_NAME		"SCRIPT_FILENAME="
+#define USER_AGENT		"User-Agent"
 
 // printInfo messages
 #define START_MSG					"Starting Webserv Engine..."

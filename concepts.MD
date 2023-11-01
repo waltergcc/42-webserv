@@ -136,9 +136,26 @@ To check if the client's body size limiter is working , use the following comman
 Set the .conf `client_max_body_size` to 9 and location`/`to allow_methods` post` and `get`:
 
 ```bash
-curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/
+curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/curl_post.py
 ```
 In this case, the server must return error `413 Payload is too large`, but if it removes the `0` from the body end, the body will have 9 bytes, then it will not give error 413.
+
+## 3. Basic Checks
+
+### 3.1. Check GET
+To check the GET request, use the following command:
+
+```bash
+curl localhost:8080/index.html
+```
+
+### 3.2. Check POST
+To check the POST request, use the following command:
+
+```bash
+curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/curl_post.py
+```
+This command will upload a file called `upload.txt` to the server with the content `1234567890`.
 
 <!-- Verificações básicas
 

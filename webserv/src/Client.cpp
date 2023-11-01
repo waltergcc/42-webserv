@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 00:57:39 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 11:03:18 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,12 +329,22 @@ stringVector	Client::_createEnvironment(std::string &resource, location_t const 
 	std::string path = this->_getFullPath(location, this->_server.getRoot(), resource);
 
 	environment.push_back("SCRIPT_FILENAME=" + path);
+	
 	if (this->_headers.count(CONTENT_LENGTH) > 0)
 		environment.push_back("CONTENT_LENGTH=" + this->_headers[CONTENT_LENGTH]);
+		
 	if (this->_headers.count(CONTENT_TYPE) > 0)
 		environment.push_back("CONTENT_TYPE=" + this->_headers[CONTENT_TYPE]);
+		
 	if (location.uploadTo.length() > 0)
 		environment.push_back("UPLOAD_PATH=" + getCorrectPath(root, location.uploadTo));
+		
+	if (this->_headers.count(USER_AGENT) > 0 && this->_method == POST)
+	{
+		if (this->_headers[USER_AGENT].find("curl") != std::string::npos)
+			environment.push_back("PAYLOAD=" + this->_requestPayload);
+	}
+
 	environment.push_back("GATEWAY_INTERFACE=CGI/1.1");
 	environment.push_back("REQUEST_METHOD=" + this->_method);
 	environment.push_back("SERVER_PROTOCOL=HTTP/1.1");
