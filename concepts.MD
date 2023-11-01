@@ -159,9 +159,6 @@ This command will upload a file called `upload.txt` to the server with the conte
 
 <!-- Verificações básicas
 
-Usando telnet, curl e arquivos preparados, demonstre que as seguintes funcionalidades funcionam corretamente:
-- Solicitações GET devem funcionar.
-- Solicitações POST devem funcionar.
 - Solicitações DELETE devem funcionar.
 - Solicitações DESCONHECIDAS não devem causar nenhum travamento.
 - Para cada teste, o código de status deve estar correto.

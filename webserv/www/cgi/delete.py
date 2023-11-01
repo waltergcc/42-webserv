@@ -8,6 +8,7 @@ def print_links():
     print("</p>")
 
 method = os.environ['REQUEST_METHOD']
+root_folder = os.environ['ROOT_FOLDER']
 
 if method == 'GET':
     print("<h1>Delete Page</h1>")
@@ -15,8 +16,9 @@ if method == 'GET':
 if 'UPLOAD_PATH' in os.environ:
     folder = os.environ['UPLOAD_PATH']
 else:
-    root_folder = os.environ['ROOT_FOLDER']
     folder = os.path.join(root_folder, 'upload')
+
+upload_basename = os.path.basename(folder)
 
 if not os.path.exists(folder):
     print(f"<p>Upload folder is not set or not match.</p>")
@@ -29,7 +31,7 @@ if files:
     print("<h2>Uploaded Files</h2>")
     print("<ul>")
     for file in files:
-        print(f"<p>{file} <a href=\"#\" data-file=\"{file}\">Remove</a></p>")
+        print(f"<p>{file} <a href=\"#\" data-file=\"{file}\" data-upload=\"{upload_basename}\">Remove</a></p>")
     
     print_links()
     print("</ul>")
@@ -46,14 +48,15 @@ print("""
             event.preventDefault();
 
             const file = this.getAttribute("data-file");
+			const folder = this.getAttribute("data-upload");
             if (confirm("Are you sure you want to delete " + file + "?")) {
-                deleteFile(file);
+                deleteFile(folder, file);
             }
         });
     });
 
-    function deleteFile(file) {
-        fetch(`/upload/${file}`, { method: "DELETE" })
+    function deleteFile(folder, file) {
+        fetch(`/${folder}/${file}`, { method: "DELETE" })
             .then(response => {
                 if (response.status === 200) {
                     alert(`File ${file} has been deleted.`);
