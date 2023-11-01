@@ -140,9 +140,73 @@ curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/
 ```
 In this case, the server must return error `413 Payload is too large`, but if it removes the `0` from the body end, the body will have 9 bytes, then it will not give error 413.
 
-<!-- Verificações Básicas
-Usando telnet, curl, arquivos preparados, demonstre que as seguintes funcionalidades funcionam corretamente:
-- Solicitações GET -> devem funcionar
-- Solicitações POST -> devem funcionar
-- Solicitações DELETE -> devem funcionar
-- Solicitações DESCONHECIDAS -> não devem produzir nenhum travamento  -->
+<!-- Verificações básicas
+
+Usando telnet, curl e arquivos preparados, demonstre que as seguintes funcionalidades funcionam corretamente:
+- Solicitações GET devem funcionar.
+- Solicitações POST devem funcionar.
+- Solicitações DELETE devem funcionar.
+- Solicitações DESCONHECIDAS não devem causar nenhum travamento.
+- Para cada teste, o código de status deve estar correto.
+- Faça o upload de um arquivo para o servidor e recupere-o.
+
+Verifique com um navegador
+
+- Use o navegador de referência da equipe, abra a parte de rede dele e tente se conectar ao servidor.
+- Observe o cabeçalho da solicitação e o cabeçalho da resposta.
+- Deve ser compatível para servir um site totalmente estático.
+- Tente um URL incorreto no servidor.
+- Tente listar um diretório.
+- Tente um URL redirecionado.
+- Tente coisas.
+
+Problemas de porta
+
+- No arquivo de configuração, configure várias portas e use sites diferentes. Use o navegador para verificar se a configuração está funcionando conforme o esperado e exibindo o site correto.
+- Na configuração, tente configurar a mesma porta várias vezes. Isso não deve funcionar.
+- Inicie vários servidores ao mesmo tempo com configurações diferentes, mas com portas comuns. Isso está funcionando? Se estiver funcionando, pergunte por que o servidor deve funcionar se uma das configurações não estiver funcionando. Continue.
+
+Teste de cerco e teste de estresse
+
+- Use o Siege para executar alguns testes de estresse.
+- A disponibilidade deve estar acima de 99,5% para uma solicitação simples em uma página vazia com "siege -b" nessa página. Verifique se não há vazamento de memória (monitore o uso de memória do processo, que não deve aumentar indefinidamente).
+- Verifique se não há conexões penduradas.
+- Você deve ser capaz de usar o Siege indefinidamente sem reiniciar o servidor (verifique "siege -b"). -->
+
+<!-- English eval
+
+Basic checks 
+
+Using telnet, curl, prepared files demonstrates that the following features work properly:
+- GET requests should work
+- POST requests -› should work
+- DELETE requests should work
+- UNKNOWN requests -> should not produce any crash
+- For every test the status code must be good
+- upload some file to the server and get it bock 
+
+
+Check with a browser
+
+- Use the reference browser of the team, open the network part of it and try to connect to the server with it
+- Look at the request header and response header
+- It should be compatible to serve a fully static website
+- Try o wrong URL on the server
+- Try to list a directory
+- Try a redirected URL
+- Try things 
+
+
+Port issues
+
+- In the configuration file setup multiple ports and use different websites, use the browser to check that the configuration is working as expected, and show the right website.
+- In the configuration try to setup the sense port multiple times. It should not work.
+- Launch multiple servers at the scene time with different configurations but with common ports. Is it working? if it is working, ask why the server should work if one of the configurations isn't working. keep going 
+
+
+Siege & stress test
+
+- Use Siege to run some stress tests.
+- Availability should be above 99.5% For a simple get on an empty poge with o siege -b on that page Check if there is no memory leak (monitor the process memory usage it should not go up indefinitely)
+- Check if there is no hanging connection
+- You should be able to use siege indefinitely without restarting the server (look at siege -b)  -->
