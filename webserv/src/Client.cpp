@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 00:31:11 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/01 00:57:39 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,7 @@ stringVector	Client::_createEnvironment(std::string &resource, location_t const 
 {
 	stringVector environment;
 	std::string root = this->_getAvaliableRoot(location);
-	std::string path = this->_getFullPath(location, root, resource);
+	std::string path = this->_getFullPath(location, this->_server.getRoot(), resource);
 
 	environment.push_back("SCRIPT_FILENAME=" + path);
 	if (this->_headers.count(CONTENT_LENGTH) > 0)
