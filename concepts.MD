@@ -157,12 +157,31 @@ curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/cu
 ```
 This command will upload a file called `upload.txt` to the server with the content `1234567890`.
 
-<!-- Verificações básicas
+### 3.3. Check DELETE
+To check the DELETE request, use the following command:
 
-- Solicitações DELETE devem funcionar.
-- Solicitações DESCONHECIDAS não devem causar nenhum travamento.
-- Para cada teste, o código de status deve estar correto.
-- Faça o upload de um arquivo para o servidor e recupere-o.
+```bash
+curl -X DELETE localhost:8080/upload/upload.txt
+
+```
+This command will delete the file `upload.txt` from the server.
+
+### 3.4. Check UNKNOWN
+To check the UNKNOWN request, use the following command:
+
+```bash
+curl -X UNKNOWN localhost:8080
+```
+This command will return the error `501 Not Implemented`.
+
+### 3.5. Download the uploaded file
+To download the uploaded file, After using the command to upload the file, use the following command:
+
+```bash
+curl -O localhost:8080/upload/upload.txt
+```
+This command will download the file `upload.txt` from the server to the current directory.
+<!-- 
 
 Verifique com um navegador
 
