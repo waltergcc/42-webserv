@@ -181,17 +181,37 @@ To download the uploaded file, After using the command to upload the file, use t
 curl -O localhost:8080/upload/upload.txt
 ```
 This command will download the file `upload.txt` from the server to the current directory.
+
+## 4. Check with Browser
+
+### 4.1. Check Network
+To check the network with `firefox`, flow the steps:
+
+1. Open the `firefox` browser
+2. Click on the page with the right mouse button and select `inspect element`
+3. Click on the `network` tab
+4. On the navigation bar, type the URL `localhost:8080`
+5. On the `network` tab, click on the request to see more details
+
+### 4.2. See a directory content
+To see a directory content, you need to type the URL with the directory name at the end, for example:
+
+```bash
+localhost:8080/upload/
+```
+If the autoindex is enabled, the server will return the directory content, else, the server will return the error `403 Forbidden`.
+
+### 4.3. Try to redirect URL
+To try to redirect URL, you must setup the ./conf file location to redirect to another URL, for example:
+
+```conf
+location /redirect {
+	allow_methods GET;
+	return /index.html;
+}
+```
+In this case, the server will redirect the URL `localhost:8080/redirect` to `localhost:8080/index.html`.
 <!-- 
-
-Verifique com um navegador
-
-- Use o navegador de referência da equipe, abra a parte de rede dele e tente se conectar ao servidor.
-- Observe o cabeçalho da solicitação e o cabeçalho da resposta.
-- Deve ser compatível para servir um site totalmente estático.
-- Tente um URL incorreto no servidor.
-- Tente listar um diretório.
-- Tente um URL redirecionado.
-- Tente coisas.
 
 Problemas de porta
 
@@ -207,17 +227,6 @@ Teste de cerco e teste de estresse
 - Você deve ser capaz de usar o Siege indefinidamente sem reiniciar o servidor (verifique "siege -b"). -->
 
 <!-- English eval
-
-Basic checks 
-
-Using telnet, curl, prepared files demonstrates that the following features work properly:
-- GET requests should work
-- POST requests -› should work
-- DELETE requests should work
-- UNKNOWN requests -> should not produce any crash
-- For every test the status code must be good
-- upload some file to the server and get it bock 
-
 
 Check with a browser
 
