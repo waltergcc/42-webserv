@@ -317,13 +317,44 @@ void Service::_checkRequestedServer()
 	}
 }
 ```
-<!-- 
 
-Teste de cerco e teste de estresse
+## 6. Stress Test
 
-- Use o Siege para executar alguns testes de estresse.
-- A disponibilidade deve estar acima de 99,5% para uma solicitação simples em uma página vazia com "siege -b" nessa página. Verifique se não há vazamento de memória (monitore o uso de memória do processo, que não deve aumentar indefinidamente).
-- Verifique se não há conexões penduradas.
-- Você deve ser capaz de usar o Siege indefinidamente sem reiniciar o servidor (verifique "siege -b").
+### 6.1. Siege test
+To check the server with the stress test, you need to install the `siege` program, for example:
 
--->
+```bash
+sudo apt-get install siege
+```
+After the installation, 
+create a file called `empty.html` in your server root directory and keep it empty, then run the following command:
+
+```bash
+siege -b http://localhost:8080/empty.html -t 1m
+```
+`-b` defines the test as a benchmark.
+`-t` defines the time of the test. It can `s` for seconds, `m` for minutes or `h` for hours.
+
+If the availability is above 99.5% for a simple request on an empty page, the server is working fine.
+
+### 6.2. Memory Leak Test
+To check the server with the memory leak test, you can use the `top`. The `top` program shows the memory usage of each process, for example:
+
+```bash
+pgrep webserv
+```
+This command will return the process ID of the `siege` program, then run the following command:
+
+```bash
+top -p <process ID>
+```
+Now you can see the memory usage of your `webserv`. The column `RES` shows the phisisical memory usage of the process. If the memory usage increases indefinitely, the server has a memory leak.
+
+### 6.3. Check Hanging Connections
+To check the server is with hanging connections, you can use the `netstat` program. While the siege test is running, run the following command:
+
+```bash
+watch -n 1 netstat -tuln
+```
+If the state of the connection is different from `ESTABLISHED` or `LISTEN`, the connection is hanging.
+
