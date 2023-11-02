@@ -232,15 +232,17 @@ void Service::_checkRequestedServer()
 	if ((pos = request.find(REQUEST_HOST)))
 	{
 		requestedServer = request.substr(pos + std::strlen(REQUEST_HOST));
-		if ((pos = requestedServer.find(NEWLINE)))
+		if ((pos = requestedServer.find(CURSOR_NEWLINE)))
 			requestedServer = requestedServer.substr(0, pos);
 	}
 	else
 		return;
 
 	Server	defaultServer = this->_clients.at(this->_tmp.clientID).getServer();
-	serverVector::iterator server = this->_servers.begin();
+	if (requestedServer == defaultServer.getServerName())
+		return;
 
+	serverVector::iterator server = this->_servers.begin();
 	for (; server != this->_servers.end(); server++)
 	{
 		if (requestedServer == server->getServerName() && server->getHost() == defaultServer.getHost())
