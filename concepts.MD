@@ -211,17 +211,119 @@ location /redirect {
 }
 ```
 In this case, the server will redirect the URL `localhost:8080/redirect` to `localhost:8080/index.html`.
+
+### 5. Check Ports
+
+### 5.1. Using diferent ports and hosts
+To check the server with diferent ports and sites, you need to setup the ./conf file with diferent ports and sites, for example:
+
+```conf
+server {
+	server_name main_site;
+	listen 8080;
+	host localhost;
+	root /home/wcorrea-/workplace/common_core/webserv/webserv/websites/main_site;
+	index index.html;
+	client_max_body_size 1M;
+}
+
+server {
+	server_name blue;
+	listen 8081;
+	host blue.42.fr;
+	root /home/wcorrea-/workplace/common_core/webserv/webserv/websites/blue;
+	index index.html;
+	client_max_body_size 1M;
+}
+```
+In this case, the servers will be listening on ports 8080 and 8081, and the sites will be `main_site` and `blue` respectively.
+
+### 5.2. Using the same port and  hosts
+To check the server with the same port, you need to setup the ./conf file with the same port, for example:
+
+```conf
+server {
+	server_name main_site;
+	listen 8080;
+	host localhost;
+	root /home/wcorrea-/workplace/common_core/webserv/webserv/websites/main_site;
+	index index.html;
+	client_max_body_size 1M;
+}
+
+server {
+	server_name blue;
+	listen 8080;
+	host localhost;
+	root /home/wcorrea-/workplace/common_core/webserv/webserv/websites/blue;
+	index index.html;
+	client_max_body_size 1M;
+}
+```
+In this case, the only server that will be listening on port 8080 will be the `main_site` server, because the `blue` server will not be able to listen on the same port.
+
+### 5.3. Using the same port and different hosts
+To check the server with the same port and different hosts, you need to setup the ./conf file with the same port and different hosts, for example:
+
+```conf
+server {
+	server_name main_site;
+	listen 8080;
+	host localhost;
+	root /home/wcorrea-/workplace/common_core/webserv/webserv/websites/main_site;
+	index index.html;
+	client_max_body_size 1M;
+}
+
+server {
+	server_name blue;
+	listen 8080;
+	host blue.42.fr;
+	root /home/wcorrea-/workplace/common_core/webserv/webserv/websites/blue;
+	index index.html;
+	client_max_body_size 1M;
+}
+```
+In this case, the servers will be listening on port 8080, and the sites will be `main_site` and `blue` respectively.
+
+### 5.4. Disclaimer
+The server isn't able to listen on the same port and host simultaneously because the bind work only with one socket per port and host. When the server is listening on the same port and different hosts it's setup because the hosts are different. If it'll find a host that is already listening on the same port and host, this server will be ignored.
+
+If the request received has a server_name and a host that is on the .conf but isn't the default, the server will replaced by this server temporarily on the function [_checkRequestedServer](https://github.com/waltergcc/42-webserv/blob/b8e300043c589f7439f70d5bb0e1eac04b0308d5/webserv/src/Service.cpp#L226)
+
+```c++
+void Service::_checkRequestedServer()
+{
+	std::string	request = this->_clients.at(this->_tmp.clientID).getRequest();
+	std::string	requestedServer;
+	size_t 		pos;
+
+	if ((pos = request.find(REQUEST_HOST)))
+	{
+		requestedServer = request.substr(pos + std::strlen(REQUEST_HOST));
+		if ((pos = requestedServer.find(NEWLINE)))
+			requestedServer = requestedServer.substr(0, pos);
+	}
+	else
+		return;
+
+	Server	defaultServer = this->_clients.at(this->_tmp.clientID).getServer();
+	serverVector::iterator server = this->_servers.begin();
+
+	for (; server != this->_servers.end(); server++)
+	{
+		if (requestedServer == server->getServerName() && server->getHost() == defaultServer.getHost())
+			this->_clients.at(this->_tmp.clientID).changeServer(*server);
+	}
+}
+```
 <!-- 
-
-Problemas de porta
-
-- No arquivo de configuração, configure várias portas e use sites diferentes. Use o navegador para verificar se a configuração está funcionando conforme o esperado e exibindo o site correto.
-- Na configuração, tente configurar a mesma porta várias vezes. Isso não deve funcionar.
-- Inicie vários servidores ao mesmo tempo com configurações diferentes, mas com portas comuns. Isso está funcionando? Se estiver funcionando, pergunte por que o servidor deve funcionar se uma das configurações não estiver funcionando. Continue.
 
 Teste de cerco e teste de estresse
 
 - Use o Siege para executar alguns testes de estresse.
 - A disponibilidade deve estar acima de 99,5% para uma solicitação simples em uma página vazia com "siege -b" nessa página. Verifique se não há vazamento de memória (monitore o uso de memória do processo, que não deve aumentar indefinidamente).
 - Verifique se não há conexões penduradas.
-- Você deve ser capaz de usar o Siege indefinidamente sem reiniciar o servidor (verifique "siege -b"). -->
+- Você deve ser capaz de usar o Siege indefinidamente sem reiniciar o servidor (verifique "siege -b").
+
+-->
