@@ -228,17 +228,6 @@ Teste de cerco e teste de estresse
 
 <!-- English eval
 
-Check with a browser
-
-- Use the reference browser of the team, open the network part of it and try to connect to the server with it
-- Look at the request header and response header
-- It should be compatible to serve a fully static website
-- Try o wrong URL on the server
-- Try to list a directory
-- Try a redirected URL
-- Try things 
-
-
 Port issues
 
 - In the configuration file setup multiple ports and use different websites, use the browser to check that the configuration is working as expected, and show the right website.
