@@ -1,5 +1,19 @@
 # Mandatory Part
 
+## About Sudo
+To run the server if in ports less than 1024, we need to run the server with sudo, for example:
+
+```bash
+sudo ./webserv
+```
+And to set more hosts in the `/etc/hosts` file, we need to use sudo too, for example:
+
+```bash
+sudo nano /etc/hosts
+```
+**Necessary to check how the colleagues who already finish this project did it**
+
+
 ## 1. Check code and Questions
 
 ### 1.1. How it Works
@@ -121,7 +135,7 @@ void Service::_readData()
 [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 ### 2.1. Add diferent hosts
-To define more hosts besides localhost, you need to add the host IP to the `/etc/hosts' file from the operating system using sudo. **So far I don't know what to do about it.**
+To define more hosts besides localhost, you need to add the host IP to the `/etc/hosts' file from the operating system using sudo.
 
 ### 2.2. Simple server response test
 To check the server response, use the following command:
