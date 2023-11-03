@@ -24,9 +24,9 @@ struct serviceInfo
 	std::string	port;
 	int			socket;
 	int			clientID;
-	int			lastServerSocket;
+	int			serverID;
 	int			connectionSocket;
-	int			id;
+	int			pollID;
 	short		mode;
 	bool		launch;
 };
@@ -58,13 +58,13 @@ class Service
 		void	_initPollingRequests();
 		void	_pollingManager();
 		void	_getLaunchInfo(int const i);
+		int		_getServerIndex();
 		bool	_hasDataToRead();
 		bool	_isServerSocket();
 		void	_acceptConnection();
 		void	_readData();
 		void	_closeConnection(std::string const &msg);
 		bool	_hasBadRequest();
-		bool	_isServerRequest();
 		bool	_hasDataToSend();
 		void	_checkRequestedServer();
 		

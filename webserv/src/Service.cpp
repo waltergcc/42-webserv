@@ -102,7 +102,7 @@ void Service::_pollingManager()
 			continue;
 		if (this->_hasBadRequest())
 			continue;
-		if (this->_isServerRequest())
+		if (this->_isServerSocket())
 			continue;
 		if (this->_hasDataToSend())
 			continue;
@@ -113,12 +113,23 @@ void Service::_pollingManager()
 
 void Service::_getLaunchInfo(int const i)
 {
-	this->_tmp.id = i;
+	this->_tmp.pollID = i;
 	this->_tmp.clientID = i - this->_defaultServers;
 	this->_tmp.socket = this->_pollingRequests.at(i).fd;
 	this->_tmp.mode = this->_pollingRequests.at(i).revents;
-	this->_tmp.lastServerSocket = this->_servers.at(this->_defaultServers - 1).getSocket();
+	this->_tmp.serverID = this->_getServerIndex();
 	this->_tmp.launch = true;
+}
+
+int Service::_getServerIndex()
+{
+	serverVector::iterator server = this->_servers.begin();
+	for (; server != this->_servers.end(); server++)
+	{
+		if (server->getSocket() == this->_tmp.socket)
+			return server - this->_servers.begin();
+	}
+	return 0;
 }
 
 bool Service::_hasDataToRead()
@@ -153,7 +164,7 @@ void Service::_acceptConnection()
 		throw std::runtime_error(ERR_ACCEPT_SOCKET);
 	
 	fcntl(this->_tmp.connectionSocket, F_SETFL, O_NONBLOCK);	// set socket to non-blocking
-	this->_clients.push_back(Client(this->_servers.at(this->_tmp.id), this->_tmp.connectionSocket));
+	this->_clients.push_back(Client(this->_servers.at(this->_tmp.serverID), this->_tmp.connectionSocket));
 
 	this->_addSocketInPollingRequests();
 }
@@ -172,7 +183,7 @@ void Service::_readData()
 void Service::_closeConnection(std::string const &msg)
 {
 	close(this->_tmp.socket);
-	this->_pollingRequests.erase(this->_pollingRequests.begin() + this->_tmp.id);
+	this->_pollingRequests.erase(this->_pollingRequests.begin() + this->_tmp.pollID);
 	this->_clients.erase(this->_clients.begin() + this->_tmp.clientID);
 	printInfo(msg, RED);
 }
@@ -195,11 +206,6 @@ bool Service::_hasBadRequest()
 		return true;
 	}
 	return false;
-}
-
-bool Service::_isServerRequest()
-{
-	return (this->_tmp.socket <= this->_tmp.lastServerSocket);
 }
 
 bool Service::_hasDataToSend()
@@ -341,10 +347,10 @@ void Service::_resetInfo()
 	std::memset(&this->_tmp.parameters, 0, sizeof(this->_tmp.parameters));
 	this->_tmp.host.clear();
 	this->_tmp.port.clear();
-	this->_tmp.id = 0;
+	this->_tmp.pollID = 0;
 	this->_tmp.clientID = 0;
+	this->_tmp.serverID = 0;
 	this->_tmp.socket = 0;
-	this->_tmp.lastServerSocket = 0;
 	this->_tmp.mode = 0;
 	this->_tmp.connectionSocket = 0;
 	this->_tmp.launch = false;
