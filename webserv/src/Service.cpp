@@ -96,6 +96,7 @@ void Service::_pollingManager()
 {
 	for (size_t i = 0; i < this->_pollingRequests.size(); i++)
 	{
+		this->_resetInfo();
 		this->_getLaunchInfo(i);
 
 		if (this->_hasDataToRead())
@@ -104,10 +105,8 @@ void Service::_pollingManager()
 			continue;
 		if (this->_isServerSocket())
 			continue;
-		if (this->_hasDataToSend())
-			continue;
 
-		this->_resetInfo();
+		this->_hasDataToSend();
 	}
 }
 
@@ -208,25 +207,23 @@ bool Service::_hasBadRequest()
 	return false;
 }
 
-bool Service::_hasDataToSend()
+void Service::_hasDataToSend()
 {
 	if (this->_tmp.mode & POLLOUT)
 	{
 		if (this->_clients.at(this->_tmp.clientID).isTimeout())
 		{
 			this->_closeConnection(TIMEOUT_MSG);
-			return true;	
+			return;	
 		}
 
 		if (!this->_clients.at(this->_tmp.clientID).isReadyToSend())
-			return true;
+			return;
 	
 		this->_checkRequestedServer();
 		this->_clients.at(this->_tmp.clientID).sendResponse();
-
-		return true;
+		this->_closeConnection(CLOSE_MSG);
 	}
-	return false;
 }
 
 void Service::_checkRequestedServer()

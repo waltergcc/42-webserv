@@ -65,7 +65,7 @@ class Service
 		void	_readData();
 		void	_closeConnection(std::string const &msg);
 		bool	_hasBadRequest();
-		bool	_hasDataToSend();
+		void	_hasDataToSend();
 		void	_checkRequestedServer();
 		
 		// Common auxiliars
