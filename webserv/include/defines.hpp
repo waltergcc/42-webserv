@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 10:33:00 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/03 02:11:58 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef std::vector<std::string>			stringVector;
 #define POLLNVAL_MSG				"Connection closed. Error: POLLNVAL"
 #define CLOSE_MSG					"Connection closed"
 #define TIMEOUT_MSG					"Connection closed. Timeout"
+#define EMPTY_MSG					""
 
 // SendResponse status
 #define RS_200	"200 OK"

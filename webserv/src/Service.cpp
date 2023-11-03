@@ -176,7 +176,7 @@ void Service::_readData()
 	if (bytes > 0)
 		this->_clients.at(this->_tmp.clientID).appendRequest(buffer, bytes);
 	else
-		this->_closeConnection(CLOSE_MSG);
+		this->_closeConnection(EMPTY_MSG);
 }
 
 void Service::_closeConnection(std::string const &msg)
@@ -184,7 +184,8 @@ void Service::_closeConnection(std::string const &msg)
 	close(this->_tmp.socket);
 	this->_pollingRequests.erase(this->_pollingRequests.begin() + this->_tmp.pollID);
 	this->_clients.erase(this->_clients.begin() + this->_tmp.clientID);
-	printInfo(msg, RED);
+	if (!msg.empty())
+		printInfo(msg, RED);
 }
 
 bool Service::_hasBadRequest()
@@ -222,7 +223,7 @@ void Service::_hasDataToSend()
 	
 		this->_checkRequestedServer();
 		this->_clients.at(this->_tmp.clientID).sendResponse();
-		this->_closeConnection(CLOSE_MSG);
+		this->_closeConnection(EMPTY_MSG);
 	}
 }
 
