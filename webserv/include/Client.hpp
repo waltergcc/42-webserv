@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:35:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 11:36:37 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/07 09:59:07 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class Client
 		bool	_hasRedirection(std::string &resource, std::string &root, size_t loopCount, std::string const &redirect, std::string const &location);
 		void	_updateRootIfLocationHasIt(std::string &root, std::string const &locationRoot);
 		bool	_hasInvalidLocation(locationMap::const_iterator &location, std::string const &resource);
+		bool	_hasScriptExtension(std::string const &resource);
 		bool	_hasValidPath(std::string const &resource, std::string const &root, location_t const &location);
 		void	_writeResponseOnSocket(std::string const &filepath);
 		void	_writeAutoIndexResponse(std::string const &path);
@@ -79,6 +80,6 @@ class Client
 
 		// Getters and setters
 		std::string const	&getRequest() const;
-		Server const	&getServer() const;
+		Server const		&getServer() const;
 		void				changeServer(Server server);
 };

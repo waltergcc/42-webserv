@@ -26,8 +26,8 @@ if method == "POST":
 
     print("<p> Go to:")
     print("<a href=\"index.html\">Index</a>")
-    print("<a href=\"get.py?\">Get</a>")
-    print("<a href=\"delete.py?\">Delete</a>")
+    print("<a href=\"get.py\">Get</a>")
+    print("<a href=\"delete.py\">Delete</a>")
     print("</p>")
 
     print("</ul>")

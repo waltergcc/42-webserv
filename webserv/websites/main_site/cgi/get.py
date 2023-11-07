@@ -17,7 +17,7 @@ if method == 'GET':
     print("<p> Go to:")
     print("<a href=\"index.html\">Index</a>")
     print("<a href=\"post.html\">Post</a>")
-    print("<a href=\"delete.py?\">Delete</a>")
+    print("<a href=\"delete.py\">Delete</a>")
     print("</p>")
     print("</ul>")
 

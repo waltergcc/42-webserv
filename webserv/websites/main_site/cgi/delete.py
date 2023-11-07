@@ -3,7 +3,7 @@ import os, sys, cgi, datetime
 def print_links():
     print("<p> Go to:")
     print("<a href=\"index.html\">Index</a>")
-    print("<a href=\"get.py?\">Get</a>")
+    print("<a href=\"get.py\">Get</a>")
     print("<a href=\"post.html\">Post</a>")
     print("</p>")
 

@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 23:09:34 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/07 10:08:41 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,10 +159,15 @@ bool	Client::_hasInvalidLocation(locationMap::const_iterator &location, std::str
 		if (this->_method == POST)
 			return true;
 
-		if (this->_method == GET && isItSufix(resource, INTERROGATION_STR))
+		if (this->_method == GET && this->_hasScriptExtension(resource))
 			return true;
 	}
 	return false;
+}
+
+bool	Client::_hasScriptExtension(std::string const &resource)
+{
+	return (isItSufix(resource, PYTHON_EXT) || isItSufix(resource, PHP_EXT));
 }
 
 bool	Client::_hasValidPath(std::string const &resource, std::string const &root, location_t const &location)
@@ -235,7 +240,7 @@ void	Client::_updateResourceWhenHasCgiPath(std::string &resource, locationMap::c
 		return;
 
 	std::string toFind = getPathWithoutSlashAtBegin(location->second.cgiPath);
-	if (this->_method == POST || (this->_method == GET && isItSufix(resource, INTERROGATION_STR)))
+	if (this->_method == POST || (this->_method == GET && this->_hasScriptExtension(resource)))
 	{
 		size_t pos = resource.find(toFind);
 		if (pos != std::string::npos)
@@ -277,11 +282,9 @@ void	Client::_methodDelete(std::string const &root, std::string const &resource)
 
 void	Client::_methodGet(std::string &root, std::string &resource, location_t const &location)
 {
-	if (isItSufix(resource, INTERROGATION_STR))
+	if (this->_hasScriptExtension(resource))
 	{
-		resource.erase(resource.end() - 1);
 		std::string response;
-
 		try
 		{
 			stringVector enviromnent = this->_createEnvironment(resource, location);

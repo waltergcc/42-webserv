@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/30 11:52:10 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/03 02:11:58 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/07 10:07:36 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ extern bool	g_shutdown;
 #define PYTHON_EXT			".py"
 #define PYTHON_BIN			"/usr/bin/python3"
 #define PYTHON_VERSION		"python3"
+#define PHP_EXT				".php"
 #define MAX_PORT			65535
 #define MAX_SIZE_LIMIT		10737418240.0	// 10GB
 #define MAX_PENDING			10				// Maximum number of pending connections
@@ -78,8 +79,6 @@ extern bool	g_shutdown;
 #define SEMICOLON			';'
 #define SPACE				' '
 #define SLASH				'/'
-#define INTERROGATION		'?'
-#define INTERROGATION_STR	"?"
 #define SLASH_STR			"/"
 #define SPACES				" \t\r\v\f"
 #define CURSOR_NEWLINE		"\r\n"
