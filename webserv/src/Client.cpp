@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/07 10:08:41 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:04:51 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,11 +177,11 @@ bool	Client::_hasValidPath(std::string const &resource, std::string const &root,
 	if (directoryExists(path) && this->_method == GET)
 	{
 		if (location.tryFile.size())
-			this->_writeResponseOnSocket(path + location.tryFile);
+			this->_writeResponseOnSocket(getCorrectPath(root, location.tryFile));
 		else if (location.autoindex)
 			this->_writeAutoIndexResponse(path);
 		else if (resource == SLASH_STR)
-			this->_writeResponseOnSocket(path + this->_server.getIndex());
+			this->_writeResponseOnSocket(getCorrectPath(root, this->_server.getIndex()));
 		else
 			throw std::runtime_error(RS_403);
 		return true;
