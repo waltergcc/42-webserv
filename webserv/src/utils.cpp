@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/01 23:07:25 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:09:37 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,18 @@ std::string getPathWithSlashAtEnd(std::string const &path)
 
 	if (tmp[tmp.length() - 1] != SLASH)
 		tmp += "/";
+	return tmp;
+}
+
+std::string getPathWithoutSlashAtEnd(std::string const &path)
+{
+	if (path == SLASH_STR)
+		return path;
+
+	std::string tmp = path;
+
+	if (tmp[tmp.length() - 1] == SLASH)
+		tmp.erase(tmp.length() - 1, 1);
 	return tmp;
 }
 

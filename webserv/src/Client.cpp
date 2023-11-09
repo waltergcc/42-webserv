@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/09 17:04:51 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/11/09 17:14:48 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	Client::sendResponse()
 	{
 		this->_checkRequest();
 		std::string root = this->_server.getRoot();
-		std::string resource = this->_resource;
+		std::string resource = getPathWithoutSlashAtEnd(this->_resource);
 		this->_checkLocation(root, resource, 0);
 	}
 	catch(const std::exception& e)
