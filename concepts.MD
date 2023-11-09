@@ -144,7 +144,23 @@ To check the server response, use the following command:
 curl --resolve localhost:8080:127.0.0.1 localhost:8080
 ```
 
-### 2.3. Simple Check max body size test
+### 2.3. Setup a error page
+To setup a error page, you need to setup the ./conf file with the `error_page` directive in the server block, for example:
+
+```conf
+server {
+	server_name my_server;
+	listen 8080;
+	host localhost;
+	root /home/wcorrea-/workplace/common_core/webserv/webserv/websites/main_site;
+	index index.html;
+	client_max_body_size 1M;
+	error_page 404.html;
+}
+```
+This page will be returned when the server returns the error `404 Not Found`. If a error page is not setup, the server will return a default error page.
+
+### 2.4. Simple Check max body size test
 To check if the client's body size limiter is working , use the following command:
 
 Set the .conf `client_max_body_size` to 9 and location`/`to allow_methods` post` and `get`:
@@ -153,6 +169,17 @@ Set the .conf `client_max_body_size` to 9 and location`/`to allow_methods` post`
 curl -X POST -H "Content-Type: plain/text" --data "1234567890" localhost:8080/curl_post.py
 ```
 In this case, the server must return error `413 Payload is too large`, but if it removes the `0` from the body end, the body will have 9 bytes, then it will not give error 413.
+
+### 2.5. Setup file when a directory is requested
+To setup the file when a directory is requested, you need to setup the ./conf file with the `try_file` directive, for example:
+
+```conf
+location /upload {
+	allow_methods GET POST;
+	try_file file.html;
+}
+```
+In this case, the server will try to find the file `file.html` in the directory `/upload` and return it if it exists, else, the server will return the error `404 Not Found`.
 
 ## 3. Basic Checks
 
