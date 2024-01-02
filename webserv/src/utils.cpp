@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 15:38:16 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/11/09 17:09:37 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2024/01/02 18:22:48 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,33 +244,11 @@ std::string generateResponseWithCustomHTML(std::string const &code, std::string 
         "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
         "    <title>" + title + "</title>\n"
 		"    <link rel=\"icon\" href=\"favicon.ico\" type=\"image/x-icon\">\n"
-        "    <style>\n"
-        "        body {\n"
-        "            font-family: Arial, sans-serif;\n"
-        "            background-color: #f4f4f4;\n"
-        "            text-align: center;\n"
-        "        }\n"
-        "        .container {\n"
-        "            margin: 100px auto;\n"
-        "            padding: 20px;\n"
-        "            background-color: #fff;\n"
-        "            border-radius: 5px;\n"
-        "            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);\n"
-        "        }\n"
-        "        h1 {\n"
-        "            color: #333;\n"
-        "        }\n"
-        "        p {\n"
-        "            color: #666;\n"
-        "        }\n"
-		"		a {\n"
-		"			color: #333;\n"
-		"		}\n"
-        "    </style>\n"
+		"    <link rel=\"stylesheet\" href=\"style.css\"\n"
         "</head>\n"
-        "<body>\n"
-        "    <div class=\"container\">\n" + body +
-        "    </div>\n"
+        "<body>\n" + body +
+        // "    <div class=\"container\">\n" + body +
+        // "    </div>\n"
         "</body>\n"
         "</html>\n";
 	

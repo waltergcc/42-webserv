@@ -1,17 +1,22 @@
 import os, sys, cgi, datetime
 
-def print_links():
-    print("<p> Go to:")
-    print("<a href=\"index.html\">Index</a>")
-    print("<a href=\"get.py\">Get</a>")
-    print("<a href=\"post.html\">Post</a>")
-    print("</p>")
-
 method = os.environ['REQUEST_METHOD']
 root_folder = os.environ['ROOT_FOLDER']
 
 if method == 'GET':
+
+    print("<header>")
+    print("<nav class=\"navbar\">")
+    print("<div class=\"container\">")
     print("<h1>Delete Page</h1>")
+    print("<ul class=\"navigation\">")
+    print("<a class=\"glow-on-hover\" href=\"index.html\">HOME</a>")
+    print("<a class=\"glow-on-hover\" href=\"get.py\">GET</a>")
+    print("<a class=\"glow-on-hover\" href=\"post.html\">POST</a>")
+    print("</ul>")
+    print("</div>")
+    print("</nav>")
+    print("</header>")
 
 if 'UPLOAD_PATH' in os.environ:
     folder = os.environ['UPLOAD_PATH']
@@ -22,7 +27,6 @@ upload_basename = os.path.basename(folder)
 
 if not os.path.exists(folder):
     print(f"<p>Upload folder is not set or not match.</p>")
-    print_links()
     sys.exit(0)
 
 files = os.listdir(folder)
@@ -32,12 +36,9 @@ if files:
     print("<ul>")
     for file in files:
         print(f"<p>{file} <a href=\"#\" data-file=\"{file}\" data-upload=\"{upload_basename}\">Remove</a></p>")
-    
-    print_links()
     print("</ul>")
 else:
     print("<p>Upload folder is empty.</p>")
-    print_links()
 
 print("""
 <script>

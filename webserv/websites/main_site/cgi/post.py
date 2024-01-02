@@ -7,7 +7,20 @@ method = os.environ["REQUEST_METHOD"]
 upload_dir = os.environ["UPLOAD_PATH"]
 
 if method == "POST":
+
+    print("<header>")
+    print("<nav class=\"navbar\">")
+    print("<div class=\"container\">")
     print("<h1>Post Page</h1>")
+    print("<ul class=\"navigation\">")
+    print("<a class=\"glow-on-hover\" href=\"index.html\">HOME</a>")
+    print("<a class=\"glow-on-hover\" href=\"get.py\">GET</a>")
+    print("<a class=\"glow-on-hover\" href=\"delete.py\">DELETE</a>")
+    print("</ul>")
+    print("</div>")
+    print("</nav>")
+    print("</header>")
+
     print("<ul>")
     if "file" in form:
         file_item = form["file"]
@@ -22,12 +35,6 @@ if method == "POST":
     else:
         print("<p>No file was uploaded.</p>")
 
-    print("<p> Upload another file? <a href=\"post.html\">Post</a></p>")
-
-    print("<p> Go to:")
-    print("<a href=\"index.html\">Index</a>")
-    print("<a href=\"get.py\">Get</a>")
-    print("<a href=\"delete.py\">Delete</a>")
-    print("</p>")
+    print("<p> Upload another file? <a href=\"post.html\">POST</a></p>")
 
     print("</ul>")
