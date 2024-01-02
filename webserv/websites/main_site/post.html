@@ -1,54 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post Page</title>
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        .container {
-            margin: 100px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #666;
-        }
-		a {
-			color: #333;
-		}
-		form {
-			color: #666;
-		}
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Post Page</title>
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="style.css">
+		<script></script>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar">
+				<div class="container">
+					<h1>webserv</h1>
+					<ul class="navigation">
+						<a class="glow-on-hover" href="index.html">HOME</a>
+						<a class="glow-on-hover" href="get.py">GET</a>
+						<a class="glow-on-hover" href="post.html">POST</a>
+						<a class="glow-on-hover" href="delete.py">DELETE</a>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<div class="content">
+			<h2>Welcome to the Post Page!</h2>
 
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Post Page</h1>
-		
-		<form action="/post.py" method="post" enctype="multipart/form-data">
-			<label for="file">Select a file to upload:</label>
-            <input type="file" id="file" name="file">
-            <input type="submit" value="Upload">
-        </form>
-
-		<p>Go to: 
-			<a href="index.html">Index</a>
-			<a href="get.py">Get</a>
-			<a href="delete.py">Delete</a>
-		</p>
-		
-    </div>
-</body>
+			<p>Please select a file to upload:</p>
+			<form action="/post.py" method="post" enctype="multipart/form-data">
+				<div class="form">
+					<label for="input" class="custom-file-upload">
+						Choose File
+					</label>
+					<br>
+					<input class="input" type="file" id="file" name="file" style="display:none;">
+					<br>
+					<input class="input" type="submit" value="Upload">
+					<br>
+					<p id="file-name"></p>
+				</div>
+			</form>
+		</div>
+		<script src="post.js"></script>
+	</body>
 </html>

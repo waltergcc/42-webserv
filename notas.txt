@@ -1,0 +1,8 @@
+post.py not creating /upload
+
+	"localhost:8080 POST /post.py -> 500 Internal Server Error
+           '/mnt/c/Users/joaos/Desktop/Desktop/42/Projects/42-webserv/webserv/websites/main_site/upload' is not a valid directory"
+		   
+		   AttributeError: 'list' object has no attribute 'file'
+      args = ("'list' object has no attribute 'file'",)
+      with_traceback = <built-in method with_traceback of AttributeError object>

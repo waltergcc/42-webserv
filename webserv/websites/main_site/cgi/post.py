@@ -11,7 +11,7 @@ if method == "POST":
     print("<ul>")
     if "file" in form:
         file_item = form["file"]
-        
+
         if file_item.file:
             filename = os.path.basename(file_item.filename)
             with open(os.path.join(upload_dir, filename), "wb") as f:
