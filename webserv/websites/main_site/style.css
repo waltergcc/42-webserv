@@ -129,15 +129,20 @@ input[type="submit"] {
 	padding: 50px;
 }
 
+/* hyperlink colors */
+a:link {
+	color: white;
+}
 
+/* already visited */
+a:visited {
+	color: rgb(122, 122, 122);
+}
 
-
-
-
-
-
-
-
+/* hovering */
+a:hover {
+	color: white;
+}
 
 .glow-on-hover {
     border: none;

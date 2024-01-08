@@ -21,7 +21,7 @@ Client::~Client(){}
 
 void	Client::appendRequest(char const *buffer, size_t size)
 {
-	this->_lastRequest = std::time(NULL); 
+	this->_lastRequest = std::time(NULL);
 	this->_sentRequest = false;
 	this->_request.append(buffer, size);
 }
@@ -74,7 +74,7 @@ void	Client::_checkLocation(std::string &root, std::string &resource, size_t loo
 			continue;
 		if (!this->_methodMatches(location->second.methods))
 		{
-			if (!this->_hasValidDelete(resource))	
+			if (!this->_hasValidDelete(resource))
 				throw std::runtime_error(RS_405);
 		}
 		if (this->_hasRedirection(resource, root, loopCount, location->second.redirect, location->first))
@@ -136,7 +136,7 @@ bool	Client::_hasRedirection(std::string &resource, std::string &root, size_t lo
 {
 	if (redirect.length() == 0)
 		return false;
-	
+
 	size_t pos = resource.find(location);
 	std::string newResource = resource;
 
@@ -213,7 +213,20 @@ void	Client::_writeAutoIndexResponse(std::string const &path)
 	dirent *current;
 
 	root = opendir(path.c_str());
-	htmlInfo.append("\t<h1>Autoindex of " + this->_resource + "</h1>\n");
+	htmlInfo.append("<header>\n");
+    htmlInfo.append("<nav class='navbar'>\n");
+    htmlInfo.append("<div class='container'>\n");
+    htmlInfo.append("<h1>webserv</h1>\n");
+    htmlInfo.append("<ul class='navigation'>\n");
+    htmlInfo.append("<a class='glow-on-hover' href='index.html'>HOME</a>\n");
+    htmlInfo.append("<a class='glow-on-hover' href='get.py'>GET</a>\n");
+    htmlInfo.append("<a class='glow-on-hover' href='post.html'>POST</a>\n");
+    htmlInfo.append("<a class='glow-on-hover' href='delete.py'>DELETE</a>\n");
+    htmlInfo.append("</ul>\n");
+    htmlInfo.append("</div>\n");
+    htmlInfo.append("</nav>\n");
+    htmlInfo.append("</header>\n");
+	htmlInfo.append("\t<h2>Autoindex of " + this->_resource + "</h2>\n");
 	while ((current = readdir(root)) != NULL)
 	{
 		if (current->d_name == std::string(".") || current->d_name == std::string(".."))
@@ -235,7 +248,7 @@ void	Client::_updateResourceWhenHasCgiPath(std::string &resource, locationMap::c
 {
 	if (location == this->_server.getLocations().end())
 		return;
-	
+
 	if (location->second.cgiPath.empty())
 		return;
 
@@ -320,7 +333,7 @@ void	Client::_methodPost(std::string &resource, location_t const &location)
 
 	if (location.uploadTo.empty() || location.hasCGI == false)
 		throw std::runtime_error(RS_405);
-	
+
 	try
 	{
 		uploadPath = getCorrectPath(this->_getAvaliableRoot(location), location.uploadTo);
@@ -356,16 +369,16 @@ stringVector	Client::_createEnvironment(std::string &resource, location_t const 
 	std::string path = this->_getFullPath(location, this->_server.getRoot(), resource);
 
 	environment.push_back("SCRIPT_FILENAME=" + path);
-	
+
 	if (this->_headers.count(CONTENT_LENGTH) > 0)
 		environment.push_back("CONTENT_LENGTH=" + this->_headers[CONTENT_LENGTH]);
-		
+
 	if (this->_headers.count(CONTENT_TYPE) > 0)
 		environment.push_back("CONTENT_TYPE=" + this->_headers[CONTENT_TYPE]);
-		
+
 	if (location.uploadTo.length() > 0)
 		environment.push_back("UPLOAD_PATH=" + getCorrectPath(root, location.uploadTo));
-		
+
 	if (this->_headers.count(USER_AGENT) > 0 && this->_method == POST)
 	{
 		if (this->_headers[USER_AGENT].find("curl") != std::string::npos)
@@ -378,7 +391,7 @@ stringVector	Client::_createEnvironment(std::string &resource, location_t const 
 	environment.push_back("SERVER_SOFTWARE=Webserv/1.0");
 	environment.push_back("ROOT_FOLDER=" + root);
 
-	return environment;		
+	return environment;
 }
 
 std::string		Client::_getAvaliableRoot(location_t const &location)
@@ -393,7 +406,7 @@ std::string		Client::_getFullPath(location_t const &location, std::string const 
 	std::string cgi = location.cgiPath;
 	if (cgi.empty())
 		return getCorrectPath(root, resource);
-	
+
 	std::string path = getCorrectPath(root, cgi);
 	return getCorrectPath(path, resource);
 }
@@ -419,21 +432,21 @@ void	Client::_checkFirstLine(std::stringstream &ss)
 
 	if (parameters.size() != 3)
 		throw std::runtime_error(RS_400);
-	
+
 	if (parameters.at(0) != GET && parameters.at(0) != DELETE && parameters.at(0) != POST)
 		throw std::runtime_error(RS_501);
 	this->_method = parameters.at(0);
 
 	if (parameters.at(1).length() > MAX_URI_LENGHT)
 		throw std::runtime_error(RS_414);
-	
+
 	if (parameters.at(1).find(RELATIVE_BACK) != std::string::npos || parameters.at(1) == LITERAL_BACK)
 		throw std::runtime_error(RS_400);
 	this->_resource = urlDecode(parameters.at(1));
 
 	if (parameters.at(2) == HTTP_1_0)
 		throw std::runtime_error(RS_505);
-		
+
 	if (parameters.at(2) != HTTP_1_1)
 		throw std::runtime_error(RS_400);
 }
@@ -445,7 +458,7 @@ void	Client::_checkAndGetHeaders(std::stringstream &ss)
 	{
 		if (line == CARRIAGE_RETURN_STR)
 			break;
-		
+
 		if (line.find(COLON) != std::string::npos)
 		{
 			std::string key = line.substr(0, line.find(COLON));
@@ -467,7 +480,7 @@ void	Client::_checkAndGetPayload(std::stringstream &ss)
 		return;
 	else if (this->_method == POST && this->_headers.find(CONTENT_LENGTH) == this->_headers.end())
 		throw std::runtime_error(RS_411);
-	
+
 	this->_contentLength = this->_getValidContentLength(this->_headers[CONTENT_LENGTH]);
 
 	std::streampos pos = ss.tellg();
@@ -494,7 +507,7 @@ size_t	Client::_getValidContentLength(std::string const &length)
 
 void	Client::_writeErrorResponse(std::string const &error)
 {
-	std::string body = 
+	std::string body =
 		"    <div class=\"error-container\">\n"
 		"        <h1 class=\"error-heading\">Erro " + error + "</h1>\n"
 		"        <p class=\"error-message\">Sorry, an error occurred during the processing of your request.</p>\n"
