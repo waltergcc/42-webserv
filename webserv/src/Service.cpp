@@ -242,6 +242,9 @@ void Service::_checkRequestedServer()
 	else
 		return;
 
+	if ((pos = requestedServer.find(":")))
+		requestedServer = requestedServer.substr(0, pos);
+	
 	Server	defaultServer = this->_clients.at(this->_tmp.clientID).getServer();
 	if (requestedServer == defaultServer.getServerName())
 		return;

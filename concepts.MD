@@ -348,6 +348,9 @@ void Service::_checkRequestedServer()
 	else
 		return;
 
+	if ((pos = requestedServer.find(":")))
+		requestedServer = requestedServer.substr(0, pos);
+
 	Server	defaultServer = this->_clients.at(this->_tmp.clientID).getServer();
 	serverVector::iterator server = this->_servers.begin();
 
@@ -358,6 +361,18 @@ void Service::_checkRequestedServer()
 	}
 }
 ```
+
+To test this, use the `same_host_port.conf` file and the following command:
+
+```bash
+curl --resolve localhost:8080:127.0.0.1 localhost:8080
+```
+This command will return the default server page.
+
+```bash
+curl --resolve black:8080:127.0.0.1 black:8080
+```
+This command will return the non-default server page.
 
 ## 6. Stress Test
 
