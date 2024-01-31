@@ -41,6 +41,7 @@ curl -X UNKNOWN localhost:8080
 -> Same host port
 curl --resolve localhost:8080:127.0.0.1 localhost:8080 # default server
 curl --resolve black:8080:127.0.0.1 black:8080 # other server
+curl --resolve gold:8080:127.0.0.1 gold:8080 -o response.html && xdg-open response.html 
 
 --------------------------------------------------------------------------
 
