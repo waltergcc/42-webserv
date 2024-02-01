@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 14:29:53 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/10/31 18:36:14 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2024/02/01 16:08:01 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ size_t Server::_getConvertedMaxSize(std::string const &size)
 {
 	std::string	c;
 	std::string	sub;
-	double		tmp;
+	double		tmp = 0;
 
 	if (!isdigit(size[size.length() - 1]))
 	{
